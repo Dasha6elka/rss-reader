@@ -1,11 +1,27 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React from "react";
+import React, { useEffect } from "react";
 import ListIcon from "../icons/ListIcon";
 import TrashIcon from "../icons/TrashIcon";
 
 function ListItem(props) {
+  function onChange(event) {
+    props.onChange(event);
+  }
+
+  function onEnterPress(event) {
+    const code = event.keyCode ? event.keyCode : event.which;
+    if (code === 13) {
+      props.onEditFinish();
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", onEnterPress);
+    return () => window.removeEventListener("keydown", onEnterPress);
+  });
+
   return (
     <div
       css={css`
@@ -14,7 +30,7 @@ function ListItem(props) {
         color: ${props.button ? "grey" : "inherit"};
         padding: 8px 8px 8px 8px;
         position: relative;
-        cursor: pointer;
+        cursor: ${props.button ? "text" : "pointer"};
         font-size: 14px;
         line-height: 16px;
 
@@ -32,20 +48,38 @@ function ListItem(props) {
 
           .trash-icon {
             display: block;
+            margin-left: 16px;
           }
         }
       `}
     >
       <ListIcon className="list-icon" />
-      <div
-        css={css`
-          flex-grow: 1;
-          margin-left: 16px;
-        `}
-      >
-        {props.title}
-      </div>
-      {!props.button && <TrashIcon className="trash-icon" />}
+      {!props.editable ? (
+        <div
+          css={css`
+            flex-grow: 1;
+            margin-left: 16px;
+          `}
+          onClick={props.button && props.onClick}
+        >
+          {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
+        </div>
+      ) : (
+        <input
+          value={props.title}
+          className="input"
+          css={css`
+            border: none;
+            background-color: #1d2027;
+            color: grey;
+            flex-grow: 1;
+            margin-left: 16px;
+            min-width: 0;
+          `}
+          onChange={onChange}
+        />
+      )}
+      {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete}/>}
     </div>
   );
 }

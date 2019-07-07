@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React from "react";
+import React, { useState } from "react";
 import ListItem from "./ListItem";
 
 /**
@@ -9,7 +9,7 @@ import ListItem from "./ListItem";
  * 2. в ListItem добавляешь проп editable
  *      если editable = true то вместо дивчика показываешь input, в который преедаёшь props.tile в value
  *      так же надо передать обработчик изменения onChange в ListItem а потом в input
- *      сам функция будет находится в List, например onListItemChange, в которой ты будешь изменять состояние
+ *      сама функция будет находится в List, например onListItemChange, в которой ты будешь изменять состояние
  *      onListItemChange ещё должен принимать индекс, по которому ты будешь находить в categories какой из объектов изменять
  *      индекс это второй аргумент в колбеке map
  * 3. ListItem ещё должен принимать обработчик onEditFinish
@@ -22,30 +22,77 @@ import ListItem from "./ListItem";
  */
 
 function List() {
-  const categories = [
-    { title: "Программирование", count: 2 },
-    { title: "Дизайн", count: 0 },
-    { title: "Смешнявки", count: 0 }
-  ];
+  const [categories, setCategories] = useState([
+    { title: "Программирование", count: 2, editable: false },
+    { title: "Дизайн", count: 0, editable: false },
+    { title: "Смешнявки", count: 0, editable: false }
+  ]);
+
+  window.categories = categories;
+
+  function onButtonClick() {
+    if (categories.some(category => category.editable === true)) {
+      return;
+    }
+    setCategories([...categories, { title: "", editable: true, count: 0 }]);
+  }
+
+  function onListItemChange(event, index) {
+    categories[index].title = event.target.value;
+    setCategories([...categories]);
+  }
+
+  function onListItemEditFinish() {
+    setCategories([...categories.map(category => ({ ...category, editable: false }))]);
+  }
+
+  function onListItemDelete(index) {
+      if (categories[index].count !== 0) {
+          return;
+      }
+      categories.splice(index, 1);
+      setCategories([...categories]);
+  }
 
   return (
-    <div
-      css={css`
-        padding: 0 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        flex-grow: 1;
-      `}
-    >
-      {categories.map(category => (
-        <ListItem
-          key={category.title}
-          title={`${category.title} (${category.count})`}
-        />
-      ))}
-      <ListItem button title="Новая категория" />
-    </div>
+    <React.Fragment>
+      <div
+        css={css`
+          border: 1px solid #0a0a0a;
+          margin: 12px 0;
+        `}
+      />
+      <div
+        css={css`
+          padding: 0 8px;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          flex-grow: 1;
+        `}
+      >
+        {categories.map((category, index) => (
+          <ListItem
+            key={index}
+            title={category.title}
+            count={category.count}
+            editable={category.editable}
+            onChange={event => onListItemChange(event, index)}
+            onEditFinish={onListItemEditFinish}
+            onDelete={() => {
+              onListItemDelete(index)
+            }}
+          />
+        ))}
+        <ListItem button title="Новая категория" onClick={onButtonClick} />
+      </div>
+      <div
+        css={css`
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          margin: 8px 32px;
+        `}
+      />
+    </React.Fragment>
   );
 }
 
