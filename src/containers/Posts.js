@@ -10,8 +10,8 @@ function Posts() {
     {
       title: "[Перевод] Ещё лучшая ZIP-бомба ]]",
       visited: false,
+      visible: false,
       date: "Mon, 08 Jul 2019 18:52:10 GMT",
-      image: "",
       description:
         'В статье показано, как создать <i>нерекурсивную</i> <a href="https://en.wikipedia.org/wiki/Zip_bomb">zip-бомбу</a>, которая обеспечивает высокую степень сжатия путём перекрытия файлов внутри zip-контейнера. «Нерекурсивная» означает, что она не зависит от рекурсивной распаковки декомпрессорами файлов, вложенных в zip-архивы: здесь всего один раунд. Выходной размер увеличивается квадратично от входного, достигая степени сжатия более 28 миллионов (10 МБ → 281 ТБ) в пределах формата zip. Ещё большее расширение возможно с помощью 64-разрядных расширений. Конструкция использует только наиболее распространённый алгоритм сжатия DEFLATE и совместима с большинством парсеров zip.<br>\n' +
         " <br>\n" +
@@ -31,8 +31,8 @@ function Posts() {
     {
       title: "[Перевод] Ещё лучшая ZIP-бомба ]]",
       visited: false,
+      visible: false,
       date: "Mon, 08 Jul 2019 18:52:10 GMT",
-      image: "",
       description:
         'В статье показано, как создать <i>нерекурсивную</i> <a href="https://en.wikipedia.org/wiki/Zip_bomb">zip-бомбу</a>, которая обеспечивает высокую степень сжатия путём перекрытия файлов внутри zip-контейнера. «Нерекурсивная» означает, что она не зависит от рекурсивной распаковки декомпрессорами файлов, вложенных в zip-архивы: здесь всего один раунд. Выходной размер увеличивается квадратично от входного, достигая степени сжатия более 28 миллионов (10 МБ → 281 ТБ) в пределах формата zip. Ещё большее расширение возможно с помощью 64-разрядных расширений. Конструкция использует только наиболее распространённый алгоритм сжатия DEFLATE и совместима с большинством парсеров zip.<br>\n' +
         " <br>\n" +
@@ -50,6 +50,12 @@ function Posts() {
         ' <pre>git clone https://www.bamsoftware.com/git/zipbomb-paper.git</pre> <a href="https://habr.com/ru/post/459254/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=459254#habracut">Читать дальше →'
     }
   ]);
+
+  function onArrowClick(index) {
+    posts[index].visited = true;
+    posts[index].visible = !posts[index].visible;
+    setPosts([...posts]);
+  }
   return (
     <div
       css={css`
@@ -65,10 +71,11 @@ function Posts() {
           first={index === 0}
           key={index}
           title={post.title}
-          visible={post.visited}
+          visible={post.visible}
+          visited={post.visited}
           date={post.date}
-          image={post.image}
           description={post.description}
+          onArrowClick={() => onArrowClick(index)}
         />
       ))}
     </div>

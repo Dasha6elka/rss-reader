@@ -9,28 +9,35 @@ function Post(props) {
   return (
     <div
       css={css`
-        position: relative;
         background: #f0f1f5;
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
         border-top: ${props.first ? "1px solid rgba(0, 0, 0, 0.24)" : "none"};
       `}
     >
-      <div>{props.title}</div>
-      <div>
-        Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
-      </div>
-      <ArrowIcon
+      <div
         css={css`
-          position: absolute;
-          right: 0;
-          padding: 16px;
-          top: 50%;
-          transform: rotate(180deg) translateY(-50%);
-          transform-origin: top;
-          cursor: pointer;
+          position: relative;
         `}
-      />
+      >
+        <div>{props.title}</div>
+        <div>
+          Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
+        </div>
+        <ArrowIcon
+          css={css`
+            position: absolute;
+            right: 0;
+            padding: 16px;
+            top: 50%;
+            transform: ${props.visible ? "" : "rotate(180deg)"} translateY(-50%);
+            transform-origin: top;
+            cursor: pointer;
+          `}
+          onClick={props.onArrowClick}
+        />
+      </div>
+      {props.visible && <div dangerouslySetInnerHTML={{ __html: props.description }} />}
     </div>
   );
 }
