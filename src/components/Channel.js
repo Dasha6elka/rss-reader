@@ -1,12 +1,11 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import EditIcon from "../icons/EditIcon";
 import BigTrashIcon from "../icons/BigTrashIcon";
 
 function Channel(props) {
-  const [edit, setEdit] = useState(false);
 
   function onChange(event) {
     props.onChange(event);
@@ -23,10 +22,6 @@ function Channel(props) {
     window.addEventListener("keydown", onEnterPress);
     return () => window.removeEventListener("keydown", onEnterPress);
   });
-
-  function onEdtIconClick() {
-    setEdit(!edit);
-  }
 
   return (
     <div
@@ -69,7 +64,7 @@ function Channel(props) {
           background-color: black;
         `}
       />
-      {!edit ? (
+      {!props.editable ? (
         <div
           css={css`
             font-size: 14px;
@@ -93,7 +88,7 @@ function Channel(props) {
           `}
         />
       )}
-      {!edit ? (
+      {!props.editable ? (
         <a
           href={props.link}
           css={css`
@@ -119,7 +114,7 @@ function Channel(props) {
         />
       )}
       <BigTrashIcon className="trash-icon" onClick={props.onDelete} />
-      <EditIcon className="edit-icon" onClick={onEdtIconClick} />
+      <EditIcon className="edit-icon" onClick={props.onEditChannel}/>
     </div>
   );
 }

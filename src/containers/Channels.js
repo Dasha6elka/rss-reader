@@ -6,25 +6,32 @@ import Channel from "../components/Channel";
 
 function Channels() {
   const [channels, setChannels] = useState([
-    { title: "Habr", link: "https://habr.com/ru/", category: "Программирование" },
-    { title: "Medium", link: "https://medium.com/", category: "Программирование" }
+    { title: "Habr", link: "https://habr.com/ru/", category: "Программирование", editable: false },
+    { title: "Medium", link: "https://medium.com/", category: "Программирование", editable: false }
   ]);
 
   function onChannelDelete(index) {
+    if (channels[index].editable === true) {
+      return;
+    }
     channels.splice(index, 1);
     setChannels([...channels]);
   }
 
   function onChannelItemChange(event, index) {
+    channels[index].editable = true;
     const name = event.target.name;
-    {
-      name === "name" ? (channels[index].title = event.target.value) : (channels[index].link = event.target.value);
-    }
+    name === "name" ? (channels[index].title = event.target.value) : (channels[index].link = event.target.value);
     setChannels([...channels]);
   }
 
   function onChannelItemEditFinish() {
-    setChannels([...channels.map(channel => ({ ...channel }))]);
+    setChannels([...channels.map(channel => ({ ...channel, editable: false }))]);
+  }
+
+  function onEdit(index) {
+    channels[index].editable = true;
+    setChannels([...channels]);
   }
 
   return (
@@ -40,9 +47,11 @@ function Channels() {
           title={channel.title}
           link={channel.link}
           category={channel.category}
+          editable={channel.editable}
           onDelete={() => onChannelDelete(index)}
           onChange={event => onChannelItemChange(event, index)}
           onEditFinish={onChannelItemEditFinish}
+          onEditChannel={() => onEdit(index)}
         />
       ))}
     </div>
