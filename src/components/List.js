@@ -11,8 +11,6 @@ function List() {
     { title: "Смешнявки", count: 0, editable: false }
   ]);
 
-  window.categories = categories;
-
   function onButtonClick() {
     if (categories.some(category => category.editable === true)) {
       return;
