@@ -40,7 +40,7 @@ function Sidebar() {
           align-items: center;
         `}
       >
-        {!formVisible ? <Button type="submit" title="Добавить ленту" onClick={onButtonClick} /> : <Form />}
+        {!formVisible ? <Button type="submit" title="Добавить ленту" onClick={onButtonClick} /> : <Form onClick={onButtonClick}/>}
       </div>
       <List />
     </div>

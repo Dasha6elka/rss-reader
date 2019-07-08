@@ -62,6 +62,7 @@ function Form(props) {
       <Button
         type="submit"
         title="Добавить"
+        onClick={props.onClick}
         css={css`
           margin-top: 16px;
         `}
