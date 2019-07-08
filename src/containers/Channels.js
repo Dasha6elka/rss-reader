@@ -15,6 +15,18 @@ function Channels() {
     setChannels([...channels]);
   }
 
+  function onChannelItemChange(event, index) {
+    const name = event.target.name;
+    {
+      name === "name" ? (channels[index].title = event.target.value) : (channels[index].link = event.target.value);
+    }
+    setChannels([...channels]);
+  }
+
+  function onChannelItemEditFinish() {
+    setChannels([...channels.map(channel => ({ ...channel }))]);
+  }
+
   return (
     <div
       css={css`
@@ -29,6 +41,8 @@ function Channels() {
           link={channel.link}
           category={channel.category}
           onDelete={() => onChannelDelete(index)}
+          onChange={event => onChannelItemChange(event, index)}
+          onEditFinish={onChannelItemEditFinish}
         />
       ))}
     </div>
