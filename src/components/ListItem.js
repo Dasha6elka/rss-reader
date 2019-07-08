@@ -1,9 +1,10 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ListIcon from "../icons/ListIcon";
 import TrashIcon from "../icons/TrashIcon";
+import PropTypes from "proptypes";
 
 function ListItem(props) {
   function onChange(event) {
@@ -79,9 +80,18 @@ function ListItem(props) {
           onChange={onChange}
         />
       )}
-      {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete}/>}
+      {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete} />}
     </div>
   );
 }
+
+ListItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  editable: PropTypes.bool.isRequired,
+  onChange: PropTypes.func,
+  onEditFinish: PropTypes.func,
+  onDelete: PropTypes.func
+};
 
 export default ListItem;

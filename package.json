@@ -6,6 +6,7 @@
     "@emotion/core": "^10.0.14",
     "babel-plugin-emotion": "^10.0.14",
     "normalize.css": "^8.0.1",
+    "proptypes": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
