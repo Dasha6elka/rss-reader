@@ -10,7 +10,11 @@ function Search() {
         position: relative;
         padding: 16px 16px 16px 48px;
         background: #f6f6f9;
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
+        transition: box-shadow 0.3s ease-in-out;
+
+        &:hover {
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
+        }
       `}
     >
       <SearchIcon
