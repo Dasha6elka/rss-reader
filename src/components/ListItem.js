@@ -71,8 +71,10 @@ function ListItem(props) {
           className="input"
           css={css`
             border: none;
-            background-color: #1d2027;
-            color: grey;
+            border-radius: 2px;
+            padding: 2px 4px;
+            background-color: white;
+            color: black;
             flex-grow: 1;
             margin-left: 16px;
             min-width: 0;
