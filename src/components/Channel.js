@@ -6,7 +6,6 @@ import EditIcon from "../icons/EditIcon";
 import BigTrashIcon from "../icons/BigTrashIcon";
 
 function Channel(props) {
-
   function onChange(event) {
     props.onChange(event);
   }
@@ -29,21 +28,22 @@ function Channel(props) {
         padding: 16px 24px;
         font-family: Roboto, sans-serif;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        position: relative;
 
-        .edit-icon,
-        .trash-icon {
+        .icons {
           display: none;
         }
 
         &:hover {
           cursor: pointer;
 
-          .edit-icon,
-          .trash-icon {
-            display: inline-block;
+          .icons {
+            display: block;
             float: right;
-            text-align: center;
-            transform: translateY(-75%);
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
           }
 
           .edit-icon {
@@ -58,10 +58,13 @@ function Channel(props) {
     >
       <div
         css={css`
+          content: "";
+          background-image: url(${props.url});
           position: absolute;
           width: 16px;
           height: 16px;
           background-color: black;
+          background-size: cover;
         `}
       />
       {!props.editable ? (
@@ -71,6 +74,9 @@ function Channel(props) {
             line-height: 20px;
             margin-left: 24px;
             margin-bottom: 6px;
+            max-width: 160px;
+            text-overflow: ellipsis;
+            overflow: hidden;
           `}
         >
           {props.title}
@@ -85,6 +91,10 @@ function Channel(props) {
             line-height: 20px;
             margin-left: 24px;
             margin-bottom: 6px;
+            background-color: white;
+            border: none;
+            border-radius: 2px;
+            padding: 0 8px;
           `}
         />
       )}
@@ -92,10 +102,14 @@ function Channel(props) {
         <a
           href={props.link}
           css={css`
+            display: block;
             text-decoration: none;
             font-size: 12px;
             line-height: 16px;
             color: rgba(0, 0, 0, 0.539261);
+            overflow: hidden;
+            max-width: 160px;
+            text-overflow: ellipsis;
           `}
         >
           {props.link}
@@ -110,11 +124,18 @@ function Channel(props) {
             font-size: 12px;
             line-height: 16px;
             color: rgba(0, 0, 0, 0.539261);
+            overflow: hidden;
+            background-color: white;
+            border-radius: 2px;
+            border: none;
+            padding: 0 8px;
           `}
         />
       )}
-      <BigTrashIcon className="trash-icon" onClick={props.onDelete} />
-      <EditIcon className="edit-icon" onClick={props.onEditChannel}/>
+      <div className="icons">
+        <EditIcon className="edit-icon" onClick={props.onEditChannel} />
+        <BigTrashIcon className="trash-icon" onClick={props.onDelete} />
+      </div>
     </div>
   );
 }

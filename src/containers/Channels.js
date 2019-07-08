@@ -6,8 +6,8 @@ import Channel from "../components/Channel";
 
 function Channels() {
   const [channels, setChannels] = useState([
-    { title: "Habr", link: "https://habr.com/ru/", category: "Программирование", editable: false },
-    { title: "Medium", link: "https://medium.com/", category: "Программирование", editable: false }
+    { title: "Habr", link: "https://habr.com/ru/", category: "Программирование", editable: false, url: "https://habr.com/images/logo.png" },
+    { title: "Medium", link: "https://medium.com/", category: "Программирование", editable: false, url: ""}
   ]);
 
   function onChannelDelete(index) {
@@ -48,6 +48,7 @@ function Channels() {
           link={channel.link}
           category={channel.category}
           editable={channel.editable}
+          url={channel.url}
           onDelete={() => onChannelDelete(index)}
           onChange={event => onChannelItemChange(event, index)}
           onEditFinish={onChannelItemEditFinish}
