@@ -87,8 +87,8 @@ function ListItem(props) {
 
 ListItem.propTypes = {
   title: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
-  editable: PropTypes.bool.isRequired,
+  count: PropTypes.number,
+  editable: PropTypes.bool,
   onChange: PropTypes.func,
   onEditFinish: PropTypes.func,
   onDelete: PropTypes.func
