@@ -3,7 +3,11 @@
 import { jsx, css } from "@emotion/core";
 import SearchIcon from "../icons/SearchIcon";
 
-function Search() {
+function Search(props) {
+  function onInputChange(value) {
+    props.onSearchInputChange(value);
+  }
+
   return (
     <div
       css={css`
@@ -11,6 +15,7 @@ function Search() {
         padding: 16px 16px 16px 48px;
         background: #f6f6f9;
         transition: box-shadow 0.3s ease-in-out;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
 
         &:hover {
           box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
@@ -29,6 +34,8 @@ function Search() {
         `}
       />
       <input
+        type="text"
+        onChange={event => onInputChange(event.target.value.toLowerCase())}
         css={css`
           width: 100%;
           border: none;

@@ -11,6 +11,7 @@ function Posts() {
       title: "Ещё лучшая ZIP-бомба",
       visited: false,
       visible: false,
+      found: false,
       date: "Mon, 08 Jul 2019 18:52:10 GMT",
       description:
         'В статье показано, как создать <i>нерекурсивную</i> <a href="https://en.wikipedia.org/wiki/Zip_bomb">zip-бомбу</a>, которая обеспечивает высокую степень сжатия путём перекрытия файлов внутри zip-контейнера. «Нерекурсивная» означает, что она не зависит от рекурсивной распаковки декомпрессорами файлов, вложенных в zip-архивы: здесь всего один раунд. Выходной размер увеличивается квадратично от входного, достигая степени сжатия более 28 миллионов (10 МБ → 281 ТБ) в пределах формата zip. Ещё большее расширение возможно с помощью 64-разрядных расширений. Конструкция использует только наиболее распространённый алгоритм сжатия DEFLATE и совместима с большинством парсеров zip.<br>\n' +
@@ -32,6 +33,7 @@ function Posts() {
       title: "Security Week 28: взлом умного дома",
       visited: false,
       visible: false,
+      found: false,
       date: "Mon, 08 Jul 2019 17:29:54 GMT",
       description:
         '<img src="https://habrastorage.org/webt/jb/f0/or/jbf0ork45cxrjax-puw3f0w6wtg.jpeg" align="right">Какие риски мы берем на себя, устанавливая систему «умный дом»? Ту, что рулит лампочками и чайником с приложения на смартфоне, внутри локальной сети и удаленно. Если на умную систему завязана безопасность и управление замками (как в случае Amazon Key) — то понятно какие. Если нет, то теоретически можно представить опасность программного вывода из строя какой-нибудь кофеварки с последующим пожаром. Но лучше не фантазировать, а знать наверняка. <br>\n' +
@@ -40,11 +42,31 @@ function Posts() {
     }
   ]);
 
+  const [enter, setEnter] = useState(false);
+
   function onArrowClick(index) {
     posts[index].visited = true;
     posts[index].visible = !posts[index].visible;
     setPosts([...posts]);
   }
+
+  function onChangePostsList(value) {
+    value.value.length === 0 ? setEnter(false) : setEnter(true);
+    {
+      posts.map((post, index) => change(post, index, value));
+    }
+    setPosts([...posts]);
+  }
+
+  function change(post, index, value) {
+    const title = post.title.toLowerCase();
+    if (title.includes(value.value)) {
+      post.found = true;
+    } else {
+      post.found = false;
+    }
+  }
+
   return (
     <div
       css={css`
@@ -54,17 +76,18 @@ function Posts() {
         flex-direction: column;
       `}
     >
-      <Search />
+      <Search onSearchInputChange={value => onChangePostsList({ value })} />
       {posts.map((post, index) => (
         <Post
-          first={index === 0}
           key={index}
           title={post.title}
           visible={post.visible}
           visited={post.visited}
           date={post.date}
+          found={post.found}
           description={post.description}
           onArrowClick={() => onArrowClick(index)}
+          onInput={enter}
         />
       ))}
     </div>

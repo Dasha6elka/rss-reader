@@ -13,9 +13,34 @@ function Post(props) {
         background: #f0f1f5;
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-        border-top: ${props.first ? "1px solid rgba(0, 0, 0, 0.24)" : "none"};
+        display: ${props.onInput === true && props.found === false && "none"};
       `}
     >
+      {props.onInput === true && props.found === true && post(props, date)}
+      {props.onInput === false && post(props, date)}
+    </div>
+  );
+}
+
+export default Post;
+
+function getFriendlyDate(date) {
+  const day = normilizeDateNumber(date.getDate());
+  const month = normilizeDateNumber(date.getMonth() + 1);
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
+function normilizeDateNumber(number) {
+  if (number.toString().length === 1) {
+    return `0${number}`;
+  }
+  return number.toString();
+}
+
+function post(props, date) {
+  return (
+    <div>
       <div
         css={css`
           position: relative;
@@ -69,20 +94,4 @@ function Post(props) {
       {props.visible && <div dangerouslySetInnerHTML={{ __html: props.description }} />}
     </div>
   );
-}
-
-export default Post;
-
-function getFriendlyDate(date) {
-  const day = normilizeDateNumber(date.getDate());
-  const month = normilizeDateNumber(date.getMonth() + 1);
-  const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-}
-
-function normilizeDateNumber(number) {
-  if (number.toString().length === 1) {
-    return `0${number}`;
-  }
-  return number.toString();
 }
