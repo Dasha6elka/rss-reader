@@ -9,6 +9,7 @@ function Post(props) {
   return (
     <div
       css={css`
+        font-family: Roboto, sans-serif;
         background: #f0f1f5;
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
@@ -18,10 +19,38 @@ function Post(props) {
       <div
         css={css`
           position: relative;
+          padding-bottom: ${props.visible ? "16px" : "0"};
         `}
       >
-        <div>{props.title}</div>
-        <div>
+        <div
+          css={css`
+            font-size: 24px;
+            line-height: 32px;
+            color: rgba(41, 98, 147, 0.87);
+          `}
+        >
+          {props.title}
+        </div>
+        {props.visited && (
+          <div
+            css={css`
+              font-size: 12px;
+              line-height: 16px;
+              padding-top: 8px;
+              color: rgba(0, 0, 0, 0.539261);
+              text-transform: uppercase;
+            `}
+          >
+            Прочитано
+          </div>
+        )}
+        <div
+          css={css`
+            font-size: 12px;
+            line-height: 16px;
+            color: rgba(0, 0, 0, 0.539261);
+          `}
+        >
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
         <ArrowIcon
