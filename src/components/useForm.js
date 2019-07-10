@@ -35,7 +35,7 @@ function useForm(stateSchema, validationSchema = {}, callback) {
       let error = "";
       if (validationSchema[name].required) {
         if (!value) {
-          error = "This is required field.";
+          error = "Заполнение этого поля обазательно!";
         }
       }
       if (validationSchema[name].validator !== null && typeof validationSchema[name].validator === "object") {

@@ -13,7 +13,7 @@ function ListItem(props) {
 
   function onEnterPress(event) {
     const code = event.keyCode ? event.keyCode : event.which;
-    if (code === 13) {
+    if (code === 13 && event.target.value !== undefined && event.target.value !== "") {
       props.onEditFinish();
     }
   }

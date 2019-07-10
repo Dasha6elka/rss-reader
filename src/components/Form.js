@@ -17,21 +17,21 @@ function Form(props) {
       required: true,
       validator: {
         regEx: /^[а-яА-Яa-zA-Z]+$/,
-        error: 'Invalid name format.',
+        error: 'Невалидное имя ленты.',
       },
     },
     link: {
       required: true,
       validator: {
         regEx: /(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |\,|$|\.)/,
-        error: 'Invalid link format.',
+        error: 'Невалидная ссылка.',
       },
     },
     category: {
       required: true,
       validator: {
         regEx: /^[а-яА-Яa-zA-Z]+$/,
-        error: 'Invalid category format.',
+        error: 'Невалидная категория.',
       },
     },
   };
