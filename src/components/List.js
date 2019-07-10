@@ -6,9 +6,9 @@ import ListItem from "./ListItem";
 
 function List() {
   const [categories, setCategories] = useState([
-    { title: "Программирование", count: 2, editable: false },
-    { title: "Дизайн", count: 0, editable: false },
-    { title: "Смешнявки", count: 0, editable: false }
+    { title: "Программирование", count: 2, editable: false, error: false },
+    { title: "Дизайн", count: 0, editable: false, error: false },
+    { title: "Смешнявки", count: 0, editable: false, error: false }
   ]);
 
   function onButtonClick() {
@@ -29,6 +29,8 @@ function List() {
 
   function onListItemDelete(index) {
     if (categories[index].count !== 0) {
+      categories[index].error = !categories[index].error;
+      setCategories([...categories]);
       return;
     }
     categories.splice(index, 1);
@@ -61,6 +63,7 @@ function List() {
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
             onDelete={() => onListItemDelete(index)}
+            errorMessage={category.error}
           />
         ))}
         <ListItem button title="Новая категория" onClick={onButtonClick} />
