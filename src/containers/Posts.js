@@ -4,6 +4,7 @@ import { jsx, css } from "@emotion/core";
 import { useState } from "react";
 import Search from "../components/Search";
 import Post from "../components/Post";
+import { Grid } from "@material-ui/core";
 
 function Posts() {
   const [posts, setPosts] = useState([
@@ -68,14 +69,7 @@ function Posts() {
   }
 
   return (
-    <div
-      css={css`
-        background-color: white;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      `}
-    >
+    <Grid container direction="column">
       <Search onSearchInputChange={value => onChangePostsList({ value })} />
       {posts.map((post, index) => (
         <Post
@@ -90,7 +84,7 @@ function Posts() {
           onInput={enter}
         />
       ))}
-    </div>
+    </Grid>
   );
 }
 
