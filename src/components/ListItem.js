@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import ListIcon from "../icons/ListIcon";
 import TrashIcon from "../icons/TrashIcon";
 import PropTypes from "proptypes";
+import Input from "@material-ui/core/Input";
 
 function ListItem(props) {
   function onChange(event) {
@@ -22,6 +23,19 @@ function ListItem(props) {
     window.addEventListener("keydown", onEnterPress);
     return () => window.removeEventListener("keydown", onEnterPress);
   });
+
+  const inputStyle = {
+    border: "none",
+    borderRadius: "2px",
+    padding: "2px 4px",
+    backgroundColor: "white",
+    color: "black",
+    flexGrow: "1",
+    margin: "0",
+    marginLeft: "16px",
+    minWidth: "0",
+    maxHeight: "24px"
+  };
 
   return (
     <React.Fragment>
@@ -67,21 +81,7 @@ function ListItem(props) {
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
           </div>
         ) : (
-          <input
-            value={props.title}
-            className="input"
-            css={css`
-              border: none;
-              border-radius: 2px;
-              padding: 2px 4px;
-              background-color: white;
-              color: black;
-              flex-grow: 1;
-              margin-left: 16px;
-              min-width: 0;
-            `}
-            onChange={onChange}
-          />
+          <Input className="input" onChange={onChange} value={props.title} style={inputStyle} />
         )}
         {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete} />}
       </div>
