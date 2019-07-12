@@ -39,6 +39,26 @@ function normilizeDateNumber(number) {
 }
 
 function post(props, date) {
+  const titleStyle = {
+    fontSize: "24px",
+    lineHeight: "32px",
+    color: "rgba(41, 98, 147, 0.87)"
+  };
+
+  const postStatusStyle = {
+    fontSize: "12px",
+    lineHeight: "16px",
+    paddingTop: "8px",
+    color: "rgba(0, 0, 0, 0.539261)",
+    textTransform: "uppercase"
+  };
+
+  const publicationDateStyle = {
+    fontSize: "12px",
+    lineHeight: "16px",
+    color: "rgba(0, 0, 0, 0.539261)"
+  };
+
   return (
     <div>
       <div
@@ -47,35 +67,9 @@ function post(props, date) {
           padding-bottom: ${props.visible ? "16px" : "0"};
         `}
       >
-        <div
-          css={css`
-            font-size: 24px;
-            line-height: 32px;
-            color: rgba(41, 98, 147, 0.87);
-          `}
-        >
-          {props.title}
-        </div>
-        {props.visited && (
-          <div
-            css={css`
-              font-size: 12px;
-              line-height: 16px;
-              padding-top: 8px;
-              color: rgba(0, 0, 0, 0.539261);
-              text-transform: uppercase;
-            `}
-          >
-            Прочитано
-          </div>
-        )}
-        <div
-          css={css`
-            font-size: 12px;
-            line-height: 16px;
-            color: rgba(0, 0, 0, 0.539261);
-          `}
-        >
+        <div style={titleStyle}>{props.title}</div>
+        {props.visited && <div style={postStatusStyle}>Прочитано</div>}
+        <div style={publicationDateStyle}>
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
         <ArrowIcon
