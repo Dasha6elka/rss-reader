@@ -3,6 +3,7 @@
 import { jsx, css } from "@emotion/core";
 import React, { useState } from "react";
 import ListItem from "./ListItem";
+import { Grid } from "@material-ui/core";
 
 function List() {
   const [categories, setCategories] = useState([
@@ -45,15 +46,8 @@ function List() {
           margin: 12px 0;
         `}
       />
-      <div
-        css={css`
-          padding: 0 8px;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          flex-grow: 1;
-        `}
-      >
+
+      <Grid container direction="column" justify="center" alignItems="stretch">
         {categories.map((category, index) => (
           <ListItem
             key={index}
@@ -67,7 +61,8 @@ function List() {
           />
         ))}
         <ListItem button title="Новая категория" onClick={onButtonClick} />
-      </div>
+      </Grid>
+
       <div
         css={css`
           border: 1px solid rgba(255, 255, 255, 0.12);
