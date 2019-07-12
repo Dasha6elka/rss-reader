@@ -4,12 +4,9 @@ import { jsx, css } from "@emotion/core";
 import { useEffect } from "react";
 import EditIcon from "../icons/EditIcon";
 import BigTrashIcon from "../icons/BigTrashIcon";
+import { Input } from "@material-ui/core";
 
 function Channel(props) {
-  function onChange(event) {
-    props.onChange(event);
-  }
-
   function onEnterPress(event) {
     const code = event.keyCode ? event.keyCode : event.which;
     if (code === 13) {
@@ -21,6 +18,12 @@ function Channel(props) {
     window.addEventListener("keydown", onEnterPress);
     return () => window.removeEventListener("keydown", onEnterPress);
   });
+
+  const blockStyle = {
+    maxWidth: "160px",
+    textOverflow: "ellipsis",
+    overflow: "hidden"
+  };
 
   return (
     <div
@@ -57,6 +60,7 @@ function Channel(props) {
       `}
     >
       <div
+        style={blockStyle}
         css={css`
           content: "";
           background-image: url(${props.url});
@@ -69,34 +73,18 @@ function Channel(props) {
       />
       {!props.editable ? (
         <div
+          style={blockStyle}
           css={css`
             font-size: 14px;
             line-height: 20px;
             margin-left: 24px;
             margin-bottom: 6px;
-            max-width: 160px;
-            text-overflow: ellipsis;
-            overflow: hidden;
           `}
         >
           {props.title}
         </div>
       ) : (
-        <input
-          defaultValue={props.title}
-          onChange={onChange}
-          name="name"
-          css={css`
-            font-size: 14px;
-            line-height: 20px;
-            margin-left: 24px;
-            margin-bottom: 6px;
-            background-color: white;
-            border: none;
-            border-radius: 2px;
-            padding: 0 8px;
-          `}
-        />
+        input(props, props.title, "name")
       )}
       {!props.editable ? (
         <a
@@ -107,30 +95,12 @@ function Channel(props) {
             font-size: 12px;
             line-height: 16px;
             color: rgba(0, 0, 0, 0.539261);
-            overflow: hidden;
-            max-width: 160px;
-            text-overflow: ellipsis;
           `}
         >
           {props.link}
         </a>
       ) : (
-        <input
-          defaultValue={props.link}
-          onChange={onChange}
-          name="link"
-          css={css`
-            text-decoration: none;
-            font-size: 12px;
-            line-height: 16px;
-            color: rgba(0, 0, 0, 0.539261);
-            overflow: hidden;
-            background-color: white;
-            border-radius: 2px;
-            border: none;
-            padding: 0 8px;
-          `}
-        />
+        input(props, props.link, "link")
       )}
       <div className="icons">
         <EditIcon className="edit-icon" onClick={props.onEditChannel} />
@@ -141,3 +111,27 @@ function Channel(props) {
 }
 
 export default Channel;
+
+function input(props, prop, name) {
+  function onChange(event) {
+    props.onChange(event);
+  }
+
+  return (
+    <Input
+      defaultValue={prop}
+      onChange={onChange}
+      name={name}
+      css={css`
+        font-size: 14px;
+        line-height: 20px;
+        margin-left: 24px;
+        margin-bottom: 6px;
+        border: none;
+        border-radius: 2px;
+        padding: 0 8px;
+        max-height: 20px;
+      `}
+    />
+  );
+}
