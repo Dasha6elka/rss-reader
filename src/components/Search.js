@@ -2,6 +2,7 @@
 
 import { jsx, css } from "@emotion/core";
 import SearchIcon from "../icons/SearchIcon";
+import Input from "@material-ui/core/Input";
 
 function Search(props) {
   function onInputChange(value) {
@@ -14,12 +15,6 @@ function Search(props) {
         position: relative;
         padding: 16px 16px 16px 48px;
         background: #f6f6f9;
-        transition: box-shadow 0.3s ease-in-out;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-
-        &:hover {
-          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24), 0 0 2px rgba(0, 0, 0, 0.12);
-        }
       `}
     >
       <SearchIcon
@@ -33,14 +28,11 @@ function Search(props) {
           text-overflow: ellipsis;
         `}
       />
-      <input
-        type="text"
+      <Input
         onChange={event => onInputChange(event.target.value.toLowerCase())}
         css={css`
           width: 100%;
-          border: none;
           background: #f6f6f9;
-          outline: none;
           overflow: hidden;
           text-overflow: ellipsis;
         `}
