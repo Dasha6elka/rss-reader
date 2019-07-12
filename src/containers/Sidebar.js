@@ -2,10 +2,11 @@
 
 import { jsx, css } from "@emotion/core";
 import { useState } from "react";
-import Button from "../components/Button";
 import Logo from "../components/Logo";
 import List from "../components/List";
 import Form from "../components/Form";
+import Button from "@material-ui/core/Button";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 function Sidebar() {
   const [formVisible, setFormVisible] = useState(false);
@@ -13,6 +14,17 @@ function Sidebar() {
   function onButtonClick() {
     setFormVisible(!formVisible);
   }
+
+  const theme = createMuiTheme({
+    palette: {
+      primary: { 500: "#3ba5d1" }
+    }
+  });
+
+  const divStyle = {
+    justifyContent: "center",
+    alignItems: "center"
+  };
 
   return (
     <div
@@ -23,24 +35,28 @@ function Sidebar() {
       `}
     >
       <div
+        style={divStyle}
         css={css`
           padding: 24px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
         `}
       >
         <Logo />
       </div>
       <div
+        style={divStyle}
         css={css`
           padding: 0 24px 24px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
         `}
       >
-        {!formVisible ? <Button type="submit" title="Добавить ленту" onClick={onButtonClick} /> : <Form onClick={onButtonClick}/>}
+        {!formVisible ? (
+          <MuiThemeProvider theme={theme}>
+            <Button styledbutton="true" type="submit" onClick={onButtonClick} href="" variant="text" color="primary">
+              Добавить ленту
+            </Button>
+          </MuiThemeProvider>
+        ) : (
+          <Form onClick={onButtonClick} />
+        )}
       </div>
       <List />
     </div>
