@@ -47,7 +47,6 @@ function useForm(stateSchema, validationSchema = {}, callback) {
         ...prevState,
         [name]: { value, error }
       }));
-
     },
     [validationSchema]
   );

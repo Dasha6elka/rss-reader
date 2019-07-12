@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import SearchIcon from "../icons/SearchIcon";
 import Input from "@material-ui/core/Input";
+import SearchIcon from "../icons/SearchIcon";
 
 function Search(props) {
   function onInputChange(value) {

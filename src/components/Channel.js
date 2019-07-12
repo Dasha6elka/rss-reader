@@ -4,9 +4,13 @@ import { jsx, css } from "@emotion/core";
 import { useEffect } from "react";
 import EditIcon from "../icons/EditIcon";
 import BigTrashIcon from "../icons/BigTrashIcon";
-import { Input } from "@material-ui/core";
+import Input from "./Input";
 
 function Channel(props) {
+  function onChange(event) {
+    props.onChange(event);
+  }
+
   function onEnterPress(event) {
     const code = event.keyCode ? event.keyCode : event.which;
     if (code === 13) {
@@ -19,12 +23,6 @@ function Channel(props) {
     return () => window.removeEventListener("keydown", onEnterPress);
   });
 
-  const blockStyle = {
-    maxWidth: "160px",
-    textOverflow: "ellipsis",
-    overflow: "hidden"
-  };
-
   return (
     <div
       css={css`
@@ -35,6 +33,12 @@ function Channel(props) {
 
         .icons {
           display: none;
+        }
+
+        .div {
+          max-width: 160px;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
 
         &:hover {
@@ -60,7 +64,7 @@ function Channel(props) {
       `}
     >
       <div
-        style={blockStyle}
+        className="div"
         css={css`
           content: "";
           background-image: url(${props.url});
@@ -73,7 +77,7 @@ function Channel(props) {
       />
       {!props.editable ? (
         <div
-          style={blockStyle}
+          className="div"
           css={css`
             font-size: 14px;
             line-height: 20px;
@@ -84,7 +88,7 @@ function Channel(props) {
           {props.title}
         </div>
       ) : (
-        input(props, props.title, "name")
+        <Input onChange={onChange} value={props.title} />
       )}
       {!props.editable ? (
         <a
@@ -100,7 +104,7 @@ function Channel(props) {
           {props.link}
         </a>
       ) : (
-        input(props, props.link, "link")
+        <Input onChange={onChange} value={props.link} />
       )}
       <div className="icons">
         <EditIcon className="edit-icon" onClick={props.onEditChannel} />
@@ -111,27 +115,3 @@ function Channel(props) {
 }
 
 export default Channel;
-
-function input(props, prop, name) {
-  function onChange(event) {
-    props.onChange(event);
-  }
-
-  return (
-    <Input
-      defaultValue={prop}
-      onChange={onChange}
-      name={name}
-      css={css`
-        font-size: 14px;
-        line-height: 20px;
-        margin-left: 24px;
-        margin-bottom: 6px;
-        border: none;
-        border-radius: 2px;
-        padding: 0 8px;
-        max-height: 20px;
-      `}
-    />
-  );
-}

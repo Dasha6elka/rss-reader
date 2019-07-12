@@ -21,21 +21,21 @@ function Sidebar() {
     }
   });
 
-  const divStyle = {
-    justifyContent: "center",
-    alignItems: "center"
-  };
-
   return (
     <div
       css={css`
         background-color: #1d2027;
         height: 100%;
         color: white;
+
+        .div {
+          justify-content: center;
+          align-items: center;
+        }
       `}
     >
       <div
-        style={divStyle}
+        className="div"
         css={css`
           padding: 24px;
         `}
@@ -43,14 +43,14 @@ function Sidebar() {
         <Logo />
       </div>
       <div
-        style={divStyle}
+        className="div"
         css={css`
           padding: 0 24px 24px;
         `}
       >
         {!formVisible ? (
           <MuiThemeProvider theme={theme}>
-            <Button styledbutton="true" type="submit" onClick={onButtonClick} href="" variant="text" color="primary">
+            <Button type="submit" onClick={onButtonClick} href="" variant="text" color="primary">
               Добавить ленту
             </Button>
           </MuiThemeProvider>

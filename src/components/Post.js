@@ -6,39 +6,6 @@ import ArrowIcon from "../icons/ArrowIcon";
 function Post(props) {
   const date = new Date(props.date);
 
-  return (
-    <div
-      css={css`
-        font-family: Roboto, sans-serif;
-        background: #f0f1f5;
-        padding: 16px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-        display: ${props.onInput === true && props.found === false && "none"};
-      `}
-    >
-      {props.onInput === true && props.found === true && post(props, date)}
-      {props.onInput === false && post(props, date)}
-    </div>
-  );
-}
-
-export default Post;
-
-function getFriendlyDate(date) {
-  const day = normalizeDateNumber(date.getDate());
-  const month = normalizeDateNumber(date.getMonth() + 1);
-  const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-}
-
-function normalizeDateNumber(number) {
-  if (number.toString().length === 1) {
-    return `0${number}`;
-  }
-  return number.toString();
-}
-
-function post(props, date) {
   const titleStyle = {
     fontSize: "24px",
     lineHeight: "32px",
@@ -60,16 +27,24 @@ function post(props, date) {
   };
 
   return (
-    <div>
+    <div
+      css={css`
+        font-family: Roboto, sans-serif;
+        background: #f0f1f5;
+        padding: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+        display: ${props.onInput === true && props.found === false && "none"};
+      `}
+    >
       <div
         css={css`
           position: relative;
           padding-bottom: ${props.visible ? "16px" : "0"};
         `}
       >
-        <div style={titleStyle}>{props.title}</div>
-        {props.visited && <div style={postStatusStyle}>Прочитано</div>}
-        <div style={publicationDateStyle}>
+        <div css={titleStyle}>{props.title}</div>
+        {props.visited && <div css={postStatusStyle}>Прочитано</div>}
+        <div css={publicationDateStyle}>
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
         <ArrowIcon
@@ -88,4 +63,20 @@ function post(props, date) {
       {props.visible && <div dangerouslySetInnerHTML={{ __html: props.description }} />}
     </div>
   );
+}
+
+export default Post;
+
+function getFriendlyDate(date) {
+  const day = normalizeDateNumber(date.getDate());
+  const month = normalizeDateNumber(date.getMonth() + 1);
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
+function normalizeDateNumber(number) {
+  if (number.toString().length === 1) {
+    return `0${number}`;
+  }
+  return number.toString();
 }

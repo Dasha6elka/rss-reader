@@ -2,8 +2,8 @@
 
 import { jsx, css } from "@emotion/core";
 import React, { useState } from "react";
-import ListItem from "./ListItem";
 import { Grid } from "@material-ui/core";
+import ListItem from "./ListItem";
 
 function List() {
   const [categories, setCategories] = useState([
