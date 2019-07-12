@@ -1,15 +1,28 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import useForm from "./useForm";
-import Button from "./Button";
+import React from "react";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { Button, createMuiTheme } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+
+
+const theme = createMuiTheme({
+  palette: {
+    primary: { 500: "#3ba5d1" }
+  }
+});
 
 function Form(props) {
 
   const stateSchema = {
-    name: { value: '', error: '' },
-    link: { value: '', error: '' },
-    category: { value: '', error: '' },
+    name: { value: "", error: "" },
+    link: { value: "", error: "" },
+    category: { value: "", error: "" }
   };
 
   const validationStateSchema = {
@@ -17,107 +30,107 @@ function Form(props) {
       required: true,
       validator: {
         regEx: /^[а-яА-Яa-zA-Z]+$/,
-        error: 'Невалидное имя ленты.',
-      },
+        error: "Невалидное имя ленты."
+      }
     },
     link: {
       required: true,
       validator: {
         regEx: /(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |\,|$|\.)/,
-        error: 'Невалидная ссылка.',
-      },
+        error: "Невалидная ссылка."
+      }
     },
     category: {
       required: true,
       validator: {
         regEx: /^[а-яА-Яa-zA-Z]+$/,
-        error: 'Невалидная категория.',
-      },
-    },
+        error: "Невалидная категория."
+      }
+    }
   };
 
   function onSubmitForm(state) {
     alert(JSON.stringify(state, null, 2));
   }
 
-  const { state, handleOnChange, handleOnSubmit, disable } = useForm(
-    stateSchema,
-    validationStateSchema,
-    onSubmitForm
-  );
-
+  const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema, onSubmitForm);
 
   const errorStyle = {
-    color: 'darkred',
-    fontSize: '12px',
-    lineHeight: '16px',
+    color: "darkred",
+    fontSize: "12px",
+    lineHeight: "16px",
     margin: "6px 0"
   };
 
+  const buttonStyle = {
+    textAlight: "center",
+    width: "100%",
+    marginTop: "16px"
+  };
+
+  const labelStyle = {
+    color: "#fff"
+  };
+
   return (
-    <form
-      onSubmit={handleOnSubmit}
-      css={css`
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-
-        .list-item {
-          margin-top: 16px;
-          display: flex;
-          flex-direction: column;
-
-          &:first-of-type {
-            margin-top: 0;
-          }
-
-          label {
-            font-size: 12px;
-          }
-
-          input {
-            border-radius: 2px;
-            border: none;
-            font-size: 16px;
-            padding: 4px 2px;
-          }
-        }
-      `}
-    >
-      <ul
-        css={css`
-          display: contents;
-          padding: 0;
-          margin: 16px 0;
-          list-style: none;
-        `}
-      >
-        <li className="list-item">
-          <label htmlFor="name">Имя ленты</label>
-          <input type="text" name="name" onChange={handleOnChange} value={state.name.value} required/>
-          {state.name.error && <p style={errorStyle}>{state.name.error}</p>}
-        </li>
-        <li className="list-item">
-          <label htmlFor="link">Ссылка на RSS</label>
-          <input type="text" name="link" onChange={handleOnChange} value={state.link.value} required/>
-          {state.link.error && <p style={errorStyle}>{state.link.error}</p>}
-        </li>
-        <li className="list-item">
-          <label htmlFor="category">Категория</label>
-          <input type="text" name="category" onChange={handleOnChange} value={state.category.value} required/>
-          {state.category.error && <p style={errorStyle}>{state.category.error}</p>}
-        </li>
-      </ul>
-      <Button
-        type="submit"
-        name="submit"
-        disabled={disable}
-        title="Добавить"
-        onClick={props.onClick}
-        css={css`
-          margin-top: 16px;
-        `}
-      />
+    <form onSubmit={handleOnSubmit}>
+      <FormControl fullWidth={true}>
+        <InputLabel htmlFor="name" style={labelStyle}>
+          Имя ленты
+        </InputLabel>
+        <Input
+          type="text"
+          name="name"
+          id="name"
+          onChange={handleOnChange}
+          value={state.name.value}
+          required
+        />
+        {state.name.error && <FormHelperText style={errorStyle}>{state.name.error}</FormHelperText>}
+      </FormControl>
+      <FormControl fullWidth={true}>
+        <InputLabel htmlFor="link" style={labelStyle}>
+          Ссылка на RRS
+        </InputLabel>
+        <Input
+          type="text"
+          name="link"
+          id="link"
+          onChange={handleOnChange}
+          value={state.link.value}
+          required
+        />
+        {state.link.error && <FormHelperText style={errorStyle}>{state.link.error}</FormHelperText>}
+      </FormControl>
+      <FormControl fullWidth={true}>
+        <InputLabel htmlFor="category" style={labelStyle}>
+          Категория
+        </InputLabel>
+        <Input
+          type="text"
+          name="category"
+          id="category"
+          onChange={handleOnChange}
+          value={state.category.value}
+          required
+        />
+        {state.category.error && <FormHelperText style={errorStyle}>{state.category.error}</FormHelperText>}
+      </FormControl>
+      <MuiThemeProvider theme={theme}>
+        <Button
+          style={buttonStyle}
+          name="submit"
+          disabled={disable}
+          onClick={props.onClick}
+          StyledButton
+          type="submit"
+          href=""
+          variant="text"
+          color="primary"
+        >
+          Добавить
+        </Button>
+      </MuiThemeProvider>
     </form>
   );
 }
