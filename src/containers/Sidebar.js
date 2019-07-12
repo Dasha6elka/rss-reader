@@ -34,16 +34,14 @@ function Sidebar() {
         }
       `}
     >
-      <div
-        className="div"
+      <div className="div"
         css={css`
           padding: 24px;
         `}
       >
         <Logo />
       </div>
-      <div
-        className="div"
+      <div className="div"
         css={css`
           padding: 0 24px 24px;
         `}
