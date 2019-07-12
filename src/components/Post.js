@@ -25,13 +25,13 @@ function Post(props) {
 export default Post;
 
 function getFriendlyDate(date) {
-  const day = normilizeDateNumber(date.getDate());
-  const month = normilizeDateNumber(date.getMonth() + 1);
+  const day = normalizeDateNumber(date.getDate());
+  const month = normalizeDateNumber(date.getMonth() + 1);
   const year = date.getFullYear();
   return `${day}.${month}.${year}`;
 }
 
-function normilizeDateNumber(number) {
+function normalizeDateNumber(number) {
   if (number.toString().length === 1) {
     return `0${number}`;
   }
