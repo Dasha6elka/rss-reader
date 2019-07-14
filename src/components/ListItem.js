@@ -30,7 +30,6 @@ function ListItem(props) {
     border: "none",
     borderRadius: "2px",
     padding: "2px 4px",
-    backgroundColor: "white",
     color: "black",
     flexGrow: "1",
     margin: "0",
