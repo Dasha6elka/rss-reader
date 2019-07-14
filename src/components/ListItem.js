@@ -56,6 +56,8 @@ function ListItem(props) {
           cursor: ${props.button ? "text" : "pointer"};
           font-size: 14px;
           line-height: 16px;
+          margin: 0 8px 4px 8px;
+          max-width: 93%;
 
           .radio-button {
             flex-grow: 1;
@@ -68,10 +70,10 @@ function ListItem(props) {
           .trash-icon {
             display: none;
           }
-          
+
           .list-icon path {
-              fill: ${props.active && "#83c6e2"};;
-            }
+            fill: ${props.active && "#83c6e2"};
+          }
 
           &:hover {
             background: rgba(255, 255, 255, 0.15);
@@ -98,7 +100,7 @@ function ListItem(props) {
         )}
         {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete} />}
       </Grid>
-      <ErrorMessage errorMessage={props.errorMessage}/>
+      <ErrorMessage errorMessage={props.errorMessage} />
     </React.Fragment>
   );
 }
