@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import ArrowIcon from "../icons/ArrowIcon";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 function Post(props) {
   const date = new Date(props.date);
@@ -26,6 +26,15 @@ function Post(props) {
     color: "rgba(0, 0, 0, 0.539261)"
   };
 
+  const arrowStyle = {
+    position: "absolute",
+    right: "0",
+    padding: "16px",
+    top: "0",
+    transformOrigin: "top",
+    cursor: "pointer"
+  };
+
   return (
     <div
       css={css`
@@ -47,18 +56,17 @@ function Post(props) {
         <div css={publicationDateStyle}>
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
-        <ArrowIcon
-          css={css`
-            position: absolute;
-            right: 0;
-            padding: 16px;
-            top: 50%;
-            transform: ${props.visible ? "" : "rotate(180deg)"} translateY(-50%);
-            transform-origin: top;
-            cursor: pointer;
-          `}
-          onClick={props.onArrowClick}
-        />
+        {props.visible ? (
+          <ExpandLess
+            css={arrowStyle}
+            onClick={props.onArrowClick}
+          />
+        ) : (
+          <ExpandMore
+            css={arrowStyle}
+            onClick={props.onArrowClick}
+          />
+        )}
       </div>
       {props.visible && <div dangerouslySetInnerHTML={{ __html: props.description }} />}
     </div>

@@ -2,8 +2,7 @@
 
 import { jsx, css } from "@emotion/core";
 import { useEffect } from "react";
-import EditIcon from "../icons/EditIcon";
-import BigTrashIcon from "../icons/BigTrashIcon";
+import { Edit, Delete } from "@material-ui/icons";
 import Input from "./Input";
 
 function Channel(props) {
@@ -108,8 +107,8 @@ function Channel(props) {
         <Input onChange={onChange} value={props.link} />
       )}
       <div className="icons">
-        <EditIcon className="edit-icon" onClick={props.onEditChannel} />
-        <BigTrashIcon className="trash-icon" onClick={props.onDelete} />
+        <Edit className="edit-icon" onClick={props.onEditChannel} />
+        <Delete className="trash-icon" onClick={props.onDelete} />
       </div>
     </div>
   );

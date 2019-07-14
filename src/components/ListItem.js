@@ -5,8 +5,7 @@ import React, { useEffect } from "react";
 import PropTypes from "proptypes";
 import Input from "@material-ui/core/Input";
 import Grid from "@material-ui/core/Grid";
-import ListIcon from "../icons/ListIcon";
-import TrashIcon from "../icons/TrashIcon";
+import { RadioButtonChecked, Delete } from "@material-ui/icons";
 import ErrorMessage from "./ErrorMessage";
 
 function ListItem(props) {
@@ -37,6 +36,14 @@ function ListItem(props) {
     minWidth: "0",
     maxHeight: "24px",
     maxWidth: "73%"
+  };
+
+  const fontStyleRadioButton = {
+    fontSize: "12px"
+  };
+
+  const fontStyleTrashButton = {
+    fontSize: "16px"
   };
 
   return (
@@ -84,12 +91,12 @@ function ListItem(props) {
 
             .trash-icon {
               display: block;
-              margin-left: 16px;
+              margin-left: 10px;
             }
           }
         `}
       >
-        <ListIcon className="list-icon" />
+        <RadioButtonChecked className="list-icon" style={fontStyleRadioButton}/>
         {!props.editable ? (
           <div className="radio-button" onClick={props.button && props.onClick}>
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
@@ -97,7 +104,7 @@ function ListItem(props) {
         ) : (
           <Input className="input" onChange={onChange} value={props.title} css={inputStyle} />
         )}
-        {!props.button && <TrashIcon className="trash-icon" onClick={props.onDelete} />}
+        {!props.button && <Delete className="trash-icon" style={fontStyleTrashButton} onClick={props.onDelete} />}
       </Grid>
       <ErrorMessage errorMessage={props.errorMessage} />
     </React.Fragment>
