@@ -52,20 +52,14 @@ function Posts() {
   }
 
   function onChangePostsList(value) {
-    value.value.length === 0 ? setEnter(false) : setEnter(true);
-    {
-      posts.map((post, index) => change(post, index, value));
-    }
+    setEnter(!!value.value.length);
+    posts.map((post, index) => change(post, index, value));
     setPosts([...posts]);
   }
 
   function change(post, index, value) {
     const title = post.title.toLowerCase();
-    if (title.includes(value.value)) {
-      post.found = true;
-    } else {
-      post.found = false;
-    }
+    post.found = title.includes(value.value);
   }
 
   return (
