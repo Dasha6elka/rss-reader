@@ -95,6 +95,7 @@ function Channel(props) {
           href={props.link}
           css={css`
             display: block;
+            pointer-events: none;
             text-decoration: none;
             font-size: 12px;
             line-height: 16px;
