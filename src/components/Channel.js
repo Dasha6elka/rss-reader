@@ -29,6 +29,7 @@ function Channel(props) {
         font-family: Roboto, sans-serif;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         position: relative;
+        background: ${props.active && "#B2C4CD"};
 
         .icons {
           display: none;
@@ -42,6 +43,7 @@ function Channel(props) {
 
         &:hover {
           cursor: pointer;
+          background: #CAD7DD;
 
           .icons {
             display: block;
