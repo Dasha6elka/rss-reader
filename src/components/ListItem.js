@@ -37,7 +37,7 @@ function ListItem(props) {
     marginLeft: "16px",
     minWidth: "0",
     maxHeight: "24px",
-    maxWidth: "160px"
+    maxWidth: "73%"
   };
 
   return (
