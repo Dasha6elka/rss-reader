@@ -15,6 +15,7 @@ function Search(props) {
         position: relative;
         padding: 16px 16px 16px 48px;
         background: #f6f6f9;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.24);
       `}
     >
       <SearchIcon
