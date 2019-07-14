@@ -49,6 +49,8 @@ function ListItem(props) {
         alignItems="center"
         css={css`
           color: ${props.button ? "grey" : "inherit"};
+          background: ${props.active && "rgba(59, 165, 209, 0.15)"};
+          color: ${props.active && "#83c6e2"};
           padding: 8px;
           position: relative;
           cursor: ${props.button ? "text" : "pointer"};
@@ -66,13 +68,17 @@ function ListItem(props) {
           .trash-icon {
             display: none;
           }
+          
+          .list-icon path {
+              fill: ${props.active && "#83c6e2"};;
+            }
 
           &:hover {
-            background: rgba(59, 165, 209, 0.15);
-            color: #83c6e2;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
 
             .list-icon path {
-              fill: #83c6e2;
+              fill: white;
             }
 
             .trash-icon {

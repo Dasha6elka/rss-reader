@@ -7,9 +7,9 @@ import ListItem from "./ListItem";
 
 function List() {
   const [categories, setCategories] = useState([
-    { title: "Программирование", count: 2, editable: false, error: false },
-    { title: "Дизайн", count: 0, editable: false, error: false },
-    { title: "Смешнявки", count: 0, editable: false, error: false }
+    { title: "Программирование", count: 2, editable: false, error: false, active: true },
+    { title: "Дизайн", count: 0, editable: false, error: false, active: false },
+    { title: "Смешнявки", count: 0, editable: false, error: false, active: false }
   ]);
 
   function onButtonClick() {
@@ -54,6 +54,7 @@ function List() {
             title={category.title}
             count={category.count}
             editable={category.editable}
+            active={category.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
             onDelete={() => onListItemDelete(index)}
