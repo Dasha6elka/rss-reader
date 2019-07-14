@@ -62,13 +62,6 @@ function List() {
         ))}
         <ListItem button title="Новая категория" onClick={onButtonClick} />
       </Grid>
-
-      <div
-        css={css`
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          margin: 8px 32px;
-        `}
-      />
     </React.Fragment>
   );
 }
