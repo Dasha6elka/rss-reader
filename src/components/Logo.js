@@ -11,6 +11,7 @@ function Logo() {
           padding-right: 20px;
           font-family: "Alegreya SC", serif;
           font-size: 30px;
+          user-select: none;
 
           &:after {
             position: absolute;
