@@ -2,7 +2,6 @@
 
 import { jsx } from "@emotion/core";
 import useForm from "./useForm";
-import React from "react";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -36,7 +35,7 @@ function Form(props) {
     link: {
       required: true,
       validator: {
-        regEx: /(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |\,|$|\.)/,
+        regEx: /(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/,
         error: "Невалидная ссылка."
       }
     },

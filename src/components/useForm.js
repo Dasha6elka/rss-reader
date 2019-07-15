@@ -1,6 +1,3 @@
-/** @jsx jsx */
-
-import { jsx } from "@emotion/core";
 import { useCallback, useEffect, useState } from "react";
 
 function useForm(stateSchema, validationSchema = {}, callback) {
