@@ -3,10 +3,10 @@
 import { jsx, css } from "@emotion/core";
 import React, { useEffect } from "react";
 import PropTypes from "proptypes";
-import Input from "@material-ui/core/Input";
 import Grid from "@material-ui/core/Grid";
 import { RadioButtonChecked, Delete } from "@material-ui/icons";
 import ErrorMessage from "./ErrorMessage";
+import Input from "./Input";
 
 function ListItem(props) {
   function onChange(event) {
@@ -32,7 +32,7 @@ function ListItem(props) {
     border: "none",
     borderRadius: "2px",
     padding: "2px 4px",
-    color: "black",
+    color: "white",
     flexGrow: "1",
     margin: "0",
     marginLeft: "16px",
