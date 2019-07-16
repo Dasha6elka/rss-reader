@@ -5,15 +5,8 @@ import useForm from "../hooks/useForm";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { Button, createMuiTheme } from "@material-ui/core";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 import Input from "./Input";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { 500: "#3ba5d1" }
-  }
-});
 
 function Form(props) {
   const stateSchema = {
@@ -164,27 +157,27 @@ function Form(props) {
         />
         {state.category.error && <FormHelperText style={errorStyle}>{state.category.error}</FormHelperText>}
       </FormControl>
-      <MuiThemeProvider theme={theme}>
-        <Button
-          css={css`
+      <Button
+        css={css`
+            color: #3ba5d1;
+            
             :disabled {
               color: #3ba5d1;
               background-color: rgba(59, 165, 209, 0.08);
             }
           `}
-          style={buttonStyle}
-          name="submit"
-          disabled={disable}
-          onClick={props.onClick}
-          type="submit"
-          href=""
-          variant="text"
-          color="primary"
-          classes={{ disabled: "disabled" }}
-        >
-          Добавить
-        </Button>
-      </MuiThemeProvider>
+        style={buttonStyle}
+        name="submit"
+        disabled={disable}
+        onClick={props.onClick}
+        type="submit"
+        href=""
+        variant="text"
+        color="primary"
+        classes={{ disabled: "disabled" }}
+      >
+        Добавить
+      </Button>
     </form>
   );
 }
