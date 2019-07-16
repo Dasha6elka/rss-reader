@@ -1,41 +1,37 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
-import React, { useState } from "react";
+import { css, jsx } from "@emotion/core";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
-function List() {
-  const [categories, setCategories] = useState([
-    { title: "Программирование", count: 2, editable: false, error: false, active: true },
-    { title: "Дизайн", count: 0, editable: false, error: false, active: false },
-    { title: "Смешнявки", count: 0, editable: false, error: false, active: false }
-  ]);
+function List(props) {
+  const { data, onChange, onFinish } = props;
 
   function onButtonClick() {
-    if (categories.some(category => category.editable === true)) {
+    if (data.some(value => value.editable === true)) {
       return;
     }
-    setCategories([...categories, { title: "", editable: true, count: 0 }]);
+    onChange([...data, { title: "", editable: true, count: 0 }]);
   }
 
   function onListItemChange(event, index) {
-    categories[index].title = event.target.value;
-    setCategories([...categories]);
+    data[index].title = event.target.value;
+    onChange([...data]);
   }
 
   function onListItemEditFinish() {
-    setCategories([...categories.map(category => ({ ...category, editable: false }))]);
+    onFinish([...data.map(value => ({ ...value, editable: false }))]);
   }
 
   function onListItemDelete(index) {
-    if (categories[index].count !== 0) {
-      categories[index].error = !categories[index].error;
-      setCategories([...categories]);
+    if (data[index].count !== 0) {
+      data[index].error = !data[index].error;
+      onChange([...data]);
       return;
     }
-    categories.splice(index, 1);
-    setCategories([...categories]);
+    data.splice(index, 1);
+    onChange([...data]);
   }
 
   return (
@@ -48,17 +44,17 @@ function List() {
       />
 
       <Grid container direction="column" justify="center" alignItems="stretch">
-        {categories.map((category, index) => (
+        {data.map((value, index) => (
           <ListItem
             key={index}
-            title={category.title}
-            count={category.count}
-            editable={category.editable}
-            active={category.active}
+            title={value.title}
+            count={value.count}
+            editable={value.editable}
+            active={value.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
             onDelete={() => onListItemDelete(index)}
-            errorMessage={category.error}
+            errorMessage={value.error}
           />
         ))}
         <ListItem button title="Новая категория" onClick={onButtonClick} />

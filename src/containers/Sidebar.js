@@ -1,25 +1,20 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
-import { useState } from "react";
+import { css, jsx } from "@emotion/core";
+import { useContext, useState } from "react";
 import Logo from "../components/Logo";
 import List from "../components/List";
 import Form from "../components/Form";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import AppContext from "../context";
 
 function Sidebar() {
+  const context = useContext(AppContext);
   const [formVisible, setFormVisible] = useState(false);
 
   function onButtonClick() {
     setFormVisible(!formVisible);
   }
-
-  const theme = createMuiTheme({
-    palette: {
-      primary: { 500: "#3ba5d1" }
-    }
-  });
 
   return (
     <div
@@ -34,29 +29,36 @@ function Sidebar() {
         }
       `}
     >
-      <div className="div"
+      <div
+        className="div"
         css={css`
           padding: 24px;
         `}
       >
         <Logo />
       </div>
-      <div className="div"
+      <div
+        className="div"
         css={css`
           padding: 0 24px 24px;
         `}
       >
         {!formVisible ? (
-          <MuiThemeProvider theme={theme}>
-            <Button type="submit" onClick={onButtonClick} href="" variant="text" color="primary">
-              Добавить ленту
-            </Button>
-          </MuiThemeProvider>
+          <Button
+            type="submit"
+            css={css`
+              color: #3ba5d1;
+            `}
+            onClick={onButtonClick}
+            variant="text"
+          >
+            Добавить ленту
+          </Button>
         ) : (
           <Form onClick={onButtonClick} />
         )}
       </div>
-      <List />
+      <List data={context.categories} onChange={context.onCategoriesChange} onFinish={context.onCategoriesFinish} />
     </div>
   );
 }
