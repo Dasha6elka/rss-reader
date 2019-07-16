@@ -1,14 +1,43 @@
 /** @jsx jsx */
 
-import { jsx, css, Global } from "@emotion/core";
-import React from "react";
+import { css, Global, jsx } from "@emotion/core";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Channels from "./Channels";
 import Posts from "./Posts";
+import getCategories from "../api/getCategories";
+import AppContext from "../context";
+import addCategory from "../api/addCategory";
 
 function App() {
+  const [categories, setCategories] = useState([]);
+
+  function onCategoriesChange(change) {
+    setCategories(change);
+  }
+
+  function onCategoriesFinish(categories) {
+    setCategories(categories);
+    addCategory(categories[categories.length - 1])
+      .then(() => getCategories())
+      .then(json => setCategories(json.categories))
+      .catch(console.error);
+  }
+
+  useEffect(() => {
+    getCategories()
+      .then(json => setCategories(json.categories))
+      .catch(console.error);
+  }, []);
+
   return (
-    <React.Fragment>
+    <AppContext.Provider
+      value={{
+        categories,
+        onCategoriesChange,
+        onCategoriesFinish
+      }}
+    >
       <Global
         styles={css`
           html,
@@ -30,11 +59,11 @@ function App() {
           grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.5fr) 6fr;
         `}
       >
-        <Sidebar />
-        <Channels />
-        <Posts />
+        <Sidebar/>
+        <Channels/>
+        <Posts/>
       </div>
-    </React.Fragment>
+    </AppContext.Provider>
   );
 }
 
