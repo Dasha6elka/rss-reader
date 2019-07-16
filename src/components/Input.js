@@ -9,15 +9,11 @@ function Input(props) {
       value={props.value}
       onChange={props.onChange}
       css={css`
-        font-size: 14px;
-        line-height: 20px;
-        margin-left: 24px;
-        margin-bottom: 6px;
-        border: none;
-        border-radius: 2px;
-        padding: 0 8px;
-        max-height: 20px;
+        :after {
+          border-bottom: 2px solid #3ba5d1;
+        }
       `}
+      {...props}
     />
   );
 }
