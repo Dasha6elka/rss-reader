@@ -38,7 +38,11 @@ function ListItem(props) {
     marginLeft: "16px",
     minWidth: "0",
     maxHeight: "24px",
-    maxWidth: "73%"
+    maxWidth: "73%",
+
+    ":hover:before" : {
+    borderBottom: "2px solid white !important"
+    }
   };
 
   const fontStyleRadioButton = {
