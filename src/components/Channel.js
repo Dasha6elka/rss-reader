@@ -1,5 +1,6 @@
 /** @jsx jsx */
 
+import React from "react";
 import { jsx, css } from "@emotion/core";
 import { useEffect } from "react";
 import { Edit, Delete } from "@material-ui/icons";
@@ -43,7 +44,7 @@ function Channel(props) {
 
         &:hover {
           cursor: pointer;
-          background: #CAD7DD;
+          background: #cad7dd;
 
           .icons {
             display: block;
@@ -76,6 +77,19 @@ function Channel(props) {
           background-size: cover;
         `}
       />
+      <ChannelTitle editable={props.editable} title={props.title} onChange={props.onChange} />
+      <ChannelLink editable={props.editable} link={props.link} onChange={props.onChange} />
+      <div className="icons">
+        <Edit className="edit-icon" onClick={props.onEditChannel} />
+        <Delete className="trash-icon" onClick={props.onDelete} />
+      </div>
+    </div>
+  );
+}
+
+function ChannelTitle(props) {
+  return (
+    <React.Fragment>
       {!props.editable ? (
         <div
           className="div"
@@ -89,8 +103,29 @@ function Channel(props) {
           {props.title}
         </div>
       ) : (
-        <Input onChange={onChange} value={props.title} />
+        <Input
+          onChange={props.onChange}
+          value={props.title}
+          name="title"
+          css={css`
+            font-size: 14px;
+            line-height: 20px;
+            margin-left: 24px;
+            border: none;
+            border-radius: 2px;
+            max-height: 20px;
+            padding: 0 8px 0 0;
+            margin-bottom: 0;
+          `}
+        />
       )}
+    </React.Fragment>
+  );
+}
+
+function ChannelLink(props) {
+  return (
+    <React.Fragment>
       {!props.editable ? (
         <a
           href={props.link}
@@ -101,18 +136,32 @@ function Channel(props) {
             font-size: 12px;
             line-height: 16px;
             color: rgba(0, 0, 0, 0.539261);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 184px;
           `}
         >
           {props.link}
         </a>
       ) : (
-        <Input onChange={onChange} value={props.link} />
+        <Input
+          onChange={props.onChange}
+          value={props.link}
+          name="link"
+          css={css`
+            display: block;
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 16px;
+            color: rgba(0, 0, 0, 0.539261);
+            margin-left: 0;
+            margin-bottom: 0;
+            padding-left: 0;
+            max-width: 195px;
+          `}
+        />
       )}
-      <div className="icons">
-        <Edit className="edit-icon" onClick={props.onEditChannel} />
-        <Delete className="trash-icon" onClick={props.onDelete} />
-      </div>
-    </div>
+    </React.Fragment>
   );
 }
 

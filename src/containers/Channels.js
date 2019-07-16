@@ -6,8 +6,22 @@ import Channel from "../components/Channel";
 
 function Channels() {
   const [channels, setChannels] = useState([
-    { title: "Habr", link: "https://habr.com/ru/", category: "Программирование", editable: false, active: true, url: "https://habr.com/images/logo.png" },
-    { title: "Medium", link: "https://medium.com/", category: "Программирование", editable: false, active: false, url: ""}
+    {
+      title: "Habr",
+      link: "https://habr.com/ru/",
+      category: "Программирование",
+      editable: false,
+      active: true,
+      url: "https://habr.com/images/logo.png"
+    },
+    {
+      title: "Medium",
+      link: "https://medium.com/",
+      category: "Программирование",
+      editable: false,
+      active: false,
+      url: ""
+    }
   ]);
 
   function onChannelDelete(index) {
@@ -20,8 +34,11 @@ function Channels() {
 
   function onChannelItemChange(event, index) {
     channels[index].editable = true;
-    const name = event.target.name;
-    name === "name" ? (channels[index].title = event.target.value) : (channels[index].link = event.target.value);
+    if (event.target.name === "title") {
+      channels[index].title = event.target.value;
+    } else {
+      channels[index].link = event.target.value;
+    }
     setChannels([...channels]);
   }
 
