@@ -77,8 +77,8 @@ function Channel(props) {
           background-size: cover;
         `}
       />
-      <ChannelTitle editable={props.editable} title={props.title} onChange={props.onChange} />
-      <ChannelLink editable={props.editable} link={props.link} onChange={props.onChange} />
+      <ChannelTitle editable={props.editable} title={props.title} onChange={onChange} />
+      <ChannelLink editable={props.editable} link={props.link} onChange={onChange} />
       <div className="icons">
         <Edit className="edit-icon" onClick={props.onEditChannel} />
         <Delete className="trash-icon" onClick={props.onDelete} />
