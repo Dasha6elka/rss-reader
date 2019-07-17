@@ -25,8 +25,10 @@ function ListItem(props) {
 
   useEffect(() => {
     window.addEventListener("keydown", onEnterPress);
-    return () => window.removeEventListener("keydown", onEnterPress);
-  });
+    return () => {
+      window.removeEventListener("keydown", onEnterPress);
+    };
+  }, [onEnterPress]);
 
   const inputStyle = {
     border: "none",
@@ -40,8 +42,8 @@ function ListItem(props) {
     maxHeight: "24px",
     maxWidth: "73%",
 
-    ":hover:before" : {
-    borderBottom: "2px solid white !important"
+    ":hover:before": {
+      borderBottom: "2px solid white !important"
     }
   };
 
@@ -77,7 +79,7 @@ function ListItem(props) {
             margin-left: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
-            max-width: 160px;
+            max-width: 153px;
           }
 
           .trash-icon {
