@@ -17,9 +17,9 @@ function ListItem(props) {
     if (!props.onEditFinish) {
       return;
     }
-    const code = event.keyCode ? event.keyCode : event.which;
-    if (code === 13 && event.target.value !== undefined && event.target.value !== "") {
-      props.onEditFinish();
+      const code = event.keyCode ? event.keyCode : event.which;
+      if (code === 13 && event.target.value !== undefined && event.target.value !== "" && props.editable) {
+        props.onEditFinish();
     }
   }
 
@@ -108,7 +108,7 @@ function ListItem(props) {
         <RadioButtonChecked className="list-icon" style={fontStyleRadioButton} />
         {!props.editable ? (
           <div className="radio-button" onClick={props.button && props.onClick}>
-            {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
+            {!props.button ? `${props.title} (${props.count || "0"})` : `${props.title}`}
           </div>
         ) : (
           <Input className="input" onChange={onChange} value={props.title} css={inputStyle} />

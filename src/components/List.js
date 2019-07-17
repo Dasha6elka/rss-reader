@@ -25,7 +25,7 @@ function List(props) {
   }
 
   function onListItemDelete(index) {
-    if (data[index].count !== 0) {
+    if (data[index].count < 0) {
       data[index].error = !data[index].error;
       onChange([...data]);
       return;
