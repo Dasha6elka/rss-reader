@@ -55,7 +55,7 @@ function Sidebar() {
             Добавить ленту
           </Button>
         ) : (
-          <Form onClick={onButtonClick} />
+          <Form data={context.categories} onClick={onButtonClick} />
         )}
       </div>
       <List data={context.categories} onChange={context.onCategoriesChange} onFinish={context.onCategoriesFinish} />

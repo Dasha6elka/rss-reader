@@ -1,18 +1,14 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import useForm from "../hooks/useForm";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import { Button } from "@material-ui/core";
-import Input from "./Input";
+import useForm from "../hooks/useForm";
+import FormControl from "./FormControl";
 
 function Form(props) {
   const stateSchema = {
     name: { value: "", error: "" },
-    link: { value: "", error: "" },
-    category: { value: "", error: "" }
+    link: { value: "", error: "" }
   };
 
   const validationStateSchema = {
@@ -29,13 +25,6 @@ function Form(props) {
         regEx: /(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/,
         error: "Невалидная ссылка."
       }
-    },
-    category: {
-      required: true,
-      validator: {
-        regEx: /^[а-яА-Яa-zA-Z]+$/,
-        error: "Невалидная категория."
-      }
     }
   };
 
@@ -45,13 +34,6 @@ function Form(props) {
 
   const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema, onSubmitForm);
 
-  const errorStyle = {
-    color: "darkred",
-    fontSize: "12px",
-    lineHeight: "16px",
-    margin: "6px 0"
-  };
-
   const buttonStyle = {
     textAlight: "center",
     width: "100%",
@@ -60,112 +42,36 @@ function Form(props) {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      <FormControl fullWidth={true}>
-        <InputLabel
-          css={css`
-            color: white !important;
-          `}
-          htmlFor="name"
-        >
-          Имя ленты
-        </InputLabel>
-        <Input
-          type="text"
-          name="name"
-          autoComplete="off"
-          id="name"
-          onChange={handleOnChange}
-          value={state.name.value}
-          required
-          css={css`
-            margin-left: 0;
-            margin-bottom: 0;
-            color: white;
-
-            :hover:before {
-              border-bottom: 2px solid white !important;
-            }
-          `}
-        />
-        {state.name.error && <FormHelperText style={errorStyle}>{state.name.error}</FormHelperText>}
-      </FormControl>
       <FormControl
-        fullWidth={true}
-        css={css`
-          margin-top: 16px !important;
-        `}
-      >
-        <InputLabel
-          htmlFor="link"
-          css={css`
-            color: white !important;
-          `}
-        >
-          Ссылка на RRS
-        </InputLabel>
-        <Input
-          type="text"
-          name="link"
-          autoComplete="off"
-          id="link"
-          onChange={handleOnChange}
-          value={state.link.value}
-          required
-          css={css`
-            margin-left: 0;
-            margin-bottom: 0;
-            color: white;
-
-            :hover:before {
-              border-bottom: 2px solid white !important;
-            }
-          `}
-        />
-        {state.link.error && <FormHelperText style={errorStyle}>{state.link.error}</FormHelperText>}
-      </FormControl>
+        firstControl={true}
+        name={"name"}
+        title="Имя ленты"
+        value={state.name.value}
+        error={state.name.error}
+        onChange={handleOnChange}
+      />
       <FormControl
-        fullWidth={true}
-        css={css`
-          margin-top: 16px !important;
-        `}
-      >
-        <InputLabel
-          htmlFor="category"
-          css={css`
-            color: white !important;
-          `}
-        >
-          Категория
-        </InputLabel>
-        <Input
-          type="text"
-          name="category"
-          autoComplete="off"
-          id="category"
-          onChange={handleOnChange}
-          value={state.category.value}
-          required
-          css={css`
-            margin-left: 0;
-            margin-bottom: 0;
-            color: white;
-
-            :hover:before {
-              border-bottom: 2px solid white !important;
-            }
-          `}
-        />
-        {state.category.error && <FormHelperText style={errorStyle}>{state.category.error}</FormHelperText>}
-      </FormControl>
+        name={"link"}
+        title="Ссылка на RSS"
+        value={state.link.value}
+        error={state.link.error}
+        onChange={handleOnChange}
+      />
+      <FormControl
+        select={true}
+        name={"link"}
+        title="Ссылка на RSS"
+        onChange={handleOnChange}
+      />
       <Button
         css={css`
+          color: #3ba5d1;
+
+          :disabled {
             color: #3ba5d1;
-            
-            :disabled {
-              color: #3ba5d1;
-              background-color: rgba(59, 165, 209, 0.08);
-            }
-          `}
+            background-color: rgba(59, 165, 209, 0.08);
+          }
+        `}
         style={buttonStyle}
         name="submit"
         disabled={disable}
