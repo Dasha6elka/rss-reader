@@ -8,6 +8,7 @@ import Posts from "./Posts";
 import getCategories from "../api/getCategories";
 import AppContext from "../context";
 import addCategory from "../api/addCategory";
+import deleteCategory from "../api/deleteCategory";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -24,6 +25,14 @@ function App() {
       .catch(console.error);
   }
 
+  function onCategoryDelete(categories, category_id) {
+    setCategories(categories);
+    deleteCategory(category_id)
+      .then(() => getCategories())
+      .then(json => setCategories(json.categories))
+      .catch(console.error);
+  }
+
   useEffect(() => {
     getCategories()
       .then(json => setCategories(json.categories))
@@ -35,7 +44,8 @@ function App() {
       value={{
         categories,
         onCategoriesChange,
-        onCategoriesFinish
+        onCategoriesFinish,
+        onCategoryDelete
       }}
     >
       <Global

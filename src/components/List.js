@@ -6,7 +6,7 @@ import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
-  const { data, onChange, onFinish } = props;
+  const { data, onChange, onFinish, onDelete } = props;
 
   function onButtonClick() {
     if (data.some(value => value.editable === true)) {
@@ -25,12 +25,13 @@ function List(props) {
   }
 
   function onListItemDelete(index) {
-    if (data[index].count < 0) {
-      data[index].error = !data[index].error;
-      onChange([...data]);
-      return;
-    }
+    // if (data[index].count > 0 || data[index].count !== undefined) {
+    //   data[index].error = !data[index].error;
+    //   onChange([...data]);
+    //   return;
+    // }
     data.splice(index, 1);
+    onDelete(data, index);
     onChange([...data]);
   }
 
@@ -53,7 +54,7 @@ function List(props) {
             active={value.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
-            onDelete={() => onListItemDelete(index)}
+            onDelete={() => onListItemDelete(value.id)}
             errorMessage={value.error}
           />
         ))}
