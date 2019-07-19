@@ -52,8 +52,8 @@ function Posts() {
   }
 
   function onChangePostsList(value) {
-    setEnter(!!value.value.length);
-    posts.map((post, index) => change(post, index, value));
+    setEnter(value.value.length !== 0);
+    posts.forEach((post, index) => change(post, index, value));
     setPosts([...posts]);
   }
 
@@ -63,7 +63,7 @@ function Posts() {
   }
 
   return (
-    <Grid container direction="column">
+    <Grid item sm={7}>
       <Search onSearchInputChange={value => onChangePostsList({ value })} />
       {posts.map((post, index) => (
         <Post

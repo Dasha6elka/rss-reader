@@ -7,7 +7,6 @@ function Logo() {
       <div
           css={css`
           position: relative;
-          box-sizing: border-box;
           padding-right: 20px;
           font-family: "Alegreya SC", serif;
           font-size: 30px;
