@@ -3,6 +3,7 @@
 import { jsx, css } from "@emotion/core";
 import { useState } from "react";
 import Channel from "../components/Channel";
+import Grid from "@material-ui/core/Grid";
 
 function Channels() {
   const [channels, setChannels] = useState([
@@ -43,7 +44,7 @@ function Channels() {
   }
 
   function onChannelItemEditFinish() {
-    setChannels([...channels.map(channel => ({ ...channel, editable: false }))]);
+    setChannels(channels.map(channel => ({ ...channel, editable: false })));
   }
 
   function onEdit(index) {
@@ -52,10 +53,9 @@ function Channels() {
   }
 
   return (
-    <div
+    <Grid item sm={3}
       css={css`
         background-color: #dae3e7;
-        height: 100%;
       `}
     >
       {channels.map((channel, index) => (
@@ -73,7 +73,7 @@ function Channels() {
           onEditChannel={() => onEdit(index)}
         />
       ))}
-    </div>
+    </Grid>
   );
 }
 
