@@ -24,9 +24,6 @@ function Search(props) {
           top: 50%;
           transform: translateY(-50%);
           left: 16px;
-          max-width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
         `}
       />
       <Input

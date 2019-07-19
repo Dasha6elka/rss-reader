@@ -13,10 +13,7 @@ function Post(props) {
   };
 
   const postStatusStyle = {
-    fontSize: "12px",
-    lineHeight: "16px",
     paddingTop: "8px",
-    color: "rgba(0, 0, 0, 0.539261)",
     textTransform: "uppercase"
   };
 
@@ -52,7 +49,7 @@ function Post(props) {
         `}
       >
         <div css={titleStyle}>{props.title}</div>
-        {props.visited && <div css={postStatusStyle}>Прочитано</div>}
+        {props.visited && <div css={postStatusStyle} style={publicationDateStyle}>Прочитано</div>}
         <div css={publicationDateStyle}>
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
