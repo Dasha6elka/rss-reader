@@ -4,6 +4,7 @@ import { jsx, css } from "@emotion/core";
 import { Button } from "@material-ui/core";
 import useForm from "../hooks/useForm";
 import FormControl from "./FormControl";
+import { useState } from "react";
 
 function Form(props) {
   const stateSchema = {
@@ -34,48 +35,69 @@ function Form(props) {
 
   const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema, onSubmitForm);
 
-  const buttonStyle = {
-    textAlight: "center",
-    width: "100%",
-    marginTop: "16px"
-  };
+  const [valuesForm, setValuesForm] = useState({ title: "", rssUrl: "", logoUrl: "", categoryId: 0 });
+
+  function onChange(event, name) {
+    name !== "category" && handleOnChange(event);
+    if (name === "name") {
+      valuesForm.title = event.target.value;
+    }
+    if (name === "link") {
+      valuesForm.rssUrl = event.target.value;
+    }
+    if (name === "category") {
+      valuesForm.categoryId = event.target.value;
+    }
+    setValuesForm(valuesForm);
+    props.onChange([valuesForm]);
+  }
+
+  function onSubmit(event) {
+    handleOnSubmit(event);
+    event.preventDefault(event);
+    props.onClick(event);
+  }
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form>
       <FormControl
         firstControl={true}
-        name={"name"}
+        name="name"
         title="Имя ленты"
         value={state.name.value}
         error={state.name.error}
-        onChange={handleOnChange}
+        onChange={event => onChange(event, "name")}
       />
       <FormControl
-        name={"link"}
+        name="link"
         title="Ссылка на RSS"
         value={state.link.value}
         error={state.link.error}
-        onChange={handleOnChange}
+        onChange={event => onChange(event, "link")}
       />
       <FormControl
         select={true}
-        name={"link"}
-        title="Ссылка на RSS"
-        onChange={handleOnChange}
+        name="category"
+        title="Категория"
+        onChange={event => onChange(event, "category")}
+        categories={props.categories}
       />
       <Button
         css={css`
-          color: #3ba5d1;
+          padding: 6px 16px;
+          background-color: #3ba5d1;
+          color: white;
+          text-align: center;
+          width: 100%;
+          margin-top: 16px;
 
-          :disabled {
-            color: #3ba5d1;
-            background-color: rgba(59, 165, 209, 0.08);
+          :hover {
+            background-color: #49c8fc;
           }
         `}
-        style={buttonStyle}
         name="submit"
         disabled={disable}
-        onClick={props.onClick}
+        onClick={event => onSubmit(event)}
         type="submit"
         href=""
         variant="text"

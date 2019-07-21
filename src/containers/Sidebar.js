@@ -7,6 +7,7 @@ import List from "../components/List";
 import Form from "../components/Form";
 import Button from "@material-ui/core/Button";
 import AppContext from "../context";
+import { Grid } from "@material-ui/core";
 
 function Sidebar() {
   const context = useContext(AppContext);
@@ -16,29 +17,30 @@ function Sidebar() {
     setFormVisible(!formVisible);
   }
 
+  function onFormButtonClick() {
+    setFormVisible(!formVisible);
+    context.onChannelFinish(context.channels);
+  }
+
   return (
-    <div
+    <Grid
+      item
+      xs={2}
       css={css`
         background-color: #1d2027;
-        height: 100%;
         color: white;
-
-        .div {
-          justify-content: center;
-          align-items: center;
-        }
       `}
     >
-      <div
-        className="div"
+      <Grid
         css={css`
           padding: 24px;
         `}
       >
         <Logo />
-      </div>
-      <div
-        className="div"
+      </Grid>
+      <Grid
+        container
+        justify="center"
         css={css`
           padding: 0 24px 24px;
         `}
@@ -47,7 +49,13 @@ function Sidebar() {
           <Button
             type="submit"
             css={css`
-              color: #3ba5d1;
+              padding: 6px 16px;
+              background-color: #3ba5d1;
+              color: white;
+
+              :hover {
+                background-color: #49c8fc;
+              }
             `}
             onClick={onButtonClick}
             variant="text"
@@ -55,16 +63,24 @@ function Sidebar() {
             Добавить ленту
           </Button>
         ) : (
-          <Form data={context.categories} onClick={onButtonClick} />
+          <Form
+            categories={context.categories}
+            channels={context.channels}
+            onClick={onFormButtonClick}
+            onChange={context.onChannelsChange}
+          />
         )}
-      </div>
+      </Grid>
       <List
+        activeCategory={context.activeCategory}
+        setActiveCategory={context.setActiveCategory}
         data={context.categories}
         onChange={context.onCategoriesChange}
         onFinish={context.onCategoriesFinish}
         onDelete={context.onCategoryDelete}
+        channels={context.channels}
       />
-    </div>
+    </Grid>
   );
 }
 

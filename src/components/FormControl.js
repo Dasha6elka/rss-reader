@@ -1,51 +1,24 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
-import React from "react";
+import { css, jsx } from "@emotion/core";
+import React, { useState } from "react";
 import { FormControl as MaterialFormControl, Select } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "./Input";
 import MenuItem from "@material-ui/core/MenuItem";
-import useTheme from "@material-ui/core/styles/useTheme";
-import { useState } from "react";
-
-const categories = ["Программирование", "Музыка", "Дизайн"];
-
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: 152,
-      width: 250
-    }
-  }
-};
-
-function getStyles(value, category, theme) {
-  return {
-    fontWeight: category.indexOf(value) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-  };
-}
 
 function FormControl(props) {
-  function handleOnChange(event) {
+  const [categoryId, setCategoryId] = useState();
+
+  function onInputChange(event) {
     props.onChange(event);
   }
 
-  const theme = useTheme();
-
-  const [category, setCategory] = useState([]);
-
-  function handleChange(event) {
-    setCategory(event.target.value);
+  function onSelectChange(event) {
+    setCategoryId(event.target.value);
+    props.onChange(event);
   }
-
-  const errorStyle = {
-    color: "darkred",
-    fontSize: "12px",
-    lineHeight: "16px",
-    margin: "6px 0"
-  };
 
   return (
     <MaterialFormControl
@@ -65,28 +38,38 @@ function FormControl(props) {
             Категория
           </InputLabel>
           <Select
-            multiple
-            value={category}
-            onChange={handleChange}
+            value={categoryId || ""}
+            onChange={onSelectChange}
             input={<Input id="category" />}
-            MenuProps={MenuProps}
             css={css`
               margin-left: 0;
               margin-bottom: 0;
               color: white;
+              height: 30px;
 
               :hover:before {
                 border-bottom: 2px solid white !important;
               }
             `}
           >
-            {categories.map(value => (
-              <MenuItem key={value} value={value} style={getStyles(value, category, theme)}>
-                {value}
+            {props.categories.map(value => (
+              <MenuItem key={value.id} value={value.id}>
+                {value.title}
               </MenuItem>
             ))}
           </Select>
-          {!category && <FormHelperText style={errorStyle}>Не выбрана категория</FormHelperText>}
+          {!categoryId && (
+            <FormHelperText
+              css={css`
+                color: darkred;
+                font-size: 12px;
+                line-height: 16px;
+                margin: 6px 0;
+              `}
+            >
+              Не выбрана категория
+            </FormHelperText>
+          )}
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -103,7 +86,7 @@ function FormControl(props) {
             name={props.name}
             autoComplete="off"
             id={props.name}
-            onChange={handleOnChange}
+            onChange={onInputChange}
             value={props.value}
             required
             css={css`
@@ -116,7 +99,18 @@ function FormControl(props) {
               }
             `}
           />
-          {props.error && <FormHelperText style={errorStyle}>{props.error}</FormHelperText>}
+          {props.error && (
+            <FormHelperText
+              css={css`
+                color: darkred;
+                font-size: 12px;
+                line-height: 16px;
+                margin: 6px 0;
+              `}
+            >
+              {props.error}
+            </FormHelperText>
+          )}
         </React.Fragment>
       )}
     </MaterialFormControl>
