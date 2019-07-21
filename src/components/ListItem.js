@@ -47,17 +47,10 @@ function ListItem(props) {
     }
   };
 
-  const fontStyleRadioButton = {
-    fontSize: "12px"
-  };
-
-  const fontStyleTrashButton = {
-    fontSize: "16px"
-  };
-
   return (
     <React.Fragment>
       <Grid
+        item
         container
         direction="row"
         justify="flex-start"
@@ -79,7 +72,7 @@ function ListItem(props) {
             margin-left: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
-            max-width: 153px;
+            max-width: 73%;
           }
 
           .trash-icon {
@@ -105,15 +98,15 @@ function ListItem(props) {
           }
         `}
       >
-        <RadioButtonChecked className="list-icon" style={fontStyleRadioButton} />
+        <RadioButtonChecked className="list-icon" css={{fontSize: "12px"}} />
         {!props.editable ? (
-          <div className="radio-button" onClick={props.button && props.onClick}>
+          <div className="radio-button" onClick={(props.button && props.onClick) || (props.onListClick)}>
             {!props.button ? `${props.title} (${props.count || "0"})` : `${props.title}`}
           </div>
         ) : (
           <Input className="input" onChange={onChange} value={props.title} css={inputStyle} />
         )}
-        {!props.button && <Delete className="trash-icon" style={fontStyleTrashButton} onClick={props.onDelete} />}
+        {!props.button && <Delete className="trash-icon" css={{fontSize: "16px"}} onClick={props.onDelete} />}
       </Grid>
       <ErrorMessage errorMessage={props.errorMessage} />
     </React.Fragment>
