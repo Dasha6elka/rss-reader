@@ -25,31 +25,42 @@ function FormControl(props) {
       fullWidth={true}
       css={css`
         margin-top: ${!props.first && "16px !important"};
+
+        .input-label {
+          color: white !important;
+        }
+
+        .helper-text {
+          color: darkred;
+          font-size: 12px;
+          line-height: 16px;
+          margin: 6px 0;
+        }
+
+        .input {
+          margin-left: 0;
+          margin-bottom: 0;
+          color: white;
+          height: 30px;
+
+          :hover:before {
+            border-bottom: 2px solid white !important;
+          }
+        }
       `}
     >
       {props.select ? (
         <React.Fragment>
-          <InputLabel
-            htmlFor="category"
-            css={css`
-              color: white !important;
-            `}
-          >
+          <InputLabel htmlFor="category" className="input-label">
             Категория
           </InputLabel>
           <Select
             value={categoryId || ""}
             onChange={onSelectChange}
             input={<Input id="category" />}
+            className="input"
             css={css`
-              margin-left: 0;
-              margin-bottom: 0;
-              color: white;
               height: 30px;
-
-              :hover:before {
-                border-bottom: 2px solid white !important;
-              }
             `}
           >
             {props.categories.map(value => (
@@ -58,27 +69,11 @@ function FormControl(props) {
               </MenuItem>
             ))}
           </Select>
-          {!categoryId && (
-            <FormHelperText
-              css={css`
-                color: darkred;
-                font-size: 12px;
-                line-height: 16px;
-                margin: 6px 0;
-              `}
-            >
-              Не выбрана категория
-            </FormHelperText>
-          )}
+          {!categoryId && <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>}
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <InputLabel
-            css={css`
-              color: white !important;
-            `}
-            htmlFor={props.name}
-          >
+          <InputLabel htmlFor={props.name} className="input-label">
             {props.title}
           </InputLabel>
           <Input
@@ -89,28 +84,9 @@ function FormControl(props) {
             onChange={onInputChange}
             value={props.value}
             required
-            css={css`
-              margin-left: 0;
-              margin-bottom: 0;
-              color: white;
-
-              :hover:before {
-                border-bottom: 2px solid white !important;
-              }
-            `}
+            className="input"
           />
-          {props.error && (
-            <FormHelperText
-              css={css`
-                color: darkred;
-                font-size: 12px;
-                line-height: 16px;
-                margin: 6px 0;
-              `}
-            >
-              {props.error}
-            </FormHelperText>
-          )}
+          {props.error && <FormHelperText className="helper-text">{props.error}</FormHelperText>}
         </React.Fragment>
       )}
     </MaterialFormControl>

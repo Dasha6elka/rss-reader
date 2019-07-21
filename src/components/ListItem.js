@@ -17,9 +17,9 @@ function ListItem(props) {
     if (!props.onEditFinish) {
       return;
     }
-      const code = event.keyCode ? event.keyCode : event.which;
-      if (code === 13 && event.target.value !== undefined && event.target.value !== "" && props.editable) {
-        props.onEditFinish();
+    const code = event.keyCode ? event.keyCode : event.which;
+    if (code === 13 && event.target.value !== undefined && event.target.value !== "" && props.editable) {
+      props.onEditFinish();
     }
   }
 
@@ -29,23 +29,6 @@ function ListItem(props) {
       window.removeEventListener("keydown", onEnterPress);
     };
   }, [onEnterPress]);
-
-  const inputStyle = {
-    border: "none",
-    borderRadius: "2px",
-    padding: "2px 4px",
-    color: "white",
-    flexGrow: "1",
-    margin: "0",
-    marginLeft: "16px",
-    minWidth: "0",
-    maxHeight: "24px",
-    maxWidth: "73%",
-
-    ":hover:before": {
-      borderBottom: "2px solid white !important"
-    }
-  };
 
   return (
     <React.Fragment>
@@ -75,8 +58,28 @@ function ListItem(props) {
             max-width: 73%;
           }
 
+          .input {
+            border: none;
+            border-radius: 2px;
+            padding: 2px 4px;
+            color: white;
+            flex-grow: 1;
+            margin: 0 0 0 16px;
+            min-width: 0;
+            max-height: 24px;
+            max-width: 73%;
+
+            :hover:before {
+              border-bottom: 2px solid white !important;
+            }
+          }
+
           .trash-icon {
             display: none;
+          }
+
+          .list-icon {
+            font-size: 12px;
           }
 
           .list-icon path {
@@ -94,19 +97,27 @@ function ListItem(props) {
             .trash-icon {
               display: block;
               margin-left: 10px;
+              font-size: 16px;
             }
           }
         `}
       >
-        <RadioButtonChecked className="list-icon" css={{fontSize: "12px"}} />
+        <RadioButtonChecked
+          className="list-icon"
+        />
         {!props.editable ? (
-          <div className="radio-button" onClick={(props.button && props.onClick) || (props.onListClick)}>
+          <div className="radio-button" onClick={(props.button && props.onClick) || props.onListClick}>
             {!props.button ? `${props.title} (${props.count || "0"})` : `${props.title}`}
           </div>
         ) : (
-          <Input className="input" onChange={onChange} value={props.title} css={inputStyle} />
+          <Input className="input" onChange={onChange} value={props.title} />
         )}
-        {!props.button && <Delete className="trash-icon" css={{fontSize: "16px"}} onClick={props.onDelete} />}
+        {!props.button && (
+          <Delete
+            className="trash-icon"
+            onClick={props.onDelete}
+          />
+        )}
       </Grid>
       <ErrorMessage errorMessage={props.errorMessage} />
     </React.Fragment>
