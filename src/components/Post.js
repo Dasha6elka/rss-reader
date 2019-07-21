@@ -6,32 +6,6 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 function Post(props) {
   const date = new Date(props.date);
 
-  const titleStyle = {
-    fontSize: "24px",
-    lineHeight: "32px",
-    color: "rgba(41, 98, 147, 0.87)"
-  };
-
-  const postStatusStyle = {
-    paddingTop: "8px",
-    textTransform: "uppercase"
-  };
-
-  const publicationDateStyle = {
-    fontSize: "12px",
-    lineHeight: "16px",
-    color: "rgba(0, 0, 0, 0.539261)"
-  };
-
-  const arrowStyle = {
-    position: "absolute",
-    right: "0",
-    padding: "16px",
-    top: "0",
-    transformOrigin: "top",
-    cursor: "pointer"
-  };
-
   return (
     <div
       css={css`
@@ -48,19 +22,59 @@ function Post(props) {
           padding-bottom: ${props.visible ? "16px" : "0"};
         `}
       >
-        <div css={titleStyle}>{props.title}</div>
-        {props.visited && <div css={postStatusStyle} style={publicationDateStyle}>Прочитано</div>}
-        <div css={publicationDateStyle}>
+        <div
+          css={css`
+            font-size: 24px;
+            line-height: 32px;
+            color: rgba(41, 98, 147, 0.87);
+          `}
+        >
+          {props.title}
+        </div>
+        {props.visited && (
+          <div
+            css={css`
+              padding-top: 8px;
+              text-transform: uppercase;
+              font-size: 12px;
+              line-height: 16px;
+              color: rgba(0, 0, 0, 0.539261);
+            `}
+          >
+            Прочитано
+          </div>
+        )}
+        <div
+          css={css`
+            font-size: 12px;
+            line-height: 16px;
+            color: rgba(0, 0, 0, 0.539261);
+          `}
+        >
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </div>
         {props.visible ? (
           <ExpandLess
-            css={arrowStyle}
+            css={css`
+              position: absolute;
+              right: 0;
+              top: 0;
+              padding: 16px;
+              transform-origin: top;
+              cursor: pointer;
+            `}
             onClick={props.onArrowClick}
           />
         ) : (
           <ExpandMore
-            css={arrowStyle}
+            css={css`
+              position: absolute;
+              right: 0;
+              top: 0;
+              padding: 16px;
+              transform-origin: top;
+              cursor: pointer;
+            `}
             onClick={props.onArrowClick}
           />
         )}
