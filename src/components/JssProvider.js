@@ -1,16 +1,10 @@
 /** @jsx jsx */
 
 import { jsx } from "@emotion/core";
-import { create } from "jss";
-import { StylesProvider, jssPreset } from "@material-ui/styles";
-
-const jss = create({
-  ...jssPreset(),
-  insertionPoint: document.getElementById("jss-insertion-point")
-});
+import StylesProvider from "@material-ui/styles/StylesProvider";
 
 const JssProvider = ({ children }) => {
-  return <StylesProvider jss={jss}>{children}</StylesProvider>;
+  return <StylesProvider injectFirst>{children}</StylesProvider>;
 };
 
 export default JssProvider;
