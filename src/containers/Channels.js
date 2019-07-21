@@ -1,55 +1,40 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import { useState } from "react";
+import { useContext } from "react";
 import Channel from "../components/Channel";
 import Grid from "@material-ui/core/Grid";
+import AppContext from "../context";
 
 function Channels() {
-  const [channels, setChannels] = useState([
-    {
-      title: "Habr",
-      link: "https://habr.com/ru/",
-      category: "Программирование",
-      editable: false,
-      active: true,
-      url: "https://habr.com/images/logo.png"
-    },
-    {
-      title: "Medium",
-      link: "https://medium.com/",
-      category: "Программирование",
-      editable: false,
-      active: false,
-      url: ""
-    }
-  ]);
+  const context = useContext(AppContext);
 
   function onChannelDelete(index) {
-    if (channels[index].editable === true) {
+    if (context.channels[index].editable === true) {
       return;
     }
-    channels.splice(index, 1);
-    setChannels([...channels]);
+    context.channels.splice(index, 1);
+    context.onChannelsChange([...context.channels]);
   }
 
   function onChannelItemChange(event, index) {
-    channels[index].editable = true;
+    context.channels[index].editable = true;
     if (event.target.name === "title") {
-      channels[index].title = event.target.value;
+      context.channels[index].title = event.target.value;
     } else {
-      channels[index].link = event.target.value;
+      context.channels[index].rssUrl = event.target.value;
     }
-    setChannels([...channels]);
+    context.onChannelsChange([...context.channels]);
   }
 
   function onChannelItemEditFinish() {
-    setChannels(channels.map(channel => ({ ...channel, editable: false })));
+    context.onChannelsChange(context.channels.map(channel => ({ ...channel, editable: false })));
+    context.onChannelsEditFinish();
   }
 
   function onEdit(index) {
-    channels[index].editable = true;
-    setChannels([...channels]);
+    context.channels[index].editable = true;
+    context.onChannelsChange([...context.channels]);
   }
 
   return (
@@ -58,14 +43,13 @@ function Channels() {
         background-color: #dae3e7;
       `}
     >
-      {channels.map((channel, index) => (
+      {context.channels.map((channel, index) => (
         <Channel
           key={index}
           title={channel.title}
-          link={channel.link}
-          category={channel.category}
+          link={channel.rss_url}
           editable={channel.editable}
-          url={channel.url}
+          url={channel.logo_url}
           active={channel.active}
           onDelete={() => onChannelDelete(index)}
           onChange={event => onChannelItemChange(event, index)}
