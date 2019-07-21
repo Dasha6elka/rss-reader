@@ -7,7 +7,6 @@ import { Edit, Delete } from "@material-ui/icons";
 import Input from "./Input";
 import { Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import CardMedia from "@material-ui/core/CardMedia";
 
 function Channel(props) {
   function onChange(event) {
@@ -69,7 +68,14 @@ function Channel(props) {
       `}
     >
       <Grid container direction="row">
-        <CardMedia component={"img"} image={props.url} style={{ height: "16px", width: "16px" }} />
+        <img
+          src={props.url}
+          alt=""
+          css={css`
+            height: 16px;
+            width: 16px;
+          `}
+        />
         <ChannelTitle editable={props.editable} title={props.title} onChange={onChange} />
       </Grid>
       <ChannelLink editable={props.editable} link={props.link} onChange={onChange} />
@@ -86,15 +92,15 @@ function ChannelTitle(props) {
     <React.Fragment>
       {!props.editable ? (
         <Typography
-          style={{
-            fontSize: "14px",
-            lineHeight: "20px",
-            marginLeft: "8px",
-            marginBottom: "6px",
-            maxWidth: "160px",
-            textOverflow: "ellipsis",
-            overflow: "hidden"
-          }}
+          css={css`
+            font-size: 14px;
+            line-height: 20px;
+            margin-left: 8px;
+            margin-bottom: 8px;
+            max-width: 160px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          `}
         >
           {props.title}
         </Typography>
@@ -119,7 +125,14 @@ function ChannelLink(props) {
     <React.Fragment>
       {!props.editable ? (
         <Typography
-          style={{ color: "rgba(0, 0, 0, 0.539261)", fontSize: "12px", maxWidth: "160px", textOverflow: "ellipsis", overflow: "hidden" }}
+          css={css`
+            color: rgba(0, 0, 0, 0.539261);
+            font-size: 12px;
+            max-width: 160px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          `}
         >
           {props.link}
         </Typography>
