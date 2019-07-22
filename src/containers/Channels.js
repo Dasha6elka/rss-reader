@@ -38,6 +38,19 @@ function Channels() {
     context.onChannelsChange([...context.channels]);
   }
 
+  function onClick(id,rss_url) {
+    context.channels.forEach(item => {
+      if (item.id === id) {
+        item.active = true;
+      }
+      if (item.id === context.activeChannel.id) {
+        item.active = false;
+      }
+    });
+    context.onChannelsChange([...context.channels]);
+    context.setActiveChannel({id: id, rss_url: rss_url});
+  }
+
   return (
     <Grid item sm={3}
       css={css`
@@ -56,6 +69,7 @@ function Channels() {
           onChange={event => onChannelItemChange(event, index)}
           onEditFinish={onChannelItemEditFinish}
           onEditChannel={() => onEdit(index)}
+          onChannelClick={() => onClick(channel.id, channel.rss_url)}
         />
       ))}
     </Grid>

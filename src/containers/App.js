@@ -21,6 +21,8 @@ function App() {
 
   const [activeCategory, setActiveCategory] = useState(0);
 
+  const [activeChannel, setActiveChannel] = useState([]);
+
   function onCategoriesChange(change) {
     setCategories(change);
   }
@@ -98,7 +100,9 @@ function App() {
         onChannelsEditFinish,
         onChannelDelete,
         activeCategory,
-        setActiveCategory
+        setActiveCategory,
+        activeChannel,
+        setActiveChannel
       }}
     >
       <Global

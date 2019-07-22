@@ -27,6 +27,7 @@ function Channel(props) {
 
   return (
     <div
+      onClick={props.onChannelClick}
       css={css`
         padding: 16px 24px;
         font-family: Roboto, sans-serif;
