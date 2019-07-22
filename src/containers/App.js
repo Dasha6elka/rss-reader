@@ -13,14 +13,17 @@ import getChannels from "../api/getChannels";
 import addChannel from "../api/addChannel";
 import deleteChannel from "../api/deleteChannel";
 import { Grid } from "@material-ui/core";
+import updateChannel from "../api/updateChannel";
+
+const Parser = require("rss-parser");
+const parser = new Parser();
+const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
 function App() {
   const [categories, setCategories] = useState([]);
-
   const [channels, setChannels] = useState([]);
-
+  const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(0);
-
   const [activeChannel, setActiveChannel] = useState([]);
 
   function onCategoriesChange(change) {
@@ -47,8 +50,23 @@ function App() {
       .catch(console.error);
   }
 
-  function onChannelsEditFinish(channels) {
-
+  function onChannelsEditFinish(channel_id) {
+    setChannels(channels);
+    channels.forEach(channel => {
+      if (channel.id === channel_id) {
+        let item = {
+          title: channel.title,
+          rssUrl: channel.rss_url,
+          logoUrl: channel.logo_url,
+          categoryId: channel.id_category
+        };
+        console.log(item);
+        updateChannel(item, channel_id)
+          .then(() => getChannels(channel.id_category))
+          .then(json => setChannels(json.channels))
+          .catch(console.error);
+      }
+    });
   }
 
   function onCategoryDelete(categories, category_id) {
@@ -87,6 +105,16 @@ function App() {
       .catch(console.error);
   }, [activeCategory]);
 
+  useEffect(() => {
+    if (!activeChannel.rss_url) {
+      return;
+    }
+    parser
+      .parseURL(CORS_PROXY + activeChannel.rss_url)
+      .then(feed => setPosts(feed.items))
+      .catch(console.error);
+  }, [activeChannel]);
+
   return (
     <AppContext.Provider
       value={{
@@ -102,7 +130,9 @@ function App() {
         activeCategory,
         setActiveCategory,
         activeChannel,
-        setActiveChannel
+        setActiveChannel,
+        posts,
+        setPosts
       }}
     >
       <Global
@@ -127,9 +157,9 @@ function App() {
           height: 100vh;
         `}
       >
-        <Sidebar />
-        <Channels />
-        <Posts />
+        <Sidebar/>
+        <Channels/>
+        <Posts/>
       </Grid>
     </AppContext.Provider>
   );
