@@ -28,9 +28,9 @@ function Channels() {
     context.onChannelsChange([...context.channels]);
   }
 
-  function onChannelItemEditFinish() {
+  function onChannelItemEditFinish(id) {
     context.onChannelsChange(context.channels.map(channel => ({ ...channel, editable: false })));
-    context.onChannelsEditFinish();
+    context.onChannelsEditFinish(id);
   }
 
   function onEdit(index) {
@@ -67,7 +67,7 @@ function Channels() {
           active={channel.active}
           onDelete={() => onChannelDelete(index, channel.id)}
           onChange={event => onChannelItemChange(event, index)}
-          onEditFinish={onChannelItemEditFinish}
+          onEditFinish={() => onChannelItemEditFinish(channel.id)}
           onEditChannel={() => onEdit(index)}
           onChannelClick={() => onClick(channel.id, channel.rss_url)}
         />

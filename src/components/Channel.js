@@ -109,7 +109,9 @@ function ChannelTitle(props) {
         <Input
           onChange={props.onChange}
           value={props.title}
+          type="text"
           name="title"
+          autoComplete="off"
           css={css`
             font-size: 14px;
             margin-left: 8px;
@@ -141,7 +143,9 @@ function ChannelLink(props) {
         <Input
           onChange={props.onChange}
           value={props.link}
+          type="text"
           name="link"
+          autoComplete="off"
           css={css`
             display: block;
             font-size: 12px;
