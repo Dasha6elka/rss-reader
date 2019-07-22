@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
@@ -28,7 +29,7 @@ function ListItem(props) {
     return () => {
       window.removeEventListener("keydown", onEnterPress);
     };
-  }, [onEnterPress]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -38,6 +39,7 @@ function ListItem(props) {
         direction="row"
         justify="flex-start"
         alignItems="center"
+        onClick={props.onListClick}
         css={css`
           color: ${props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
@@ -102,22 +104,15 @@ function ListItem(props) {
           }
         `}
       >
-        <RadioButtonChecked
-          className="list-icon"
-        />
+        <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <div className="radio-button" onClick={(props.button && props.onClick) || props.onListClick}>
+          <div className="radio-button" onClick={props.button && props.onClick}>
             {!props.button ? `${props.title} (${props.count || "0"})` : `${props.title}`}
           </div>
         ) : (
           <Input className="input" onChange={onChange} value={props.title} />
         )}
-        {!props.button && (
-          <Delete
-            className="trash-icon"
-            onClick={props.onDelete}
-          />
-        )}
+        {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>
       <ErrorMessage errorMessage={props.errorMessage} />
     </React.Fragment>

@@ -6,7 +6,7 @@ import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
-  const { data, onChange, onFinish, onDelete, activeCategory, setActiveCategory, channels } = props;
+  const { data, onChange, onFinish, onDelete, activeCategory, setActiveCategory } = props;
 
   function onButtonClick() {
     if (data.some(value => value.editable === true)) {
@@ -38,24 +38,14 @@ function List(props) {
   }
 
   function onListItemDelete(index) {
-    // if (data[index].count > 0 || data[index].count !== undefined) {
-    //   data[index].error = !data[index].error;
-    //   onChange([...data]);
-    //   return;
-    // }
+    if (data[index].count > 0 || data[index].count !== undefined) {
+      data[index].error = !data[index].error;
+      onChange([...data]);
+      return;
+    }
     data.splice(index, 1);
     onDelete(data, index);
     onChange([...data]);
-  }
-
-  function getCount(value) {
-    let count = 0;
-    channels.forEach(channel => {
-      if (channel.id_category === value.id) {
-        count++;
-      }
-    });
-    return count;
   }
 
   return (
@@ -73,7 +63,7 @@ function List(props) {
           <ListItem
             key={index}
             title={value.title}
-            count={getCount(value)}
+            count={value.count}
             editable={value.editable}
             active={value.active}
             onChange={event => onListItemChange(event, index)}
