@@ -57,13 +57,13 @@ function App() {
       .catch(console.error);
   }
 
-  // function onChannelDelete(channels, channel_id) {
-  //   setChannels(channels);
-  //   deleteChannel(channel_id)
-  //     .then(() => getChannels())
-  //     .then(json => setChannels(json.channels))
-  //     .catch(console.error);
-  // }
+  function onChannelDelete(channel_id) {
+    setChannels(channels);
+    deleteChannel(channel_id)
+      .then(() => getChannels())
+      .then(json => setChannels(json.channels))
+      .catch(console.error);
+  }
 
   useEffect(() => {
     getCategories()
@@ -96,7 +96,7 @@ function App() {
         onChannelsChange,
         onChannelFinish,
         onChannelsEditFinish,
-        // onChannelDelete
+        onChannelDelete,
         activeCategory,
         setActiveCategory
       }}

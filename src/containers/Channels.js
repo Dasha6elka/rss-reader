@@ -9,10 +9,11 @@ import AppContext from "../context";
 function Channels() {
   const context = useContext(AppContext);
 
-  function onChannelDelete(index) {
+  function onChannelDelete(index, id) {
     if (context.channels[index].editable === true) {
       return;
     }
+    context.onChannelDelete(id);
     context.channels.splice(index, 1);
     context.onChannelsChange([...context.channels]);
   }
@@ -51,7 +52,7 @@ function Channels() {
           editable={channel.editable}
           url={channel.logo_url}
           active={channel.active}
-          onDelete={() => onChannelDelete(index)}
+          onDelete={() => onChannelDelete(index, channel.id)}
           onChange={event => onChannelItemChange(event, index)}
           onEditFinish={onChannelItemEditFinish}
           onEditChannel={() => onEdit(index)}
