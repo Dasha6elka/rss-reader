@@ -69,7 +69,7 @@ function FormControl(props) {
               </MenuItem>
             ))}
           </Select>
-          {!categoryId && <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>}
+          {(props.error || !categoryId) && <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>}
         </React.Fragment>
       ) : (
         <React.Fragment>

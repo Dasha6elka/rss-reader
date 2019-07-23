@@ -20,7 +20,7 @@ function List(props) {
       if (item.id === id) {
         item.active = true;
       }
-      if (item.id === activeCategory) {
+      if (item.id === activeCategory && item.id !== id) {
         item.active = false;
       }
     });
@@ -37,14 +37,14 @@ function List(props) {
     onFinish([...data.map(value => ({ ...value, editable: false }))]);
   }
 
-  function onListItemDelete(index) {
-    if (data[index].count > 0 || data[index].count !== undefined) {
+  function onListItemDelete(index, id) {
+    if (data[index].count > 0) {
       data[index].error = !data[index].error;
       onChange([...data]);
       return;
     }
     data.splice(index, 1);
-    onDelete(data, index);
+    onDelete(data, id);
     onChange([...data]);
   }
 
@@ -68,7 +68,7 @@ function List(props) {
             active={value.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
-            onDelete={() => onListItemDelete(value.id)}
+            onDelete={() => onListItemDelete(index, value.id)}
             errorMessage={value.error}
             onListClick={() => onClick(value.id)}
           />

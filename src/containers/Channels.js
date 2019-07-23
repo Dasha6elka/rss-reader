@@ -38,21 +38,23 @@ function Channels() {
     context.onChannelsChange([...context.channels]);
   }
 
-  function onClick(id,rss_url) {
+  function onClick(id, rss_url) {
     context.channels.forEach(item => {
       if (item.id === id) {
         item.active = true;
       }
-      if (item.id === context.activeChannel.id) {
+      if (item.id === context.activeChannel.id && item.id !== id) {
         item.active = false;
       }
     });
     context.onChannelsChange([...context.channels]);
-    context.setActiveChannel({id: id, rss_url: rss_url});
+    context.setActiveChannel({ id: id, rss_url: rss_url });
   }
 
   return (
-    <Grid item sm={3}
+    <Grid
+      item
+      sm={3}
       css={css`
         background-color: #dae3e7;
       `}

@@ -37,6 +37,8 @@ function Form(props) {
 
   const [valuesForm, setValuesForm] = useState({ title: "", rssUrl: "", logoUrl: "", categoryId: 0 });
 
+  const [selected, setSelected] = useState(false);
+
   function onChange(event, name) {
     name !== "category" && handleOnChange(event);
     if (name === "name") {
@@ -46,6 +48,7 @@ function Form(props) {
       valuesForm.rssUrl = event.target.value;
     }
     if (name === "category") {
+      setSelected(true);
       valuesForm.categoryId = event.target.value;
     }
     setValuesForm(valuesForm);
@@ -53,9 +56,13 @@ function Form(props) {
   }
 
   function onSubmit(event) {
-    handleOnSubmit(event);
-    event.preventDefault(event);
-    props.onClick(event);
+    if (selected === true) {
+      handleOnSubmit(event);
+      event.preventDefault(event);
+      props.onClick(event);
+    } else {
+      event.preventDefault(event);
+    }
   }
 
   return (

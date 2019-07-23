@@ -107,7 +107,7 @@ function ListItem(props) {
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
           <div className="radio-button" onClick={props.button && props.onClick}>
-            {!props.button ? `${props.title} (${props.count || "0"})` : `${props.title}`}
+            {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
           </div>
         ) : (
           <Input className="input" onChange={onChange} value={props.title} />

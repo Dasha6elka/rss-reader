@@ -44,10 +44,13 @@ function App() {
 
   function onChannelFinish(channels) {
     setChannels(channels);
-    addChannel(channels[channels.length - 1])
-      .then(() => getChannels())
-      .then(json => setChannels(json.channels))
-      .catch(console.error);
+    parser.parseURL(CORS_PROXY + channels[channels.length - 1].rssUrl).then(feed => {
+      channels[channels.length - 1].logoUrl = feed.image.url;
+      addChannel(channels[channels.length - 1])
+        .then(() => getChannels())
+        .then(json => setChannels(json.channels))
+        .catch(console.error);
+    });
   }
 
   function onChannelsEditFinish(channel_id) {
@@ -80,7 +83,7 @@ function App() {
   function onChannelDelete(channel_id) {
     setChannels(channels);
     deleteChannel(channel_id)
-      .then(() => getChannels())
+      .then(() => getChannels(activeCategory))
       .then(json => setChannels(json.channels))
       .catch(console.error);
   }

@@ -40,7 +40,7 @@ function Posts() {
           visited={post.visited}
           date={post.pubDate}
           found={post.found}
-          description={post.content || post.description}
+          description={post.content || post["content:encoded"] || post.description}
           onArrowClick={() => onArrowClick(index)}
           onInput={enter}
         />

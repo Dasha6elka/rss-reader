@@ -27,7 +27,6 @@ function Channel(props) {
 
   return (
     <div
-      onClick={props.onChannelClick}
       css={css`
         padding: 16px 24px;
         font-family: Roboto, sans-serif;
@@ -68,7 +67,7 @@ function Channel(props) {
         }
       `}
     >
-      <Grid container direction="row">
+      <Grid container direction="row" onClick={props.onChannelClick}>
         <img
           src={props.url}
           alt=""
@@ -79,7 +78,7 @@ function Channel(props) {
         />
         <ChannelTitle editable={props.editable} title={props.title} onChange={onChange} />
       </Grid>
-      <ChannelLink editable={props.editable} link={props.link} onChange={onChange} />
+      <ChannelLink editable={props.editable} link={props.link} onChange={onChange} onClick={props.onChannelClick} />
       <div className="icons">
         <Edit className="edit-icon" onClick={props.onEditChannel} />
         <Delete className="trash-icon" onClick={props.onDelete} />
