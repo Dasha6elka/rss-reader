@@ -157,9 +157,9 @@ function App() {
           height: 100vh;
         `}
       >
-        <Sidebar/>
-        <Channels/>
-        <Posts/>
+        <Sidebar />
+        <Channels />
+        <Posts />
       </Grid>
     </AppContext.Provider>
   );

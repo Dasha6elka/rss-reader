@@ -24,6 +24,7 @@ function Post(props) {
       >
         <div
           css={css`
+            width: 90%;
             font-size: 24px;
             line-height: 32px;
             color: rgba(41, 98, 147, 0.87);
