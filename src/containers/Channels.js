@@ -70,7 +70,8 @@ function Channels() {
         background-color: #dae3e7;
       `}
     >
-      {context.channels.map((channel, index) => (
+      {context.activeCategory !== 0 && context.channels.map((channel, index) => (
+        channel.categoryId !== 0 &&
         <Channel
           key={index}
           title={channel.title}

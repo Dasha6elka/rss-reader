@@ -34,6 +34,15 @@ function List(props) {
   }
 
   function onListItemEditFinish() {
+    let isSameCategory = false;
+    data.forEach(item => {
+      if (item.title === data[data.length - 1].title && item !== data[data.length - 1]) {
+        isSameCategory = true;
+      }
+    });
+    if (isSameCategory) {
+      return;
+    }
     onFinish([...data.map(value => ({ ...value, editable: false }))]);
   }
 

@@ -89,6 +89,10 @@ function ListItem(props) {
             background: rgba(255, 255, 255, 0.15);
             color: white;
 
+            .list-icon path {
+              fill: white;
+            }
+
             .trash-icon {
               display: block;
               margin-left: 10px;

@@ -30,7 +30,7 @@ function Form(props) {
   };
 
   function onSubmitForm(state) {
-    alert(JSON.stringify(state, null, 2));
+    alert(JSON.stringify("Продолжить?", null, 2));
   }
 
   const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema, onSubmitForm);
