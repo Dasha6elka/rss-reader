@@ -26,10 +26,9 @@ function Channel(props) {
   });
 
   return (
-    <div
+    <Grid
       css={css`
         padding: 16px 24px;
-        font-family: Roboto, sans-serif;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         position: relative;
         background: ${props.active && "#B2C4CD"};
@@ -79,11 +78,11 @@ function Channel(props) {
         <ChannelTitle editable={props.editable} title={props.title} onChange={onChange} />
       </Grid>
       <ChannelLink editable={props.editable} link={props.link} onChange={onChange} onClick={props.onChannelClick} />
-      <div className="icons">
+      <Grid className="icons">
         <Edit className="edit-icon" onClick={props.onEditChannel} />
         <Delete className="trash-icon" onClick={props.onDelete} />
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

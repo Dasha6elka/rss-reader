@@ -45,10 +45,8 @@ function ListItem(props) {
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
           color: ${props.active && "#83c6e2"};
           padding: 8px;
-          position: relative;
           cursor: ${props.button ? "text" : "pointer"};
           font-size: 14px;
-          line-height: 16px;
           margin: 0 8px 4px 8px;
           max-width: 93%;
 
@@ -67,7 +65,6 @@ function ListItem(props) {
             color: white;
             flex-grow: 1;
             margin: 0 0 0 16px;
-            min-width: 0;
             max-height: 24px;
             max-width: 73%;
 
@@ -92,10 +89,6 @@ function ListItem(props) {
             background: rgba(255, 255, 255, 0.15);
             color: white;
 
-            .list-icon path {
-              fill: white;
-            }
-
             .trash-icon {
               display: block;
               margin-left: 10px;
@@ -106,9 +99,9 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <div className="radio-button" onClick={props.button && props.onClick}>
+          <Grid className="radio-button" onClick={props.button && props.onClick}>
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
-          </div>
+          </Grid>
         ) : (
           <Input className="input" onChange={onChange} value={props.title} />
         )}

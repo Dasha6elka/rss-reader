@@ -3,6 +3,7 @@
 import { jsx, css } from "@emotion/core";
 import { Search as SearchIcon } from "@material-ui/icons";
 import Input from "./Input";
+import { Grid } from "@material-ui/core";
 
 function Search(props) {
   function onInputChange(value) {
@@ -10,7 +11,7 @@ function Search(props) {
   }
 
   return (
-    <div
+    <Grid
       css={css`
         position: relative;
         padding: 16px 16px 16px 48px;
@@ -30,12 +31,11 @@ function Search(props) {
         onChange={event => onInputChange(event.target.value.toLowerCase())}
         css={css`
           width: 100%;
-          background: #f6f6f9;
           overflow: hidden;
           text-overflow: ellipsis;
         `}
       />
-    </div>
+    </Grid>
   );
 }
 

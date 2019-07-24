@@ -2,27 +2,37 @@
 
 import { jsx, css } from "@emotion/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 function Post(props) {
   const date = new Date(props.date);
 
   return (
-    <div
+    <Grid
       css={css`
-        font-family: Roboto, sans-serif;
         background: #f0f1f5;
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
         display: ${props.onInput === true && props.found === false && "none"};
       `}
     >
-      <div
+      <Grid
         css={css`
           position: relative;
           padding-bottom: ${props.visible ? "16px" : "0"};
+
+          .expand {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 16px;
+            transform-origin: top;
+            cursor: pointer;
+          }
         `}
       >
-        <div
+        <Typography
           css={css`
             width: 90%;
             font-size: 24px;
@@ -31,9 +41,9 @@ function Post(props) {
           `}
         >
           {props.title}
-        </div>
+        </Typography>
         {props.visited && (
-          <div
+          <Typography
             css={css`
               padding-top: 8px;
               text-transform: uppercase;
@@ -43,9 +53,9 @@ function Post(props) {
             `}
           >
             Прочитано
-          </div>
+          </Typography>
         )}
-        <div
+        <Typography
           css={css`
             font-size: 12px;
             line-height: 16px;
@@ -53,35 +63,24 @@ function Post(props) {
           `}
         >
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
-        </div>
+        </Typography>
         {props.visible ? (
-          <ExpandLess
-            css={css`
-              position: absolute;
-              right: 0;
-              top: 0;
-              padding: 16px;
-              transform-origin: top;
-              cursor: pointer;
-            `}
-            onClick={props.onArrowClick}
-          />
+          <ExpandLess className="expand" onClick={props.onArrowClick} />
         ) : (
-          <ExpandMore
-            css={css`
-              position: absolute;
-              right: 0;
-              top: 0;
-              padding: 16px;
-              transform-origin: top;
-              cursor: pointer;
-            `}
-            onClick={props.onArrowClick}
-          />
+          <ExpandMore className="expand" onClick={props.onArrowClick} />
         )}
-      </div>
-      {props.visible && <div dangerouslySetInnerHTML={{ __html: props.description }} />}
-    </div>
+      </Grid>
+      {props.visible && (
+        <Grid
+          dangerouslySetInnerHTML={{ __html: props.description }}
+          css={css`
+            img {
+              width: 100%;
+            }
+          `}
+        />
+      )}
+    </Grid>
   );
 }
 
