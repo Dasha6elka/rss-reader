@@ -56,19 +56,20 @@ function App() {
   function onChannelsEditFinish(channel_id) {
     setChannels(channels);
     channels.forEach(channel => {
-      if (channel.id === channel_id) {
-        let item = {
-          title: channel.title,
-          rssUrl: channel.rss_url,
-          logoUrl: channel.logo_url,
-          categoryId: channel.id_category
-        };
-        console.log(item);
-        updateChannel(item, channel_id)
-          .then(() => getChannels(channel.id_category))
-          .then(json => setChannels(json.channels))
-          .catch(console.error);
-      }
+      parser.parseURL(CORS_PROXY + channel.rss_url).then(feed => {
+        if (channel.id === channel_id) {
+          let item = {
+            title: channel.title,
+            rssUrl: channel.rss_url,
+            logoUrl: feed.image.url,
+            categoryId: channel.id_category
+          };
+          updateChannel(item, channel_id)
+            .then(() => getChannels(channel.id_category))
+            .then(json => setChannels(json.channels))
+            .catch(console.error);
+        }
+      });
     });
   }
 

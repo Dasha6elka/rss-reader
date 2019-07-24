@@ -19,6 +19,13 @@ function Sidebar() {
 
   function onFormButtonClick() {
     setFormVisible(!formVisible);
+    context.categories.forEach(category => {
+      context.channels.forEach(channel => {
+        if (category.id === channel.categoryId) {
+          category.count++;
+        }
+      })
+    });
     context.onChannelFinish(context.channels);
   }
 
