@@ -107,7 +107,7 @@ function ListItem(props) {
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
           </Grid>
         ) : (
-          <Input className="input" onChange={onChange} value={props.title} />
+          <Input className="input" onChange={onChange} value={props.title} placeholder="Введите категорию"/>
         )}
         {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>

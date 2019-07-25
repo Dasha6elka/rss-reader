@@ -23,7 +23,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [channels, setChannels] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeCategory, setActiveCategory] = useState(null);
   const [activeChannel, setActiveChannel] = useState([]);
 
   function onCategoriesChange(change) {
@@ -84,7 +84,7 @@ function App() {
   function onChannelDelete(channel_id) {
     setChannels(channels);
     deleteChannel(channel_id)
-      .then(() => getChannels(activeCategory))
+      .then(() => getChannels(activeCategory.id))
       .then(json => setChannels(json.channels))
       .catch(console.error);
   }
@@ -96,7 +96,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getChannels(activeCategory)
+    if (!activeCategory) {
+      return;
+    }
+    getChannels(activeCategory.id)
       .then(json =>
         setChannels(
           json.channels.map(channel => ({

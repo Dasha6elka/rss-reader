@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import Channel from "../components/Channel";
 import Grid from "@material-ui/core/Grid";
 import AppContext from "../context";
@@ -70,27 +70,30 @@ function Channels() {
         background-color: #dae3e7;
       `}
     >
-      {context.activeCategory !== 0 ? (
-        context.channels.map(
-          (channel, index) =>
-            channel.categoryId !== 0 && (
-              <Channel
-                key={index}
-                title={channel.title}
-                link={channel.rss_url}
-                editable={channel.editable}
-                url={channel.logo_url}
-                active={channel.active}
-                onDelete={() => onChannelDelete(index, channel.id)}
-                onChange={event => onChannelItemChange(event, index)}
-                onEditFinish={() => onChannelItemEditFinish()}
-                onEditChannel={() => onEdit(index)}
-                onChannelClick={() => onClick(channel.id, channel.rss_url)}
-              />
-            )
-        )
+      {context.activeCategory && context.activeCategory.count > 0 ? (
+        context.channels.map((channel, index) => (
+          <Channel
+            key={index}
+            title={channel.title}
+            link={channel.rss_url}
+            editable={channel.editable}
+            url={channel.logo_url}
+            active={channel.active}
+            onDelete={() => onChannelDelete(index, channel.id)}
+            onChange={event => onChannelItemChange(event, index)}
+            onEditFinish={() => onChannelItemEditFinish()}
+            onEditChannel={() => onEdit(index)}
+            onChannelClick={() => onClick(channel.id, channel.rss_url)}
+          />
+        ))
       ) : (
-        <Prompt text="Нажмите на категорию, чтобы появились ленты" />
+        <React.Fragment>
+          {context.activeCategory && context.activeCategory.count === 0 ? (
+            <Prompt text="В категории нет лент" />
+          ) : (
+            <Prompt text="Нажмите на категорию, чтобы появились ленты" />
+          )}
+        </React.Fragment>
       )}
     </Grid>
   );

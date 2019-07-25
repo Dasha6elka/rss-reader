@@ -1,31 +1,33 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/core";
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
   const { data, onChange, onFinish, onDelete, activeCategory, setActiveCategory } = props;
+  const [isButton, setIsButton] = useState(true);
 
   function onButtonClick() {
     if (data.some(value => value.editable === true)) {
       return;
     }
     onChange([...data, { title: "", editable: true, active: false, count: 0 }]);
+    setIsButton(false);
   }
 
-  function onClick(id) {
+  function onClick(id, editable, count) {
     data.forEach(item => {
-      if (item.id === id) {
+      if (item.id === id && !editable) {
         item.active = true;
       }
-      if (item.id === activeCategory && item.id !== id) {
+      if (activeCategory && item.id === activeCategory.id && item.id !== id && !editable) {
         item.active = false;
       }
     });
     onChange([...data]);
-    setActiveCategory(id);
+    setActiveCategory({id: id, count: count});
   }
 
   function onListItemChange(event, index) {
@@ -44,6 +46,7 @@ function List(props) {
       return;
     }
     onFinish([...data.map(value => ({ ...value, editable: false }))]);
+    setIsButton(true);
   }
 
   function onListItemDelete(index, id) {
@@ -79,10 +82,10 @@ function List(props) {
             onEditFinish={onListItemEditFinish}
             onDelete={() => onListItemDelete(index, value.id)}
             errorMessage={value.error}
-            onListClick={() => onClick(value.id)}
+            onListClick={() => onClick(value.id, value.editable, value.count)}
           />
         ))}
-        <ListItem button title="Новая категория" onClick={onButtonClick} />
+        {isButton && <ListItem button title="Новая категория" onClick={onButtonClick} />}
       </Grid>
     </React.Fragment>
   );
