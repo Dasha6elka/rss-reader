@@ -65,7 +65,7 @@ function FormControl(props) {
           >
             {props.categories.length !== 0 ? (
               props.categories.map(value => (
-                <MenuItem key={value.id} value={value.id}>
+                <MenuItem key={value.title} value={value.id}>
                   {value.title}
                 </MenuItem>
               ))
