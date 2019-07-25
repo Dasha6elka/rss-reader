@@ -16,7 +16,7 @@ function Form(props) {
     name: {
       required: true,
       validator: {
-        regEx: /^[а-яА-Яa-zA-Z]+$/,
+        regEx: /^[\d\D]{1,40}$/,
         error: "Невалидное имя ленты."
       }
     },
