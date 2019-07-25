@@ -6,6 +6,7 @@ import Search from "../components/Search";
 import Post from "../components/Post";
 import { Grid } from "@material-ui/core";
 import AppContext from "../context";
+import Prompt from "../components/Prompt";
 
 function Posts() {
   const context = useContext(AppContext);
@@ -32,19 +33,23 @@ function Posts() {
   return (
     <Grid item sm={7}>
       <Search onSearchInputChange={value => onChangePostsList({ value })} />
-      {context.posts.map((post, index) => (
-        <Post
-          key={index}
-          title={post.title}
-          visible={post.visible}
-          visited={post.visited}
-          date={post.pubDate}
-          found={post.found}
-          description={post.content || post["content:encoded"] || post.description}
-          onArrowClick={() => onArrowClick(index)}
-          onInput={enter}
-        />
-      ))}
+      {context.activeChannel.length !== 0 ? (
+        context.posts.map((post, index) => (
+          <Post
+            key={index}
+            title={post.title}
+            visible={post.visible}
+            visited={post.visited}
+            date={post.pubDate}
+            found={post.found}
+            description={post.content || post["content:encoded"] || post.description}
+            onArrowClick={() => onArrowClick(index)}
+            onInput={enter}
+          />
+        ))
+      ) : (
+        <Prompt text="Нажмите на ленту, чтобы появились посты" />
+      )}
     </Grid>
   );
 }

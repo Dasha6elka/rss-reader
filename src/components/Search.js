@@ -28,6 +28,7 @@ function Search(props) {
         `}
       />
       <Input
+        placeholder="Введите название поста"
         onChange={event => onInputChange(event.target.value.toLowerCase())}
         css={css`
           width: 100%;

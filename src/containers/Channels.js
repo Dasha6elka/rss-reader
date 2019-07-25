@@ -5,6 +5,7 @@ import { useContext } from "react";
 import Channel from "../components/Channel";
 import Grid from "@material-ui/core/Grid";
 import AppContext from "../context";
+import Prompt from "../components/Prompt";
 
 function Channels() {
   const context = useContext(AppContext);
@@ -28,8 +29,7 @@ function Channels() {
     if (event.target.name === "title") {
       context.channels[index].title = event.target.value;
     }
-    if (event.target.name === "link")
-    {
+    if (event.target.name === "link") {
       context.channels[index].rss_url = event.target.value;
     }
     context.onChannelsChange([...context.channels]);
@@ -70,22 +70,28 @@ function Channels() {
         background-color: #dae3e7;
       `}
     >
-      {context.activeCategory !== 0 && context.channels.map((channel, index) => (
-        channel.categoryId !== 0 &&
-        <Channel
-          key={index}
-          title={channel.title}
-          link={channel.rss_url}
-          editable={channel.editable}
-          url={channel.logo_url}
-          active={channel.active}
-          onDelete={() => onChannelDelete(index, channel.id)}
-          onChange={event => onChannelItemChange(event, index)}
-          onEditFinish={() => onChannelItemEditFinish()}
-          onEditChannel={() => onEdit(index)}
-          onChannelClick={() => onClick(channel.id, channel.rss_url)}
-        />
-      ))}
+      {context.activeCategory !== 0 ? (
+        context.channels.map(
+          (channel, index) =>
+            channel.categoryId !== 0 && (
+              <Channel
+                key={index}
+                title={channel.title}
+                link={channel.rss_url}
+                editable={channel.editable}
+                url={channel.logo_url}
+                active={channel.active}
+                onDelete={() => onChannelDelete(index, channel.id)}
+                onChange={event => onChannelItemChange(event, index)}
+                onEditFinish={() => onChannelItemEditFinish()}
+                onEditChannel={() => onEdit(index)}
+                onChannelClick={() => onClick(channel.id, channel.rss_url)}
+              />
+            )
+        )
+      ) : (
+        <Prompt text="Нажмите на категорию, чтобы появились ленты" />
+      )}
     </Grid>
   );
 }

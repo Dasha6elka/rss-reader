@@ -6,6 +6,7 @@ import { Input as MaterialInput } from "@material-ui/core";
 function Input(props) {
   return (
     <MaterialInput
+      placeholder={props.placeholder}
       value={props.value}
       onChange={props.onChange}
       css={css`
