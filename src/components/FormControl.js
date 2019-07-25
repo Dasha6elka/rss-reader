@@ -63,13 +63,21 @@ function FormControl(props) {
               height: 30px;
             `}
           >
-            {props.categories.map(value => (
-              <MenuItem key={value.id} value={value.id}>
-                {value.title}
+            {props.categories.length !== 0 ? (
+              props.categories.map(value => (
+                <MenuItem key={value.id} value={value.id}>
+                  {value.title}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem key="Нет категорий" value="Нет категорий">
+                Нет категорий
               </MenuItem>
-            ))}
+            )}
           </Select>
-          {(props.error || !categoryId) && <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>}
+          {(props.error || !categoryId) && (
+            <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>
+          )}
         </React.Fragment>
       ) : (
         <React.Fragment>

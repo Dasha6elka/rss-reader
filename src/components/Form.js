@@ -56,7 +56,7 @@ function Form(props) {
   }
 
   function onSubmit(event) {
-    if (selected === true) {
+    if (selected === true && props.categories.length !== 0) {
       handleOnSubmit(event);
       event.preventDefault(event);
       props.onClick(event);
