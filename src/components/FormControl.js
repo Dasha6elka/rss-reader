@@ -65,7 +65,7 @@ function FormControl(props) {
           >
             {props.categories.length !== 0 ? (
               props.categories
-                .filter(value => !!value.title)
+                .filter(value => value.title && !value.editable)
                 .map(value => (
                   <MenuItem key={value.title} value={value.id}>
                     {value.title}
