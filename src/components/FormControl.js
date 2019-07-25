@@ -70,7 +70,7 @@ function FormControl(props) {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem key="Нет категорий" value="Нет категорий">
+              <MenuItem value="" disabled>
                 Нет категорий
               </MenuItem>
             )}
