@@ -27,7 +27,10 @@ function List(props) {
       }
     });
     onChange([...data]);
-    setActiveCategory({id: id, count: count});
+    if (editable) {
+      return;
+    }
+    setActiveCategory({ id: id, count: count });
   }
 
   function onListItemChange(event, index) {
@@ -50,6 +53,9 @@ function List(props) {
   }
 
   function onListItemDelete(index, id) {
+    if (activeCategory && id === activeCategory.id) {
+      setActiveCategory(null);
+    }
     if (data[index].count > 0) {
       data[index].error = !data[index].error;
       onChange([...data]);
@@ -80,7 +86,10 @@ function List(props) {
             active={value.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
-            onDelete={() => onListItemDelete(index, value.id)}
+            onDelete={event => {
+              event.stopPropagation();
+              onListItemDelete(index, value.id);
+            }}
             errorMessage={value.error}
             onListClick={() => onClick(value.id, value.editable, value.count)}
           />
