@@ -53,13 +53,13 @@ function List(props) {
   }
 
   function onListItemDelete(index, id) {
-    if (activeCategory && id === activeCategory.id) {
-      setActiveCategory(null);
-    }
     if (data[index].count > 0) {
       data[index].error = !data[index].error;
       onChange([...data]);
       return;
+    }
+    if (activeCategory && id === activeCategory.id) {
+      setActiveCategory(null);
     }
     data.splice(index, 1);
     onDelete(data, id);

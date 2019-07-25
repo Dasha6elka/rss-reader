@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-function useForm(stateSchema, validationSchema = {}, callback) {
+function useForm(stateSchema, validationSchema = {}, callback = () => undefined) {
   const [state, setState] = useState(stateSchema);
   const [disable, setDisable] = useState(true);
   const [isDirty, setIsDirty] = useState(false);

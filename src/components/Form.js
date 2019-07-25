@@ -29,11 +29,7 @@ function Form(props) {
     }
   };
 
-  function onSubmitForm(state) {
-    alert(JSON.stringify("Продолжить?", null, 2));
-  }
-
-  const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema, onSubmitForm);
+  const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema);
 
   const [valuesForm, setValuesForm] = useState({ title: "", rssUrl: "", logoUrl: "", categoryId: 0 });
 
