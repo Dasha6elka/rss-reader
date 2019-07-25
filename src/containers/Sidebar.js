@@ -17,14 +17,15 @@ function Sidebar() {
     setFormVisible(!formVisible);
   }
 
-  function onFormButtonClick() {
+  function onFormButtonClick(channel) {
     setFormVisible(!formVisible);
+    context.channels.push(channel);
     context.categories.forEach(category => {
       context.channels.forEach(channel => {
         if (category.id === channel.categoryId) {
           category.count++;
         }
-      })
+      });
     });
     context.onChannelFinish(context.channels);
   }
@@ -70,12 +71,7 @@ function Sidebar() {
             Добавить ленту
           </Button>
         ) : (
-          <Form
-            categories={context.categories}
-            channels={context.channels}
-            onClick={onFormButtonClick}
-            onChange={context.onChannelsChange}
-          />
+          <Form categories={context.categories} channels={context.channels} onSubmit={onFormButtonClick} />
         )}
       </Grid>
       <List

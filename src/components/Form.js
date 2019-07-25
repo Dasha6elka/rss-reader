@@ -48,14 +48,13 @@ function Form(props) {
       valuesForm.categoryId = event.target.value;
     }
     setValuesForm(valuesForm);
-    props.onChange([valuesForm]);
   }
 
   function onSubmit(event) {
     if (selected === true && props.categories.length !== 0) {
       handleOnSubmit(event);
       event.preventDefault(event);
-      props.onClick(event);
+      props.onSubmit(valuesForm);
     } else {
       event.preventDefault(event);
     }

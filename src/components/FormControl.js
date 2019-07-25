@@ -64,11 +64,13 @@ function FormControl(props) {
             `}
           >
             {props.categories.length !== 0 ? (
-              props.categories.map(value => (
-                <MenuItem key={value.title} value={value.id}>
-                  {value.title}
-                </MenuItem>
-              ))
+              props.categories
+                .filter(value => !!value.title)
+                .map(value => (
+                  <MenuItem key={value.title} value={value.id}>
+                    {value.title}
+                  </MenuItem>
+                ))
             ) : (
               <MenuItem value="" disabled>
                 Нет категорий

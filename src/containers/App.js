@@ -43,11 +43,14 @@ function App() {
   }
 
   function onChannelFinish(channels) {
-    setChannels(channels);
-    parser.parseURL(CORS_PROXY + channels[channels.length - 1].rssUrl).then(feed => {
-      channels[channels.length - 1].logoUrl = feed.image.url;
-      addChannel(channels[channels.length - 1])
-        .then(() => getChannels())
+    const lastChannel = channels[channels.length - 1];
+    if (activeCategory && lastChannel.categoryId === activeCategory.id) {
+      setChannels([...channels]);
+    }
+    parser.parseURL(CORS_PROXY + lastChannel.rssUrl).then(feed => {
+      lastChannel.logoUrl = feed.image.url;
+      addChannel(lastChannel)
+        .then(() => getChannels(lastChannel.categoryId))
         .then(json => setChannels(json.channels))
         .catch(console.error);
     });

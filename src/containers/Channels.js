@@ -75,9 +75,9 @@ function Channels() {
           <Channel
             key={index}
             title={channel.title}
-            link={channel.rss_url}
+            link={channel.rss_url || channel.rssUrl}
             editable={channel.editable}
-            url={channel.logo_url}
+            url={channel.logo_url || channel.logoUrl}
             active={channel.active}
             onDelete={() => onChannelDelete(index, channel.id)}
             onChange={event => onChannelItemChange(event, index)}

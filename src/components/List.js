@@ -1,20 +1,18 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/core";
-import React, { useState } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
   const { data, onChange, onFinish, onDelete, activeCategory, setActiveCategory } = props;
-  const [isButton, setIsButton] = useState(true);
 
   function onButtonClick() {
     if (data.some(value => value.editable === true)) {
       return;
     }
     onChange([...data, { title: "", editable: true, active: false, count: 0 }]);
-    setIsButton(false);
   }
 
   function onClick(id, editable, count) {
@@ -49,11 +47,10 @@ function List(props) {
       return;
     }
     onFinish([...data.map(value => ({ ...value, editable: false }))]);
-    setIsButton(true);
   }
 
-  function onListItemDelete(index, id) {
-    if (data[index].count > 0) {
+  function onListItemDelete(index, id, editable) {
+    if (data[index].count > 0 && !editable) {
       data[index].error = !data[index].error;
       onChange([...data]);
       return;
@@ -88,13 +85,15 @@ function List(props) {
             onEditFinish={onListItemEditFinish}
             onDelete={event => {
               event.stopPropagation();
-              onListItemDelete(index, value.id);
+              onListItemDelete(index, value.id, value.editable);
             }}
             errorMessage={value.error}
             onListClick={() => onClick(value.id, value.editable, value.count)}
           />
         ))}
-        {isButton && <ListItem button title="Новая категория" onClick={onButtonClick} />}
+        {((data && data.every(value => !value.editable)) || !data) && (
+          <ListItem button title="Новая категория" onClick={onButtonClick} />
+        )}
       </Grid>
     </React.Fragment>
   );
