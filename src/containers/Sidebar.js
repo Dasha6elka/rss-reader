@@ -76,7 +76,7 @@ function Sidebar() {
         activeCategory={context.activeCategory}
         onActiveCategoryChange={context.onActiveCategoryChange}
         onActiveChannelChange={context.onActiveChannelChange}
-        data={context.categories}
+        items={context.categories}
         onChange={context.onCategoriesChange}
         onFinish={context.onCategoryAdd}
         onDelete={context.onCategoryDelete}

@@ -6,22 +6,21 @@ import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
-  const { data, onChange, onFinish, onDelete, activeCategory, onActiveCategoryChange, onActiveChannelChange } = props;
+  const { items, onChange, onFinish, onDelete, activeCategory, onActiveCategoryChange, onActiveChannelChange } = props;
 
   function onButtonClick() {
-    onChange([...data, { title: "", editable: true, active: false, count: 0 }]);
+    onChange([...items, { title: "", editable: true, active: false, count: 0 }]);
   }
 
   function onClick(id, editable, count) {
-    data.forEach(item => {
+    items.forEach(item => {
       if (item.id === id && !editable) {
         item.active = true;
-      }
-      if (activeCategory && item.id === activeCategory.id && item.id !== id && !editable) {
+      } else if (activeCategory && item.id === activeCategory.id && !editable) {
         item.active = false;
       }
     });
-    onChange([...data]);
+    onChange([...items]);
     if (editable) {
       return;
     }
@@ -30,35 +29,35 @@ function List(props) {
   }
 
   function onListItemChange(event, index) {
-    data[index].title = event.target.value;
-    onChange([...data]);
+    items[index].title = event.target.value;
+    onChange([...items]);
   }
 
   function onListItemEditFinish() {
     let isSameCategory = false;
-    data.forEach(item => {
-      if (item.title === data[data.length - 1].title && item !== data[data.length - 1]) {
+    items.forEach(item => {
+      if (item.title === items[items.length - 1].title && item !== items[items.length - 1]) {
         isSameCategory = true;
       }
     });
     if (isSameCategory) {
       return;
     }
-    onFinish([...data.map(value => ({ ...value, editable: false }))]);
+    onFinish([...items.map(item => ({ ...item, editable: false }))]);
   }
 
   function onListItemDelete(index, id, editable) {
-    if (data[index].count > 0 && !editable) {
-      data[index].error = !data[index].error;
-      onChange([...data]);
+    if (items[index].count > 0 && !editable) {
+      items[index].error = !items[index].error;
+      onChange([...items]);
       return;
     }
     if (activeCategory && id === activeCategory.id) {
       onActiveCategoryChange(null);
     }
-    data.splice(index, 1);
+    items.splice(index, 1);
     onDelete(id);
-    onChange([...data]);
+    onChange([...items]);
   }
 
   return (
@@ -72,24 +71,24 @@ function List(props) {
       />
 
       <Grid container direction="column" spacing={2}>
-        {data.map((value, index) => (
+        {items.map((item, index) => (
           <ListItem
             key={index}
-            title={value.title}
-            count={value.count}
-            editable={value.editable}
-            active={value.active}
+            title={item.title}
+            count={item.count}
+            editable={item.editable}
+            active={item.active}
             onChange={event => onListItemChange(event, index)}
             onEditFinish={onListItemEditFinish}
             onDelete={event => {
               event.stopPropagation();
-              onListItemDelete(index, value.id, value.editable);
+              onListItemDelete(index, item.id, item.editable);
             }}
-            errorMessage={value.error}
-            onListClick={() => onClick(value.id, value.editable, value.count)}
+            errorMessage={item.error}
+            onListClick={() => onClick(item.id, item.editable, item.count)}
           />
         ))}
-        {((data && data.every(value => !value.editable)) || !data) && (
+        {((items && items.every(item => !item.editable)) || !items) && (
           <ListItem button title="Новая категория" onClick={onButtonClick} />
         )}
       </Grid>

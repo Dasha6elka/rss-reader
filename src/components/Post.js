@@ -62,7 +62,7 @@ function Post(props) {
             color: rgba(0, 0, 0, 0.539261);
           `}
         >
-          Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
+          Дата публикации: {formatDate(date)}
         </Typography>
         {props.expanded ? (
           <ExpandLess className="expand" onClick={props.onArrowClick} />
@@ -86,16 +86,11 @@ function Post(props) {
 
 export default Post;
 
-function getFriendlyDate(date) {
-  const day = normalizeDateNumber(date.getDate());
-  const month = normalizeDateNumber(date.getMonth() + 1);
+function formatDate(date) {
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const hours = date.getHours().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
-  return `${day}.${month}.${year}`;
-}
-
-function normalizeDateNumber(number) {
-  if (number.toString().length === 1) {
-    return `0${number}`;
-  }
-  return number.toString();
+  return `${day}.${month}.${year} в ${hours}:${minutes}`;
 }
