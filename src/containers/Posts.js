@@ -48,7 +48,12 @@ function Posts() {
           />
         ))
       ) : (
-        <Prompt text="Нажмите на ленту, чтобы появились посты" />
+        <Prompt
+          text="Нажмите на ленту, чтобы появились посты"
+          url="https://millionstatusov.ru/pic/statpic/all2/59187bb0e3f45.jpg"
+          height="353px"
+          width="628px"
+        />
       )}
     </Grid>
   );

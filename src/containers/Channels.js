@@ -89,9 +89,19 @@ function Channels() {
       ) : (
         <React.Fragment>
           {context.activeCategory && context.activeCategory.count === 0 ? (
-            <Prompt text="В категории нет лент" />
+            <Prompt
+              text="В категории нет лент"
+              url="https://pp.userapi.com/c849032/v849032376/11dc50/Er3YfHV1QKA.jpg"
+              height="353px"
+              width="300px"
+            />
           ) : (
-            <Prompt text="Нажмите на категорию, чтобы появились ленты" />
+            <Prompt
+              text="Нажмите на категорию, чтобы появились ленты"
+              url="https://zabavnik.club/wp-content/uploads/2018/07/Kartinki_pro_ozhidanie_3_13040747.jpg"
+              height="353px"
+              width="282px"
+            />
           )}
         </React.Fragment>
       )}
