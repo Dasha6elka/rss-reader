@@ -88,7 +88,7 @@ function List(props) {
             onListClick={() => onClick(item.id, item.editable, item.count)}
           />
         ))}
-        {((items && items.every(item => !item.editable)) || !items) && (
+        {((!items.some(item => item.editable)) || !items) && (
           <ListItem button title="Новая категория" onClick={onButtonClick} />
         )}
       </Grid>

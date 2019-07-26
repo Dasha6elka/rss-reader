@@ -1,17 +1,12 @@
-import { API_URL } from "../constants";
+import { API_URL, HEADERS, RETURN_RESPONSE_TEXT } from "../constants";
 
 async function updateChannel(channel, channelId) {
   const response = await fetch(`${API_URL}/channel/${channelId}`, {
     method: "POST",
     body: JSON.stringify(channel),
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      "Content-Type": "application/json"
-    }
+    headers: HEADERS
   });
-  return response.text().then(function(text) {
-    return text ? JSON.parse(text) : {}
-  })
+  RETURN_RESPONSE_TEXT(response);
 }
 
 export default updateChannel;
