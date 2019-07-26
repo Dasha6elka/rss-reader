@@ -24,7 +24,7 @@ function App() {
   const [channels, setChannels] = useState([]);
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
-  const [activeChannel, setActiveChannel] = useState([]);
+  const [activeChannel, setActiveChannel] = useState(null);
 
   function onCategoriesChange(change) {
     setCategories(change);
@@ -32,6 +32,14 @@ function App() {
 
   function onChannelsChange(change) {
     setChannels(change);
+  }
+
+  function onActiveCategoryChange(change) {
+    setActiveCategory(change);
+  }
+
+  function onActiveChannelChange(change) {
+    setActiveChannel(change);
   }
 
   function onCategoriesFinish(categories) {
@@ -116,7 +124,7 @@ function App() {
   }, [activeCategory]);
 
   useEffect(() => {
-    if (!activeChannel.rss_url) {
+    if (!activeChannel || !activeChannel.rss_url) {
       return;
     }
     parser
@@ -137,12 +145,12 @@ function App() {
         onChannelFinish,
         onChannelsEditFinish,
         onChannelDelete,
-        activeCategory,
-        setActiveCategory,
-        activeChannel,
-        setActiveChannel,
         posts,
-        setPosts
+        setPosts,
+        activeCategory,
+        activeChannel,
+        onActiveCategoryChange,
+        onActiveChannelChange
       }}
     >
       <Global

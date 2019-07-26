@@ -76,7 +76,8 @@ function Sidebar() {
       </Grid>
       <List
         activeCategory={context.activeCategory}
-        setActiveCategory={context.setActiveCategory}
+        onActiveCategoryChange={context.onActiveCategoryChange}
+        onActiveChannelChange={context.onActiveChannelChange}
         data={context.categories}
         onChange={context.onCategoriesChange}
         onFinish={context.onCategoriesFinish}

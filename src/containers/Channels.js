@@ -19,6 +19,9 @@ function Channels() {
         category.count--;
       }
     });
+    if (context.activeChannel && id === context.activeChannel.id) {
+      context.onActiveChannelChange(null);
+    }
     context.onChannelDelete(id);
     context.channels.splice(index, 1);
     context.onChannelsChange([...context.channels]);
@@ -54,12 +57,12 @@ function Channels() {
       if (item.id === id) {
         item.active = true;
       }
-      if (item.id === context.activeChannel.id && item.id !== id) {
+      if (context.activeChannel && item.id === context.activeChannel.id && item.id !== id) {
         item.active = false;
       }
     });
     context.onChannelsChange([...context.channels]);
-    context.setActiveChannel({ id: id, rss_url: rss_url });
+    context.onActiveChannelChange({ id: id, rss_url: rss_url });
   }
 
   return (

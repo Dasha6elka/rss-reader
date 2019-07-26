@@ -33,7 +33,7 @@ function Posts() {
   return (
     <Grid item sm={7}>
       <Search onSearchInputChange={value => onChangePostsList({ value })} />
-      {context.activeChannel.length !== 0 ? (
+      {context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post
             key={index}
