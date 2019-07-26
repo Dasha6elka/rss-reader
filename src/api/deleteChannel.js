@@ -1,7 +1,7 @@
 import { API_URL } from "../constants";
 
-async function deleteChannel(channel_id) {
-  const response = await fetch(`${API_URL}/channel/${channel_id}`, {
+async function deleteChannel(channelId) {
+  const response = await fetch(`${API_URL}/channel/${channelId}`, {
     method: "DELETE",
   });
   return response.text().then(function(text) {

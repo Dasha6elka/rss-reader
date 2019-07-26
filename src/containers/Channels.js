@@ -10,30 +10,31 @@ import Prompt from "../components/Prompt";
 function Channels() {
   const context = useContext(AppContext);
 
-  function onChannelDelete(index, id) {
-    if (context.channels[index].editable === true) {
+  function onChannelDelete(index) {
+    const channelToDelete = context.channels[index];
+    if (channelToDelete.editable === true) {
       return;
     }
     context.categories.forEach(category => {
-      if (category.id === context.channels[index].id_category) {
+      if (category.id === channelToDelete.categoryId) {
         category.count--;
       }
     });
-    if (context.activeChannel && id === context.activeChannel.id) {
+    if (context.activeChannel && channelToDelete.id === context.activeChannel.id) {
       context.onActiveChannelChange(null);
     }
-    context.onChannelDelete(id);
+    context.onChannelDelete(channelToDelete.id);
     context.channels.splice(index, 1);
-    context.onChannelsChange([...context.channels]);
   }
 
-  function onChannelItemChange(event, index) {
-    context.channels[index].editable = true;
+  function onChannelItemChange(index, event) {
+    const channelToChange = context.channels[index];
+    channelToChange.editable = true;
     if (event.target.name === "title") {
-      context.channels[index].title = event.target.value;
+      channelToChange.title = event.target.value;
     }
     if (event.target.name === "link") {
-      context.channels[index].rss_url = event.target.value;
+      channelToChange.rssUrl = event.target.value;
     }
     context.onChannelsChange([...context.channels]);
   }
@@ -52,17 +53,16 @@ function Channels() {
     context.onChannelsChange([...context.channels]);
   }
 
-  function onClick(id, rss_url) {
+  function onClick(id, rssUrl) {
     context.channels.forEach(item => {
       if (item.id === id) {
         item.active = true;
-      }
-      if (context.activeChannel && item.id === context.activeChannel.id && item.id !== id) {
+      } else if (context.activeChannel && item.id === context.activeChannel.id) {
         item.active = false;
       }
     });
     context.onChannelsChange([...context.channels]);
-    context.onActiveChannelChange({ id: id, rss_url: rss_url });
+    context.onActiveChannelChange({ id: id, rssUrl: rssUrl });
   }
 
   return (
@@ -78,15 +78,15 @@ function Channels() {
           <Channel
             key={index}
             title={channel.title}
-            link={channel.rss_url || channel.rssUrl}
+            link={channel.rssUrl}
             editable={channel.editable}
-            url={channel.logo_url || channel.logoUrl}
+            url={channel.logoUrl}
             active={channel.active}
-            onDelete={() => onChannelDelete(index, channel.id)}
-            onChange={event => onChannelItemChange(event, index)}
+            onDelete={() => onChannelDelete(index)}
+            onChange={event => onChannelItemChange(index, event)}
             onEditFinish={() => onChannelItemEditFinish()}
             onEditChannel={() => onEdit(index)}
-            onChannelClick={() => onClick(channel.id, channel.rss_url)}
+            onChannelClick={() => onClick(channel.id, channel.rssUrl)}
           />
         ))
       ) : (

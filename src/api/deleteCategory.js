@@ -1,7 +1,7 @@
 import { API_URL } from "../constants";
 
-async function deleteCategory(category_id) {
-  const response = await fetch(`${API_URL}/category/${category_id}`, {
+async function deleteCategory(categoryId) {
+  const response = await fetch(`${API_URL}/category/${categoryId}`, {
     method: "DELETE",
   });
   return response.text().then(function(text) {

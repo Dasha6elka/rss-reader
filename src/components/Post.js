@@ -20,7 +20,7 @@ function Post(props) {
       <Grid
         css={css`
           position: relative;
-          padding-bottom: ${props.visible ? "16px" : "0"};
+          padding-bottom: ${props.expanded ? "16px" : "0"};
 
           .expand {
             position: absolute;
@@ -64,13 +64,13 @@ function Post(props) {
         >
           Дата публикации: {getFriendlyDate(date)} в {date.getHours()}:{date.getMinutes()}
         </Typography>
-        {props.visible ? (
+        {props.expanded ? (
           <ExpandLess className="expand" onClick={props.onArrowClick} />
         ) : (
           <ExpandMore className="expand" onClick={props.onArrowClick} />
         )}
       </Grid>
-      {props.visible && (
+      {props.expanded && (
         <Grid
           dangerouslySetInnerHTML={{ __html: props.description }}
           css={css`

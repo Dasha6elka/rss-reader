@@ -1,7 +1,7 @@
 import { API_URL } from "../constants";
 
-async function getChannels(category_id) {
-  const response = await fetch(`${API_URL}/channels/${category_id}`);
+async function getChannels(categoryId) {
+  const response = await fetch(`${API_URL}/channels/${categoryId}`);
   return response.json();
 }
 

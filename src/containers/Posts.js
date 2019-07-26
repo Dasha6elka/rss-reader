@@ -15,7 +15,7 @@ function Posts() {
 
   function onArrowClick(index) {
     context.posts[index].visited = true;
-    context.posts[index].visible = !context.posts[index].visible;
+    context.posts[index].expanded = !context.posts[index].expanded;
     context.setPosts([...context.posts]);
   }
 
@@ -38,7 +38,7 @@ function Posts() {
           <Post
             key={index}
             title={post.title}
-            visible={post.visible}
+            expanded={post.expanded}
             visited={post.visited}
             date={post.pubDate}
             found={post.found}

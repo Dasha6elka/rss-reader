@@ -13,21 +13,19 @@ function Sidebar() {
   const context = useContext(AppContext);
   const [formVisible, setFormVisible] = useState(false);
 
-  function onButtonClick() {
+  function onAddFeedButtonClick() {
     setFormVisible(!formVisible);
   }
 
-  function onFormButtonClick(channel) {
+  function onAddFeedFormButtonClick(channel) {
     setFormVisible(!formVisible);
     context.channels.push(channel);
     context.categories.forEach(category => {
-      context.channels.forEach(channel => {
-        if (category.id === channel.categoryId) {
-          category.count++;
-        }
-      });
+      if (category.id === channel.categoryId) {
+        category.count++;
+      }
     });
-    context.onChannelFinish(context.channels);
+    context.onChannelAdd(context.channels);
   }
 
   return (
@@ -65,13 +63,13 @@ function Sidebar() {
                 background-color: #49c8fc;
               }
             `}
-            onClick={onButtonClick}
+            onClick={onAddFeedButtonClick}
             variant="text"
           >
             Добавить ленту
           </Button>
         ) : (
-          <Form categories={context.categories} channels={context.channels} onSubmit={onFormButtonClick} />
+          <Form categories={context.categories} channels={context.channels} onSubmit={onAddFeedFormButtonClick} />
         )}
       </Grid>
       <List
@@ -80,9 +78,8 @@ function Sidebar() {
         onActiveChannelChange={context.onActiveChannelChange}
         data={context.categories}
         onChange={context.onCategoriesChange}
-        onFinish={context.onCategoriesFinish}
+        onFinish={context.onCategoryAdd}
         onDelete={context.onCategoryDelete}
-        channels={context.channels}
       />
     </Grid>
   );

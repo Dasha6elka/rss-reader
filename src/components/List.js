@@ -9,9 +9,6 @@ function List(props) {
   const { data, onChange, onFinish, onDelete, activeCategory, onActiveCategoryChange, onActiveChannelChange } = props;
 
   function onButtonClick() {
-    if (data.some(value => value.editable === true)) {
-      return;
-    }
     onChange([...data, { title: "", editable: true, active: false, count: 0 }]);
   }
 
@@ -60,7 +57,7 @@ function List(props) {
       onActiveCategoryChange(null);
     }
     data.splice(index, 1);
-    onDelete(data, id);
+    onDelete(id);
     onChange([...data]);
   }
 

@@ -42,7 +42,7 @@ function App() {
     setActiveChannel(change);
   }
 
-  function onCategoriesFinish(categories) {
+  function onCategoryAdd(categories) {
     setCategories(categories);
     addCategory(categories[categories.length - 1])
       .then(() => getCategories())
@@ -50,7 +50,7 @@ function App() {
       .catch(console.error);
   }
 
-  function onChannelFinish(channels) {
+  function onChannelAdd(channels) {
     const lastChannel = channels[channels.length - 1];
     if (activeCategory && lastChannel.categoryId === activeCategory.id) {
       setChannels([...channels]);
@@ -59,44 +59,77 @@ function App() {
       lastChannel.logoUrl = feed.image.url;
       addChannel(lastChannel)
         .then(() => getChannels(lastChannel.categoryId))
-        .then(json => setChannels(json.channels))
+        .then(json =>
+          setChannels(
+            json.channels.map(channel => ({
+              id: channel.id,
+              title: channel.title,
+              rssUrl: channel.rss_url,
+              logoUrl: channel.logo_url,
+              categoryId: channel.id_category,
+              editable: false,
+              active: false
+            }))
+          )
+        )
         .catch(console.error);
     });
   }
 
-  function onChannelsEditFinish(channel_id) {
-    setChannels(channels);
+  function onChannelsEditFinish(channelId) {
     channels.forEach(channel => {
-      parser.parseURL(CORS_PROXY + channel.rss_url).then(feed => {
-        if (channel.id === channel_id) {
+      parser.parseURL(CORS_PROXY + channel.rssUrl).then(feed => {
+        if (channel.id === channelId) {
           let item = {
             title: channel.title,
-            rssUrl: channel.rss_url,
+            rssUrl: channel.rssUrl,
             logoUrl: feed.image.url,
-            categoryId: channel.id_category
+            categoryId: channel.categoryId
           };
-          updateChannel(item, channel_id)
-            .then(() => getChannels(channel.id_category))
-            .then(json => setChannels(json.channels))
+          updateChannel(item, channelId)
+            .then(() => getChannels(channel.categoryId))
+            .then(json =>
+              setChannels(
+                json.channels.map(channel => ({
+                  id: channel.id,
+                  title: channel.title,
+                  rssUrl: channel.rss_url,
+                  logoUrl: channel.logo_url,
+                  categoryId: channel.id_category,
+                  editable: false,
+                  active: false
+                }))
+              )
+            )
             .catch(console.error);
         }
       });
     });
   }
 
-  function onCategoryDelete(categories, category_id) {
-    setCategories(categories);
-    deleteCategory(category_id)
+  function onCategoryDelete(categoryId) {
+    deleteCategory(categoryId)
       .then(() => getCategories())
       .then(json => setCategories(json.categories))
       .catch(console.error);
   }
 
-  function onChannelDelete(channel_id) {
-    setChannels(channels);
-    deleteChannel(channel_id)
+  function onChannelDelete(channelId) {
+    deleteChannel(channelId)
       .then(() => getChannels(activeCategory.id))
-      .then(json => setChannels(json.channels))
+      .then(json =>
+        setChannels(
+          json.channels.map(channel => ({
+            id: channel.id,
+            title: channel.title,
+            rssUrl: channel.rss_url,
+            logoUrl: channel.logo_url,
+            categoryId: channel.id_category,
+            editable: false,
+            active: false
+          }))
+        )
+      )
       .catch(console.error);
   }
 
@@ -114,7 +147,11 @@ function App() {
       .then(json =>
         setChannels(
           json.channels.map(channel => ({
-            ...channel,
+            id: channel.id,
+            title: channel.title,
+            rssUrl: channel.rss_url,
+            logoUrl: channel.logo_url,
+            categoryId: channel.id_category,
             editable: false,
             active: false
           }))
@@ -124,11 +161,11 @@ function App() {
   }, [activeCategory]);
 
   useEffect(() => {
-    if (!activeChannel || !activeChannel.rss_url) {
+    if (!activeChannel || !activeChannel.rssUrl) {
       return;
     }
     parser
-      .parseURL(CORS_PROXY + activeChannel.rss_url)
+      .parseURL(CORS_PROXY + activeChannel.rssUrl)
       .then(feed => setPosts(feed.items))
       .catch(console.error);
   }, [activeChannel]);
@@ -138,11 +175,11 @@ function App() {
       value={{
         categories,
         onCategoriesChange,
-        onCategoriesFinish,
+        onCategoryAdd,
         onCategoryDelete,
         channels,
         onChannelsChange,
-        onChannelFinish,
+        onChannelAdd,
         onChannelsEditFinish,
         onChannelDelete,
         posts,
