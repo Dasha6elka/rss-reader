@@ -27,15 +27,15 @@ function Channels() {
     context.channels.splice(index, 1);
   }
 
-  function onChannelItemChange(index, event) {
+  function onTitleChange(index, event) {
     const channelToChange = context.channels[index];
-    channelToChange.editable = true;
-    if (event.target.name === "title") {
-      channelToChange.title = event.target.value;
-    }
-    if (event.target.name === "link") {
-      channelToChange.rssUrl = event.target.value;
-    }
+    channelToChange.title = event.target.value;
+    context.onChannelsChange([...context.channels]);
+  }
+
+  function onLinkChange(index, event) {
+    const channelToChange = context.channels[index];
+    channelToChange.rssUrl = event.target.value;
     context.onChannelsChange([...context.channels]);
   }
 
@@ -83,7 +83,8 @@ function Channels() {
             url={channel.logoUrl}
             active={channel.active}
             onDelete={() => onChannelDelete(index)}
-            onChange={event => onChannelItemChange(index, event)}
+            onTitleChange={event => onTitleChange(index, event)}
+            onLinkChange={event => onLinkChange(index, event)}
             onEditFinish={() => onChannelItemEditFinish()}
             onEditChannel={() => onEdit(index)}
             onChannelClick={() => onClick(channel.id, channel.rssUrl)}

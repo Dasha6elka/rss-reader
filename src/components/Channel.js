@@ -9,8 +9,12 @@ import { Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
 function Channel(props) {
-  function onChange(event) {
-    props.onChange(event);
+  function onTitleChange(event) {
+    props.onTitleChange(event);
+  }
+
+  function onLinkChange(event) {
+    props.onLinkChange(event);
   }
 
   function onEnterPress(event) {
@@ -75,9 +79,9 @@ function Channel(props) {
             width: 16px;
           `}
         />
-        <ChannelTitle editable={props.editable} title={props.title} onChange={onChange} />
+        <ChannelTitle editable={props.editable} title={props.title} onChange={onTitleChange} />
       </Grid>
-      <ChannelLink editable={props.editable} link={props.link} onChange={onChange} />
+      <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
       <Grid className="icons" onClick={(event => event.stopPropagation())}>
         <Edit className="edit-icon" onClick={props.onEditChannel} />
         <Delete className="trash-icon" onClick={props.onDelete} />
