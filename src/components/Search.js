@@ -2,8 +2,7 @@
 
 import { jsx, css } from "@emotion/core";
 import { Search as SearchIcon } from "@material-ui/icons";
-import Input from "./Input";
-import { Grid } from "@material-ui/core";
+import { Grid, InputAdornment, TextField } from "@material-ui/core";
 
 function Search(props) {
   function onInputChange(value) {
@@ -13,28 +12,35 @@ function Search(props) {
   return (
     <Grid
       css={css`
-        position: relative;
-        padding: 16px 16px 16px 48px;
+        padding: 8px 16px;
         background: #f6f6f9;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+
+        :after {
+          border-bottom: 2px solid #3ba5d1;
+        }
       `}
     >
-      <SearchIcon
+      <TextField
         css={css`
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          left: 16px;
+          .MuiInput-underline:after {
+            border-bottom: 2px solid #3ba5d1;
+          }
         `}
-      />
-      <Input
+        fullWidth
         placeholder="Поиск по названиям постов"
         onChange={event => onInputChange(event.target.value.toLowerCase())}
-        css={css`
-          width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        `}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon
+                css={css`
+                  opacity: 0.54;
+                `}
+              />
+            </InputAdornment>
+          )
+        }}
       />
     </Grid>
   );
