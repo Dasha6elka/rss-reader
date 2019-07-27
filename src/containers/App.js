@@ -14,6 +14,7 @@ import addChannel from "../api/addChannel";
 import deleteChannel from "../api/deleteChannel";
 import { Grid } from "@material-ui/core";
 import updateChannel from "../api/updateChannel";
+import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase";
 
 const Parser = require("rss-parser");
 const parser = new Parser();
@@ -59,19 +60,7 @@ function App() {
       lastChannel.logoUrl = feed.image.url;
       addChannel(lastChannel)
         .then(() => getChannels(lastChannel.categoryId))
-        .then(json =>
-          setChannels(
-            json.channels.map(channel => ({
-              id: channel.id,
-              title: channel.title,
-              rssUrl: channel.rss_url,
-              logoUrl: channel.logo_url,
-              categoryId: channel.id_category,
-              editable: false,
-              active: false
-            }))
-          )
-        )
+        .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
         .catch(console.error);
     });
   }
@@ -88,19 +77,7 @@ function App() {
           };
           updateChannel(item, channelId)
             .then(() => getChannels(channel.categoryId))
-            .then(json =>
-              setChannels(
-                json.channels.map(channel => ({
-                  id: channel.id,
-                  title: channel.title,
-                  rssUrl: channel.rss_url,
-                  logoUrl: channel.logo_url,
-                  categoryId: channel.id_category,
-                  editable: false,
-                  active: false
-                }))
-              )
-            )
+            .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
             .catch(console.error);
         }
       });
@@ -117,19 +94,7 @@ function App() {
   function onChannelDelete(channelId) {
     deleteChannel(channelId)
       .then(() => getChannels(activeCategory.id))
-      .then(json =>
-        setChannels(
-          json.channels.map(channel => ({
-            id: channel.id,
-            title: channel.title,
-            rssUrl: channel.rss_url,
-            logoUrl: channel.logo_url,
-            categoryId: channel.id_category,
-            editable: false,
-            active: false
-          }))
-        )
-      )
+      .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
       .catch(console.error);
   }
 
@@ -144,19 +109,7 @@ function App() {
       return;
     }
     getChannels(activeCategory.id)
-      .then(json =>
-        setChannels(
-          json.channels.map(channel => ({
-            id: channel.id,
-            title: channel.title,
-            rssUrl: channel.rss_url,
-            logoUrl: channel.logo_url,
-            categoryId: channel.id_category,
-            editable: false,
-            active: false
-          }))
-        )
-      )
+      .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
       .catch(console.error);
   }, [activeCategory]);
 
