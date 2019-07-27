@@ -47,7 +47,9 @@ function App() {
     setCategories(categories);
     addCategory(categories[categories.length - 1])
       .then(() => getCategories())
-      .then(json => setCategories(json.categories))
+      .then(json =>
+        setCategories(json.categories.map(category => ({ ...category, active: category.id === activeCategory.id })))
+      )
       .catch(console.error);
   }
 
@@ -87,7 +89,9 @@ function App() {
   function onCategoryDelete(categoryId) {
     deleteCategory(categoryId)
       .then(() => getCategories())
-      .then(json => setCategories(json.categories))
+      .then(json =>
+        setCategories(json.categories.map(category => ({ ...category, active: category.id === activeCategory.id })))
+      )
       .catch(console.error);
   }
 
