@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
@@ -29,7 +28,7 @@ function ListItem(props) {
     return () => {
       window.removeEventListener("keydown", onEnterPress);
     };
-  }, []);
+  }, [onEnterPress]);
 
   return (
     <React.Fragment>
