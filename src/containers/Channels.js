@@ -95,14 +95,14 @@ function Channels() {
           {context.activeCategory && context.activeCategory.count === 0 ? (
             <Prompt
               text="В категории нет лент"
-              url="https://pp.userapi.com/c849032/v849032376/11dc50/Er3YfHV1QKA.jpg"
+              url="https://vk.com/images/stickers/6055/512.png"
               height="353px"
-              width="300px"
+              width="282px"
             />
           ) : (
             <Prompt
               text="Нажмите на категорию, чтобы появились ленты"
-              url="https://zabavnik.club/wp-content/uploads/2018/07/Kartinki_pro_ozhidanie_3_13040747.jpg"
+              url="https://avatanplus.com/files/resources/mid/58e0ccb473a4915b2e1fa0fa.png"
               height="353px"
               width="282px"
             />

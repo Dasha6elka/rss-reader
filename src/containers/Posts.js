@@ -50,9 +50,9 @@ function Posts() {
       ) : (
         <Prompt
           text="Нажмите на ленту, чтобы появились посты"
-          url="https://millionstatusov.ru/pic/statpic/all2/59187bb0e3f45.jpg"
+          url="https://stickeroid.com/uploads/pic/full-tlgrmadd/thumb/stickeroid_5bf56b917cd79.png"
           height="353px"
-          width="628px"
+          width="353px"
         />
       )}
     </Grid>
