@@ -61,7 +61,7 @@ function App() {
     parser.parseURL(CORS_PROXY + lastChannel.rssUrl).then(feed => {
       lastChannel.logoUrl = feed.image.url;
       addChannel(lastChannel)
-        .then(() => getChannels(lastChannel.categoryId))
+        .then(() => getChannels(activeCategory.id))
         .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
         .catch(console.error);
     });
