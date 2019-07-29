@@ -2,7 +2,7 @@
 
 import { jsx, css } from "@emotion/core";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 function Post(props) {
@@ -65,9 +65,13 @@ function Post(props) {
           Дата публикации: {formatDate(date)}
         </Typography>
         {props.expanded ? (
-          <ExpandLess className="expand" onClick={props.onArrowClick} />
+          <IconButton className="expand" onClick={props.onArrowClick}>
+            <ExpandLess />
+          </IconButton>
         ) : (
-          <ExpandMore className="expand" onClick={props.onArrowClick} />
+          <IconButton className="expand" onClick={props.onArrowClick}>
+            <ExpandMore />
+          </IconButton>
         )}
       </Grid>
       {props.expanded && (
@@ -87,9 +91,18 @@ function Post(props) {
 export default Post;
 
 function formatDate(date) {
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  const hours = date.getHours().toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
+  const minutes = date
+    .getMinutes()
+    .toString()
+    .padStart(2, "0");
+  const hours = date
+    .getHours()
+    .toString()
+    .padStart(2, "0");
+  const day = date
+    .getDate()
+    .toString()
+    .padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${day}.${month}.${year} в ${hours}:${minutes}`;

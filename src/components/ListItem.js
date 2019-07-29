@@ -1,11 +1,10 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import PropTypes from "proptypes";
 import Grid from "@material-ui/core/Grid";
 import { RadioButtonChecked, Delete } from "@material-ui/icons";
-import ErrorMessage from "./ErrorMessage";
 import Input from "./Input";
 
 function ListItem(props) {
@@ -13,15 +12,19 @@ function ListItem(props) {
     props.onChange(event);
   }
 
-  function onEnterPress(event) {
-    if (!props.onEditFinish) {
-      return;
-    }
-    const code = event.keyCode ? event.keyCode : event.which;
-    if (code === 13 && event.target.value !== undefined && event.target.value !== "" && props.editable) {
-      props.onEditFinish();
-    }
-  }
+  const { onEditFinish, editable } = props;
+  const onEnterPress = useCallback(
+    event => {
+      if (!onEditFinish) {
+        return;
+      }
+      const code = event.keyCode ? event.keyCode : event.which;
+      if (code === 13 && event.target.value !== undefined && event.target.value !== "" && editable) {
+        onEditFinish();
+      }
+    },
+    [onEditFinish, editable]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", onEnterPress);
@@ -66,6 +69,11 @@ function ListItem(props) {
             margin: 0 0 0 16px;
             max-height: 24px;
             max-width: 73%;
+            height: 16px;
+
+            input {
+              height: 0;
+            }
 
             :hover:before {
               border-bottom: 2px solid white !important;
@@ -106,11 +114,10 @@ function ListItem(props) {
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
           </Grid>
         ) : (
-          <Input className="input" onChange={onChange} value={props.title} placeholder="Введите категорию"/>
+          <Input className="input" onChange={onChange} value={props.title} placeholder="Введите категорию" />
         )}
         {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>
-      {/*<ErrorMessage errorMessage={props.errorMessage} />*/}
     </React.Fragment>
   );
 }

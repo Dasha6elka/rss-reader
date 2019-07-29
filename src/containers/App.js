@@ -52,9 +52,11 @@ function App() {
     setCategories(categories);
     addCategory(categories[categories.length - 1])
       .then(() => getCategories())
-      .then(json =>
-        setCategories(json.categories.map(category => ({ ...category, active: category.id === activeCategory.id })))
-      )
+      .then(json => {
+        json.categories[json.categories.length - 1].active = true;
+        setCategories(json.categories);
+        setActiveCategory(json.categories[json.categories.length - 1]);
+      })
       .catch(console.error);
   }
 
@@ -95,7 +97,12 @@ function App() {
     deleteCategory(categoryId)
       .then(() => getCategories())
       .then(json =>
-        setCategories(json.categories.map(category => ({ ...category, active: category.id === activeCategory.id })))
+        setCategories(
+          json.categories.map(category => ({
+            ...category,
+            active: activeCategory && category.id === activeCategory.id
+          }))
+        )
       )
       .catch(console.error);
   }
@@ -179,12 +186,7 @@ function App() {
         <Channels />
         <Posts />
       </Grid>
-      <Snackbar
-        message={"Выберите ленту"}
-        open={snackbar}
-        onClose={() => setSnackbar(false)}
-        autoHideDuration={3000}
-      />
+      <Snackbar message={"Выберите ленту"} open={snackbar} onClose={() => setSnackbar(false)} autoHideDuration={3000} />
     </AppContext.Provider>
   );
 }
