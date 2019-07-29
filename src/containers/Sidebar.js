@@ -1,5 +1,6 @@
 /** @jsx jsx */
 
+import React from "react";
 import { css, jsx } from "@emotion/core";
 import { useContext, useState } from "react";
 import Logo from "../components/Logo";
@@ -29,14 +30,7 @@ function Sidebar() {
   }
 
   return (
-    <Grid
-      item
-      xs={2}
-      css={css`
-        background-color: #1d2027;
-        color: white;
-      `}
-    >
+    <React.Fragment>
       <Grid
         css={css`
           padding: 24px;
@@ -81,7 +75,7 @@ function Sidebar() {
         onFinish={context.onCategoryAdd}
         onDelete={context.onCategoryDelete}
       />
-    </Grid>
+    </React.Fragment>
   );
 }
 

@@ -16,9 +16,13 @@ import { Grid, Snackbar } from "@material-ui/core";
 import updateChannel from "../api/updateChannel";
 import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase";
 import { CORS_PROXY } from "../constants";
+import Overflowable from "../components/Overflowable";
+import withFullHeight from "../HoCs/withFullHeight";
 
 const Parser = require("rss-parser");
 const parser = new Parser();
+
+const GridWithFullHeight = withFullHeight(Grid);
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -182,9 +186,34 @@ function App() {
           height: 100vh;
         `}
       >
-        <Sidebar />
-        <Channels />
-        <Posts />
+        <GridWithFullHeight
+          item
+          xs={2}
+          css={css`
+            background-color: #1d2027;
+            color: white;
+          `}
+        >
+          <Overflowable>
+            <Sidebar />
+          </Overflowable>
+        </GridWithFullHeight>
+        <GridWithFullHeight
+          item
+          sm={3}
+          css={css`
+            background-color: #dae3e7;
+          `}
+        >
+          <Overflowable>
+            <Channels />
+          </Overflowable>
+        </GridWithFullHeight>
+        <GridWithFullHeight item sm={7}>
+          <Overflowable>
+            <Posts />
+          </Overflowable>
+        </GridWithFullHeight>
       </Grid>
       <Snackbar message={"Выберите ленту"} open={snackbar} onClose={() => setSnackbar(false)} autoHideDuration={3000} />
     </AppContext.Provider>

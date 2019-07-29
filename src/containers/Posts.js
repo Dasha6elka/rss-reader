@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
+import React from "react";
 import { jsx } from "@emotion/core";
 import { useContext, useState } from "react";
 import Search from "../components/Search";
 import Post from "../components/Post";
-import { Grid } from "@material-ui/core";
 import AppContext from "../context";
 import Prompt from "../components/Prompt";
 
@@ -31,8 +31,12 @@ function Posts() {
   }
 
   return (
-    <Grid item sm={7}>
-      <Search snackbar={context.onDisabledInputClick} activeChannel={context.activeChannel} onSearchInputChange={value => onChangePostsList({ value })} />
+    <React.Fragment>
+      <Search
+        snackbar={context.onDisabledInputClick}
+        activeChannel={context.activeChannel}
+        onSearchInputChange={value => onChangePostsList({ value })}
+      />
       {context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post
@@ -55,7 +59,7 @@ function Posts() {
           width="353px"
         />
       )}
-    </Grid>
+    </React.Fragment>
   );
 }
 

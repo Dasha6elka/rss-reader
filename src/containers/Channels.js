@@ -1,9 +1,8 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
+import { jsx } from "@emotion/core";
 import React, { useContext } from "react";
 import Channel from "../components/Channel";
-import Grid from "@material-ui/core/Grid";
 import AppContext from "../context";
 import Prompt from "../components/Prompt";
 
@@ -63,13 +62,7 @@ function Channels() {
   }
 
   return (
-    <Grid
-      item
-      sm={3}
-      css={css`
-        background-color: #dae3e7;
-      `}
-    >
+    <React.Fragment>
       {context.activeCategory && context.activeCategory.count > 0 ? (
         context.channels.map((channel, index) => (
           <Channel
@@ -106,7 +99,7 @@ function Channels() {
           )}
         </React.Fragment>
       )}
-    </Grid>
+    </React.Fragment>
   );
 }
 
