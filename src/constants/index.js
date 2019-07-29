@@ -8,3 +8,5 @@ export const returnResponseText = (response) => {
     return text ? JSON.parse(text) : {};
   });
 };
+
+export const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";

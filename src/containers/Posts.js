@@ -32,7 +32,7 @@ function Posts() {
 
   return (
     <Grid item sm={7}>
-      <Search onSearchInputChange={value => onChangePostsList({ value })} />
+      <Search snackbar={context.onDisabledInputClick} activeChannel={context.activeChannel} onSearchInputChange={value => onChangePostsList({ value })} />
       {context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post

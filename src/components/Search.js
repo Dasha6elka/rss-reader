@@ -9,6 +9,12 @@ function Search(props) {
     props.onSearchInputChange(value);
   }
 
+  function onDisabledInputClick() {
+    if (!props.activeChannel) {
+      props.snackbar(true);
+    }
+  }
+
   return (
     <Grid
       css={css`
@@ -28,6 +34,8 @@ function Search(props) {
           }
         `}
         fullWidth
+        onClick={onDisabledInputClick}
+        disabled={!props.activeChannel}
         placeholder="Поиск по названиям постов"
         onChange={event => onInputChange(event.target.value.toLowerCase())}
         InputProps={{

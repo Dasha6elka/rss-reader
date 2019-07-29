@@ -12,13 +12,13 @@ import deleteCategory from "../api/deleteCategory";
 import getChannels from "../api/getChannels";
 import addChannel from "../api/addChannel";
 import deleteChannel from "../api/deleteChannel";
-import { Grid } from "@material-ui/core";
+import { Grid, Snackbar } from "@material-ui/core";
 import updateChannel from "../api/updateChannel";
 import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase";
+import { CORS_PROXY } from "../constants";
 
 const Parser = require("rss-parser");
 const parser = new Parser();
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -26,6 +26,11 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeChannel, setActiveChannel] = useState(null);
+  const [snackbar, setSnackbar] = useState(false);
+
+  function onDisabledInputClick(change) {
+    setSnackbar(change);
+  }
 
   function onCategoriesChange(change) {
     setCategories(change);
@@ -144,7 +149,8 @@ function App() {
         activeCategory,
         activeChannel,
         onActiveCategoryChange,
-        onActiveChannelChange
+        onActiveChannelChange,
+        onDisabledInputClick
       }}
     >
       <Global
@@ -173,6 +179,12 @@ function App() {
         <Channels />
         <Posts />
       </Grid>
+      <Snackbar
+        message={"Выберите ленту"}
+        open={snackbar}
+        onRequestClose={() => setSnackbar(false)}
+        autoHideDuration={1000}
+      />
     </AppContext.Provider>
   );
 }
