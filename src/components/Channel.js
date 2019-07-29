@@ -2,13 +2,24 @@
 
 import React from "react";
 import { jsx, css } from "@emotion/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Edit, Delete } from "@material-ui/icons";
 import Input from "./Input";
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
 function Channel(props) {
+  const [isDelete, setIsDelete] = useState(false);
+
+  function onDeleteWindowChange() {
+    setIsDelete(!isDelete);
+    props.onDelete();
+  }
+
+  function onWindowChange() {
+    setIsDelete(!isDelete);
+  }
+
   function onTitleChange(event) {
     props.onTitleChange(event);
   }
@@ -30,63 +41,93 @@ function Channel(props) {
   });
 
   return (
-    <Grid onClick={props.onChannelClick}
-      css={css`
-        padding: 16px 24px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        position: relative;
-        background: ${props.active && "#B2C4CD"};
-
-        .icons {
-          display: none;
-        }
-
-        .div {
-          max-width: 160px;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-
-        &:hover {
-          cursor: pointer;
-          background: #cad7dd;
+    <React.Fragment>
+      <Grid
+        onClick={props.onChannelClick}
+        css={css`
+          padding: 16px 24px;
+          border-bottom: ${!isDelete && "1px solid rgba(0, 0, 0, 0.12)"};
+          position: relative;
+          background: ${props.active && "#B2C4CD"};
 
           .icons {
-            display: block;
-            float: right;
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
+            display: none;
           }
 
-          .edit-icon {
-            padding-right: 15px;
-          }
+          &:hover {
+            cursor: pointer;
+            background: #cad7dd;
 
-          .trash-icon {
-            padding-right: 0;
+            .icons {
+              display: block;
+              float: right;
+              position: absolute;
+              right: 16px;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+
+            .edit-icon {
+              padding-right: 15px;
+            }
+
+            .trash-icon {
+              padding-right: 0;
+            }
           }
-        }
-      `}
-    >
-      <Grid container direction="row">
-        <img
-          src={props.url}
-          alt=""
+        `}
+      >
+        <Grid container direction="row">
+          <img
+            src={props.url}
+            alt=""
+            css={css`
+              height: 16px;
+              width: 16px;
+            `}
+          />
+          <ChannelTitle editable={props.editable} title={props.title} onChange={onTitleChange} />
+        </Grid>
+        <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
+        <Grid className="icons" onClick={event => event.stopPropagation()}>
+          {!props.editable && <Edit className="edit-icon" onClick={props.onEditChannel} />}
+          <Delete className="trash-icon" onClick={onWindowChange} />
+        </Grid>
+      </Grid>
+      {isDelete && (
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
           css={css`
-            height: 16px;
-            width: 16px;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            align-items: center;
           `}
-        />
-        <ChannelTitle editable={props.editable} title={props.title} onChange={onTitleChange} />
-      </Grid>
-      <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
-      <Grid className="icons" onClick={(event => event.stopPropagation())}>
-        <Edit className="edit-icon" onClick={props.onEditChannel} />
-        <Delete className="trash-icon" onClick={props.onDelete} />
-      </Grid>
-    </Grid>
+        >
+          <Typography>Удалить ленту?</Typography>
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            css={css`
+              width: auto;
+
+              button {
+                color: #3ba5d1;
+              }
+            `}
+          >
+            <Button href="" variant="text" color="primary" onClick={onDeleteWindowChange}>
+              Да
+            </Button>
+            <Button href="" variant="text" color="primary" onClick={onWindowChange}>
+              Нет
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+    </React.Fragment>
   );
 }
 

@@ -12,9 +12,9 @@ function Channels() {
 
   function onChannelDelete(index) {
     const channelToDelete = context.channels[index];
-    if (channelToDelete.editable === true) {
-      return;
-    }
+    // if (channelToDelete.editable === true) {
+    //   return;
+    // }
     context.categories.forEach(category => {
       if (category.id === channelToDelete.categoryId) {
         category.count--;
