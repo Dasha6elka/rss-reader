@@ -110,7 +110,7 @@ function ListItem(props) {
         )}
         {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>
-      <ErrorMessage errorMessage={props.errorMessage} />
+      {/*<ErrorMessage errorMessage={props.errorMessage} />*/}
     </React.Fragment>
   );
 }

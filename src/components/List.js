@@ -48,12 +48,7 @@ function List(props) {
     onFinish([...items.map(item => ({ ...item, editable: false }))]);
   }
 
-  function onListItemDelete(index, id, editable) {
-    if (items[index].count > 0 && !editable) {
-      items[index].error = !items[index].error;
-      onChange([...items]);
-      return;
-    }
+  function onListItemDelete(index, id) {
     if (activeCategory && id === activeCategory.id) {
       onActiveCategoryChange(null);
     }
@@ -84,7 +79,7 @@ function List(props) {
             onEditFinish={onListItemEditFinish}
             onDelete={event => {
               event.stopPropagation();
-              onListItemDelete(index, item.id, item.editable);
+              onListItemDelete(index, item.id);
             }}
             errorMessage={item.error}
             onListClick={() => onClick(item.id, item.editable, item.count)}
