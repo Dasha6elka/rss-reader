@@ -182,8 +182,8 @@ function App() {
       <Snackbar
         message={"Выберите ленту"}
         open={snackbar}
-        onRequestClose={() => setSnackbar(false)}
-        autoHideDuration={1000}
+        onClose={() => setSnackbar(false)}
+        autoHideDuration={3000}
       />
     </AppContext.Provider>
   );
