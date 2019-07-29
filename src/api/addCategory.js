@@ -1,4 +1,4 @@
-import { API_URL, HEADERS, RETURN_RESPONSE_TEXT } from "../constants";
+import { API_URL, HEADERS, returnResponseText } from "../constants";
 
 async function addCategory(category) {
   const response = await fetch(`${API_URL}/category`, {
@@ -6,7 +6,7 @@ async function addCategory(category) {
     body: JSON.stringify(category),
     headers: HEADERS
   });
-  RETURN_RESPONSE_TEXT(response);
+  returnResponseText(response);
 }
 
 export default addCategory;

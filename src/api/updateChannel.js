@@ -1,4 +1,4 @@
-import { API_URL, HEADERS, RETURN_RESPONSE_TEXT } from "../constants";
+import { API_URL, HEADERS, returnResponseText } from "../constants";
 
 async function updateChannel(channel, channelId) {
   const response = await fetch(`${API_URL}/channel/${channelId}`, {
@@ -6,7 +6,7 @@ async function updateChannel(channel, channelId) {
     body: JSON.stringify(channel),
     headers: HEADERS
   });
-  RETURN_RESPONSE_TEXT(response);
+  returnResponseText(response);
 }
 
 export default updateChannel;

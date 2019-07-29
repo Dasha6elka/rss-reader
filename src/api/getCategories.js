@@ -15,11 +15,12 @@ async function getCategories() {
       const countersForCategory = counters.find(counter => counter.id === category.id);
       if (!countersForCategory) {
         return { ...category, count: 0 };
+      } else {
+        return {
+          ...category,
+          count: countersForCategory.channels.length
+        };
       }
-      return {
-        ...category,
-        count: countersForCategory.channels.length
-      };
     })
   };
 }

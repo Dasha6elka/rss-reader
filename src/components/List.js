@@ -14,10 +14,12 @@ function List(props) {
 
   function onClick(id, editable, count) {
     items.forEach(item => {
-      if (item.id === id && !editable) {
-        item.active = true;
-      } else if (activeCategory && item.id === activeCategory.id && !editable) {
-        item.active = false;
+      if (!editable) {
+        if (item.id === id) {
+          item.active = true;
+        } else if (activeCategory && item.id === activeCategory.id) {
+          item.active = false;
+        }
       }
     });
     onChange([...items]);
@@ -88,7 +90,7 @@ function List(props) {
             onListClick={() => onClick(item.id, item.editable, item.count)}
           />
         ))}
-        {((!items.some(item => item.editable)) || !items) && (
+        {(!items.some(item => item.editable) || !items) && (
           <ListItem button title="Новая категория" onClick={onButtonClick} />
         )}
       </Grid>
