@@ -138,10 +138,8 @@ function ChannelTitle(props) {
   return (
     <React.Fragment>
       {!props.editable ? (
-        <Typography
+        <Typography variant="body2"
           css={css`
-            font-size: 14px;
-            line-height: 20px;
             margin-left: 8px;
             margin-bottom: 8px;
             max-width: 160px;
@@ -173,10 +171,9 @@ function ChannelLink(props) {
   return (
     <React.Fragment>
       {!props.editable ? (
-        <Typography
+        <Typography variant="caption"
           css={css`
             color: rgba(0, 0, 0, 0.539261);
-            font-size: 12px;
             max-width: 160px;
             text-overflow: ellipsis;
             overflow: hidden;

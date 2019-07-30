@@ -32,16 +32,10 @@ function FormControl(props) {
 
         .helper-text {
           color: darkred;
-          font-size: 12px;
-          line-height: 16px;
-          margin: 6px 0;
         }
 
         .input {
-          margin-left: 0;
-          margin-bottom: 0;
           color: white;
-          height: 30px;
 
           :hover:before {
             border-bottom: 2px solid white !important;
@@ -78,7 +72,7 @@ function FormControl(props) {
             )}
           </Select>
           {(props.error || !categoryId) && (
-            <FormHelperText className="helper-text">Не выбрана категория</FormHelperText>
+            <FormHelperText variant="outlined" className="helper-text">Не выбрана категория</FormHelperText>
           )}
         </React.Fragment>
       ) : (

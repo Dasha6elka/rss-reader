@@ -52,23 +52,23 @@ function ListItem(props) {
           margin: 0 8px 4px 8px;
           max-width: 93%;
 
-          .radio-button {
+          .list {
             flex-grow: 1;
+            max-width: 73%;
+            height: 18px;
+          }
+
+          .radio-button {
             margin-left: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
-            max-width: 73%;
-            height: 18px;
           }
 
           .input {
             border: none;
             color: white;
-            flex-grow: 1;
             margin: 0 0 0 16px;
             max-height: 24px;
-            max-width: 73%;
-            height: 18px;
             font-size: 14px;
 
             input {
@@ -110,9 +110,15 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <Grid className="radio-button">{!props.button ? `${props.title} (${props.count})` : `${props.title}`}</Grid>
+          <Grid className="radio-button list">{!props.button ? `${props.title} (${props.count})` : `${props.title}`}</Grid>
         ) : (
-          <Input autoFocus={true} className="input" onChange={onChange} value={props.title} placeholder="Введите категорию" />
+          <Input
+            autoFocus={true}
+            className="input list"
+            onChange={onChange}
+            value={props.title}
+            placeholder="Введите категорию"
+          />
         )}
         {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>

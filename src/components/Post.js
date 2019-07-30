@@ -15,55 +15,53 @@ function Post(props) {
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
         display: ${props.onInput === true && props.found === false && "none"};
+
+        .typography {
+          color: rgba(0, 0, 0, 0.539261);
+        }
+
+        .expand {
+          position: absolute;
+          right: 0;
+          top: 0;
+          padding: 16px;
+          transform-origin: top;
+          cursor: pointer;
+        }
       `}
     >
       <Grid
         css={css`
           position: relative;
           padding-bottom: ${props.expanded ? "16px" : "0"};
-
-          .expand {
-            position: absolute;
-            right: 0;
-            top: 0;
-            padding: 16px;
-            transform-origin: top;
-            cursor: pointer;
-          }
         `}
       >
         <Typography
+          variant="h5"
           css={css`
             width: 90%;
-            font-size: 24px;
-            line-height: 32px;
             color: rgba(41, 98, 147, 0.87);
           `}
         >
           {props.title}
         </Typography>
-        {props.visited && (
-          <Typography
-            css={css`
-              padding-top: 8px;
-              text-transform: uppercase;
-              font-size: 12px;
-              line-height: 16px;
-              color: rgba(0, 0, 0, 0.539261);
-            `}
-          >
-            Прочитано
+        <Grid container direction="column">
+          {props.visited && (
+            <Typography
+              variant="overline"
+              className="typography"
+              css={css`
+                padding-top: 8px;
+                line-height: 16px;
+              `}
+            >
+              Прочитано
+            </Typography>
+          )}
+          <Typography variant="caption" className="typography">
+            Дата публикации: {formatDate(date)}
           </Typography>
-        )}
-        <Typography
-          css={css`
-            font-size: 12px;
-            line-height: 16px;
-            color: rgba(0, 0, 0, 0.539261);
-          `}
-        >
-          Дата публикации: {formatDate(date)}
-        </Typography>
+        </Grid>
         {props.expanded ? (
           <IconButton className="expand" onClick={props.onArrowClick}>
             <ExpandLess />

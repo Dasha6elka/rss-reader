@@ -5,11 +5,10 @@ import Typography from "@material-ui/core/Typography";
 
 function Logo() {
   return (
-      <Typography
+      <Typography variant="h4"
           css={css`
           position: relative;
           font-family: "Alegreya SC", serif;
-          font-size: 30px;
           user-select: none;
 
           &:after {
