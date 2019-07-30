@@ -59,6 +59,7 @@ function Channels() {
     });
     context.onChannelsChange([...context.channels]);
     context.onActiveChannelChange({ id: id, rssUrl: rssUrl });
+    context.onLoadingChange(true);
   }
 
   return (

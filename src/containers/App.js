@@ -31,6 +31,11 @@ function App() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeChannel, setActiveChannel] = useState(null);
   const [snackbar, setSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  function onLoadingChange(change) {
+    setLoading(change);
+  }
 
   function onDisabledInputClick(change) {
     setSnackbar(change);
@@ -139,7 +144,10 @@ function App() {
     }
     parser
       .parseURL(CORS_PROXY + activeChannel.rssUrl)
-      .then(feed => setPosts(feed.items))
+      .then(feed => {
+        setPosts(feed.items);
+        setLoading(false);
+      })
       .catch(console.error);
   }, [activeChannel]);
 
@@ -161,7 +169,9 @@ function App() {
         activeChannel,
         onActiveCategoryChange,
         onActiveChannelChange,
-        onDisabledInputClick
+        onDisabledInputClick,
+        loading,
+        onLoadingChange
       }}
     >
       <Global

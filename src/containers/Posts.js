@@ -37,7 +37,14 @@ function Posts() {
         activeChannel={context.activeChannel}
         onSearchInputChange={value => onChangePostsList({ value })}
       />
-      {context.activeChannel && context.activeChannel.length !== 0 ? (
+      {context.loading ? (
+        <Prompt
+          text="Идёт загрузка данных"
+          url="http://vkclub.su/_data/stickers/finic/sticker_vk_finic_033.png"
+          height="353px"
+          width="331px"
+        />
+      ) : context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post
             key={index}
