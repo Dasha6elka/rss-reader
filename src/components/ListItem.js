@@ -41,7 +41,7 @@ function ListItem(props) {
         direction="row"
         justify="flex-start"
         alignItems="center"
-        onClick={props.onListClick}
+        onClick={props.button ? props.onClick : props.onListClick}
         css={css`
           color: ${props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
@@ -58,18 +58,18 @@ function ListItem(props) {
             text-overflow: ellipsis;
             overflow: hidden;
             max-width: 73%;
+            height: 18px;
           }
 
           .input {
             border: none;
-            border-radius: 2px;
-            padding: 2px 4px;
             color: white;
             flex-grow: 1;
             margin: 0 0 0 16px;
             max-height: 24px;
             max-width: 73%;
-            height: 16px;
+            height: 18px;
+            font-size: 14px;
 
             input {
               height: 0;
@@ -110,11 +110,9 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <Grid className="radio-button" onClick={props.button && props.onClick}>
-            {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
-          </Grid>
+          <Grid className="radio-button">{!props.button ? `${props.title} (${props.count})` : `${props.title}`}</Grid>
         ) : (
-          <Input className="input" onChange={onChange} value={props.title} placeholder="Введите категорию" />
+          <Input autoFocus={true} className="input" onChange={onChange} value={props.title} placeholder="Введите категорию" />
         )}
         {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
       </Grid>

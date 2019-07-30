@@ -7,6 +7,7 @@ import { Edit, Delete } from "@material-ui/icons";
 import Input from "./Input";
 import { Button, Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 
 function Channel(props) {
   const [isDelete, setIsDelete] = useState(false);
@@ -67,10 +68,6 @@ function Channel(props) {
               transform: translateY(-50%);
             }
 
-            .edit-icon {
-              padding-right: 15px;
-            }
-
             .trash-icon {
               padding-right: 0;
             }
@@ -90,8 +87,14 @@ function Channel(props) {
         </Grid>
         <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
         <Grid className="icons" onClick={event => event.stopPropagation()}>
-          {!props.editable && <Edit className="edit-icon" onClick={props.onEditChannel} />}
-          <Delete className="trash-icon" onClick={onWindowChange} />
+          {!props.editable && (
+            <IconButton onClick={props.onEditChannel}>
+              <Edit />
+            </IconButton>
+          )}
+          <IconButton onClick={onWindowChange}>
+            <Delete className="trash-icon" />
+          </IconButton>
         </Grid>
       </Grid>
       {isDelete && (
