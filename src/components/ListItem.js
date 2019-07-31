@@ -43,9 +43,8 @@ function ListItem(props) {
         alignItems="center"
         onClick={props.button ? props.onClick : props.onListClick}
         css={css`
-          color: ${props.button ? "grey" : "inherit"};
+          color: ${props.active ? "#83c6e2" : props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
-          color: ${props.active && "#83c6e2"};
           padding: 8px;
           cursor: ${props.button ? "text" : "pointer"};
           font-size: 14px;
@@ -110,7 +109,9 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <Grid className="radio-button list">{!props.button ? `${props.title} (${props.count})` : `${props.title}`}</Grid>
+          <Grid className="radio-button list">
+            {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
+          </Grid>
         ) : (
           <Input
             autoFocus={true}

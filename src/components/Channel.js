@@ -61,15 +61,10 @@ function Channel(props) {
 
             .icons {
               display: block;
-              float: right;
               position: absolute;
               right: 16px;
               top: 50%;
               transform: translateY(-50%);
-            }
-
-            .trash-icon {
-              padding-right: 0;
             }
           }
         `}
@@ -93,7 +88,7 @@ function Channel(props) {
             </IconButton>
           )}
           <IconButton onClick={onWindowChange}>
-            <Delete className="trash-icon" />
+            <Delete />
           </IconButton>
         </Grid>
       </Grid>
@@ -102,10 +97,10 @@ function Channel(props) {
           container
           direction="row"
           justify="space-between"
+          alignItems="center"
           css={css`
             padding: 16px 24px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-            align-items: center;
           `}
         >
           <Typography>Удалить ленту?</Typography>
