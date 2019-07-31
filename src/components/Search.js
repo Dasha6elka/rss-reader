@@ -11,7 +11,7 @@ function Search(props) {
 
   function onDisabledInputClick() {
     if (!props.activeChannel) {
-      props.snackbar(true);
+      props.snackbar({ flag: true, message: "Выберите ленту" });
     }
   }
 

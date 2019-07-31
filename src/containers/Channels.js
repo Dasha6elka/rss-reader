@@ -5,6 +5,8 @@ import React, { useContext } from "react";
 import Channel from "../components/Channel";
 import AppContext from "../context";
 import Prompt from "../components/Prompt";
+import noTapes from "../img/noTapes.png";
+import zeroTapes from "../img/zeroTapes.png";
 
 function Channels() {
   const context = useContext(AppContext);
@@ -38,7 +40,9 @@ function Channels() {
   function onChannelItemEditFinish() {
     context.onChannelsChange(context.channels.map(channel => ({ ...channel, editable: false })));
     context.channels.forEach(channel => {
-      if (channel.editable) {
+      context.error.title = !channel.title.match(/^[\d\D]{1,40}$/);
+      context.error.link = !channel.rssUrl.match(/(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/);
+      if (channel.editable && !context.error.title && !context.error.link) {
         context.onChannelsEditFinish(channel.id);
       }
     });
@@ -68,6 +72,7 @@ function Channels() {
         context.channels.map((channel, index) => (
           <Channel
             key={index}
+            error={context.error}
             title={channel.title}
             link={channel.rssUrl}
             editable={channel.editable}
@@ -84,19 +89,9 @@ function Channels() {
       ) : (
         <React.Fragment>
           {context.activeCategory && context.activeCategory.count === 0 ? (
-            <Prompt
-              text="В категории нет лент"
-              url="https://vk.com/images/stickers/6055/512.png"
-              height="353px"
-              width="282px"
-            />
+            <Prompt text="В категории нет лент" url={zeroTapes} height="353px" width="282px" />
           ) : (
-            <Prompt
-              text="Нажмите на категорию, чтобы появились ленты"
-              url="https://avatanplus.com/files/resources/mid/58e0ccb473a4915b2e1fa0fa.png"
-              height="353px"
-              width="282px"
-            />
+            <Prompt text="Нажмите на категорию, чтобы появились ленты" url={noTapes} height="353px" width="282px" />
           )}
         </React.Fragment>
       )}

@@ -30,8 +30,9 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeChannel, setActiveChannel] = useState(null);
-  const [snackbar, setSnackbar] = useState(false);
+  const [snackbar, setSnackbar] = useState({ flag: false, message: "" });
   const [loading, setLoading] = useState(false);
+  const [error] = useState({ title: false, link: false });
 
   function onLoadingChange(change) {
     setLoading(change);
@@ -142,6 +143,16 @@ function App() {
     if (!activeChannel || !activeChannel.rssUrl) {
       return;
     }
+    if (error.title) {
+      setSnackbar({ flag: true, message: "Невалидное имя ленты" });
+      return;
+    } else if (error.link) {
+      setSnackbar({ flag: true, message: "Невалидная ссылка" });
+      return;
+    } else if (error.title && error.link) {
+      setSnackbar({ flag: true, message: "Невалидные значения ленты" });
+      return;
+    }
     parser
       .parseURL(CORS_PROXY + activeChannel.rssUrl)
       .then(feed => {
@@ -149,7 +160,7 @@ function App() {
         setLoading(false);
       })
       .catch(console.error);
-  }, [activeChannel]);
+  }, [activeChannel, error]);
 
   return (
     <AppContext.Provider
@@ -171,7 +182,8 @@ function App() {
         onActiveChannelChange,
         onDisabledInputClick,
         loading,
-        onLoadingChange
+        onLoadingChange,
+        error
       }}
     >
       <Global
@@ -225,7 +237,12 @@ function App() {
           </Overflowable>
         </GridWithFullHeight>
       </Grid>
-      <Snackbar message={"Выберите ленту"} open={snackbar} onClose={() => setSnackbar(false)} autoHideDuration={3000} />
+      <Snackbar
+        message={snackbar && snackbar.message}
+        open={snackbar && snackbar.flag}
+        onClose={() => setSnackbar({ flag: false, message: "" })}
+        autoHideDuration={3000}
+      />
     </AppContext.Provider>
   );
 }

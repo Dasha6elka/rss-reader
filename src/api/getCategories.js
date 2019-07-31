@@ -13,14 +13,8 @@ async function getCategories() {
   return {
     categories: json.categories.map(category => {
       const countersForCategory = counters.find(counter => counter.id === category.id);
-      if (!countersForCategory) {
-        return { ...category, count: 0 };
-      } else {
-        return {
-          ...category,
-          count: countersForCategory.channels.length
-        };
-      }
+      const count = countersForCategory ? countersForCategory.channels.length : 0;
+      return {...category, count: count};
     })
   };
 }

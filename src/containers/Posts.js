@@ -7,6 +7,8 @@ import Search from "../components/Search";
 import Post from "../components/Post";
 import AppContext from "../context";
 import Prompt from "../components/Prompt";
+import loading from "../img/loading.png";
+import noPosts from "../img/noPosts.png";
 
 function Posts() {
   const context = useContext(AppContext);
@@ -38,12 +40,7 @@ function Posts() {
         onSearchInputChange={value => onChangePostsList({ value })}
       />
       {context.loading ? (
-        <Prompt
-          text="Идёт загрузка данных"
-          url="http://vkclub.su/_data/stickers/finic/sticker_vk_finic_033.png"
-          height="353px"
-          width="331px"
-        />
+        <Prompt text="Идёт загрузка данных" url={loading} height="353px" width="331px" />
       ) : context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post
@@ -59,12 +56,7 @@ function Posts() {
           />
         ))
       ) : (
-        <Prompt
-          text="Нажмите на ленту, чтобы появились посты"
-          url="https://stickeroid.com/uploads/pic/full-tlgrmadd/thumb/stickeroid_5bf56b917cd79.png"
-          height="353px"
-          width="353px"
-        />
+        <Prompt text="Нажмите на ленту, чтобы появились посты" url={noPosts} height="353px" width="353px" />
       )}
     </React.Fragment>
   );
