@@ -92,6 +92,7 @@ function App() {
   }
 
   function onChannelsEditFinish(channelId) {
+    onLoadingLogoUrlChange(true);
     channels.forEach(channel => {
       parser.parseURL(CORS_PROXY + channel.rssUrl).then(feed => {
         if (channel.id === channelId) {
