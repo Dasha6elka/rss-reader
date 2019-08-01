@@ -6,7 +6,16 @@ import { Grid } from "@material-ui/core";
 import ListItem from "./ListItem";
 
 function List(props) {
-  const { items, onChange, onFinish, onDelete, activeCategory, onActiveCategoryChange, onActiveChannelChange } = props;
+  const {
+    items,
+    onChange,
+    onFinish,
+    onDelete,
+    activeCategory,
+    onActiveCategoryChange,
+    onActiveChannelChange,
+    onLoadingLogoUrlChange
+  } = props;
 
   function onButtonClick() {
     onChange([...items, { title: "", editable: true, active: false, count: 0 }]);
@@ -28,6 +37,7 @@ function List(props) {
     }
     onActiveCategoryChange({ id: id, count: count });
     onActiveChannelChange(null);
+    onLoadingLogoUrlChange(true);
   }
 
   function onListItemChange(event, index) {

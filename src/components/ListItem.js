@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React, { useEffect, useCallback } from "react";
+import React from "react";
 import PropTypes from "proptypes";
 import Grid from "@material-ui/core/Grid";
 import { RadioButtonChecked, Delete } from "@material-ui/icons";
@@ -13,25 +13,12 @@ function ListItem(props) {
   }
 
   const { onEditFinish, editable } = props;
-  const onEnterPress = useCallback(
-    event => {
-      if (!onEditFinish) {
-        return;
-      }
-      const code = event.keyCode ? event.keyCode : event.which;
-      if (code === 13 && event.target.value !== undefined && event.target.value !== "" && editable) {
-        onEditFinish();
-      }
-    },
-    [onEditFinish, editable]
-  );
 
-  useEffect(() => {
-    window.addEventListener("keydown", onEnterPress);
-    return () => {
-      window.removeEventListener("keydown", onEnterPress);
-    };
-  }, [onEnterPress]);
+  function onBlur(event) {
+    if (onEditFinish && event.target.value !== undefined && event.target.value !== "" && editable) {
+      onEditFinish();
+    }
+  }
 
   return (
     <React.Fragment>
@@ -42,6 +29,7 @@ function ListItem(props) {
         justify="flex-start"
         alignItems="center"
         onClick={props.button ? props.onClick : props.onListClick}
+        onBlur={onBlur}
         css={css`
           color: ${props.active ? "#83c6e2" : props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};

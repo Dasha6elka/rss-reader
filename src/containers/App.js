@@ -31,11 +31,17 @@ function App() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeChannel, setActiveChannel] = useState(null);
   const [snackbar, setSnackbar] = useState({ flag: false, message: "" });
-  const [loading, setLoading] = useState(false);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [error] = useState({ title: false, link: false });
+  const [loadingLogoUrl, setLoadingLogoUrl] = useState(true);
 
-  function onLoadingChange(change) {
-    setLoading(change);
+
+  function onLoadingLogoUrlChange(change) {
+    setLoadingLogoUrl(change);
+  }
+
+  function onLoadingPostsChange(change) {
+    setLoadingPosts(change);
   }
 
   function onDisabledInputClick(change) {
@@ -66,6 +72,7 @@ function App() {
         json.categories[json.categories.length - 1].active = true;
         setCategories(json.categories);
         setActiveCategory(json.categories[json.categories.length - 1]);
+        setActiveChannel(null);
       })
       .catch(console.error);
   }
@@ -135,7 +142,9 @@ function App() {
       return;
     }
     getChannels(activeCategory.id)
-      .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
+      .then(json => {
+        setChannels(json.channels.map(transformChannelToCamelCase));
+      })
       .catch(console.error);
   }, [activeCategory]);
 
@@ -157,7 +166,7 @@ function App() {
       .parseURL(CORS_PROXY + activeChannel.rssUrl)
       .then(feed => {
         setPosts(feed.items);
-        setLoading(false);
+        setLoadingPosts(false);
       })
       .catch(console.error);
   }, [activeChannel, error]);
@@ -181,9 +190,11 @@ function App() {
         onActiveCategoryChange,
         onActiveChannelChange,
         onDisabledInputClick,
-        loading,
-        onLoadingChange,
-        error
+        loadingPosts,
+        onLoadingPostsChange,
+        error,
+        loadingLogoUrl,
+        onLoadingLogoUrlChange
       }}
     >
       <Global
