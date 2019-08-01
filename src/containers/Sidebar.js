@@ -67,6 +67,7 @@ function Sidebar() {
         )}
       </Grid>
       <List
+        onLoadingLogoUrlChange={context.onLoadingLogoUrlChange}
         activeCategory={context.activeCategory}
         onActiveCategoryChange={context.onActiveCategoryChange}
         onActiveChannelChange={context.onActiveChannelChange}

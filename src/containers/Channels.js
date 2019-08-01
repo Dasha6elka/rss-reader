@@ -63,7 +63,7 @@ function Channels() {
     });
     context.onChannelsChange([...context.channels]);
     context.onActiveChannelChange({ id: id, rssUrl: rssUrl });
-    context.onLoadingChange(true);
+    context.onLoadingPostsChange(true);
   }
 
   return (
@@ -72,6 +72,8 @@ function Channels() {
         context.channels.map((channel, index) => (
           <Channel
             key={index}
+            loadingLogoUrl={context.loadingLogoUrl}
+            onLoadingLogoUrlChange={context.onLoadingLogoUrlChange}
             error={context.error}
             title={channel.title}
             link={channel.rssUrl}

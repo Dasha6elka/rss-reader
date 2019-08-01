@@ -39,7 +39,7 @@ function Posts() {
         activeChannel={context.activeChannel}
         onSearchInputChange={value => onChangePostsList({ value })}
       />
-      {context.loading ? (
+      {context.loadingPosts ? (
         <Prompt text="Идёт загрузка данных" url={loading} height="353px" width="331px" />
       ) : context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
