@@ -117,9 +117,9 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <Grid className="radio-button list">
+          <div className="radio-button list">
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
-          </Grid>
+          </div>
         ) : (
           <Input
             autoFocus={true}

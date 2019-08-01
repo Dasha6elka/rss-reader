@@ -33,7 +33,6 @@ function Post(props) {
       <Grid
         css={css`
           position: relative;
-          padding-bottom: ${props.expanded ? "16px" : "0"};
         `}
       >
         <Typography
@@ -73,9 +72,11 @@ function Post(props) {
         )}
       </Grid>
       {props.expanded && (
-        <Grid
+        <div
           dangerouslySetInnerHTML={{ __html: props.description }}
           css={css`
+            margin-top: 16px;
+
             img {
               width: 100%;
             }

@@ -69,7 +69,7 @@ function List(props) {
 
   return (
     <React.Fragment>
-      <Grid
+      <div
         css={css`
           width: 100%;
           border: 1px solid #0a0a0a;
