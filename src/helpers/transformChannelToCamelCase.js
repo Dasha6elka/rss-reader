@@ -1,4 +1,4 @@
-function transformChannelToCamelCase(channel) {
+function transformChannelToCamelCase(channel, activeChannel) {
   return {
     id: channel.id,
     title: channel.title,
@@ -6,7 +6,7 @@ function transformChannelToCamelCase(channel) {
     logoUrl: channel.logo_url,
     categoryId: channel.id_category,
     editable: false,
-    active: false
+    active: channel.id === activeChannel
   };
 }
 

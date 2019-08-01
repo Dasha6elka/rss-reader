@@ -65,7 +65,6 @@ function Channels() {
     context.onActiveChannelChange({ id: id, rssUrl: rssUrl });
     context.onLoadingPostsChange(true);
   }
-
   return (
     <React.Fragment>
       {context.activeCategory && context.activeCategory.count > 0 ? (

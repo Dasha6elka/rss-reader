@@ -35,7 +35,6 @@ function App() {
   const [error] = useState({ title: false, link: false });
   const [loadingLogoUrl, setLoadingLogoUrl] = useState(true);
 
-
   function onLoadingLogoUrlChange(change) {
     setLoadingLogoUrl(change);
   }
@@ -104,7 +103,11 @@ function App() {
           };
           updateChannel(item, channelId)
             .then(() => getChannels(channel.categoryId))
-            .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
+            .then(json => {
+              setChannels(
+                json.channels.map(channel => ({ ...transformChannelToCamelCase(channel, activeChannel.id) }))
+              );
+            })
             .catch(console.error);
         }
       });

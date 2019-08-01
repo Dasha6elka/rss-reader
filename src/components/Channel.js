@@ -37,11 +37,17 @@ function Channel(props) {
     }
   }
 
+  function onClick() {
+    if (!props.editable) {
+      props.onChannelClick();
+    }
+  }
+
   return (
     <ClickAwayListener onClickAway={onClickAway}>
       <Grid>
         <Grid
-          onClick={props.onChannelClick}
+          onClick={onClick}
           css={css`
             padding: 16px 24px;
             border-bottom: ${!isDelete && "1px solid rgba(0, 0, 0, 0.12)"};
