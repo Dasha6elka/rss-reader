@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import PropTypes from "proptypes";
 import Grid from "@material-ui/core/Grid";
-import { RadioButtonChecked, Delete } from "@material-ui/icons";
+import { RadioButtonChecked, Delete, Done } from "@material-ui/icons";
 import Input from "./Input";
 
 function ListItem(props) {
@@ -13,8 +13,27 @@ function ListItem(props) {
   }
 
   const { onEditFinish, editable } = props;
+  const onEnterPress = useCallback(
+    event => {
+      if (!onEditFinish) {
+        return;
+      }
+      const code = event.keyCode ? event.keyCode : event.which;
+      if (code === 13 && event.target.value !== undefined && event.target.value !== "" && editable) {
+        onEditFinish();
+      }
+    },
+    [onEditFinish, editable]
+  );
 
-  function onBlur(event) {
+  useEffect(() => {
+    window.addEventListener("keydown", onEnterPress);
+    return () => {
+      window.removeEventListener("keydown", onEnterPress);
+    };
+  }, [onEnterPress]);
+
+  function onEditFinishCategory(event) {
     if (onEditFinish && event.target.value !== undefined && event.target.value !== "" && editable) {
       onEditFinish();
     }
@@ -29,7 +48,7 @@ function ListItem(props) {
         justify="flex-start"
         alignItems="center"
         onClick={props.button ? props.onClick : props.onListClick}
-        onBlur={onBlur}
+        onBlur={onEditFinishCategory}
         css={css`
           color: ${props.active ? "#83c6e2" : props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
@@ -41,7 +60,6 @@ function ListItem(props) {
 
           .list {
             flex-grow: 1;
-            max-width: 73%;
             height: 18px;
           }
 
@@ -49,6 +67,7 @@ function ListItem(props) {
             margin-left: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
+            max-width: 73%;
           }
 
           .input {
@@ -57,6 +76,7 @@ function ListItem(props) {
             margin: 0 0 0 16px;
             max-height: 24px;
             font-size: 14px;
+            max-width: 66%;
 
             input {
               height: 0;
@@ -67,7 +87,7 @@ function ListItem(props) {
             }
           }
 
-          .trash-icon {
+          .hover-icons {
             display: none;
           }
 
@@ -87,7 +107,7 @@ function ListItem(props) {
               fill: white;
             }
 
-            .trash-icon {
+            .hover-icons {
               display: block;
               margin-left: 10px;
               font-size: 16px;
@@ -109,7 +129,12 @@ function ListItem(props) {
             placeholder="Введите категорию"
           />
         )}
-        {!props.button && <Delete className="trash-icon" onClick={props.onDelete} />}
+        {!props.button && (
+          <Grid container direction="row" css={css`width: ${props.editable ? "22%" : "0"};`}>
+            {props.editable && <Done className="hover-icons" onClick={onEditFinishCategory} />}
+            <Delete className="hover-icons" onClick={props.onDelete} />
+          </Grid>
+        )}
       </Grid>
     </React.Fragment>
   );
