@@ -78,6 +78,7 @@ function App() {
   }
 
   function onChannelAdd(channels) {
+    onLoadingLogoUrlChange(true);
     const lastChannel = channels[channels.length - 1];
     if (activeCategory && lastChannel.categoryId === activeCategory.id) {
       setChannels([...channels]);

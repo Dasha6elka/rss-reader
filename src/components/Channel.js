@@ -32,7 +32,9 @@ function Channel(props) {
   }
 
   function onClickAway() {
-    props.onEditFinish();
+    if (props.editable) {
+      props.onEditFinish();
+    }
   }
 
   return (
