@@ -21,10 +21,6 @@ function Search(props) {
         padding: 8px 16px;
         background: #f6f6f9;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
-
-        :after {
-          border-bottom: 2px solid #3ba5d1;
-        }
       `}
     >
       <TextField

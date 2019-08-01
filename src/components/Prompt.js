@@ -2,32 +2,27 @@
 
 import { css, jsx } from "@emotion/core";
 import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 function Prompt(props) {
   return (
-    <Grid container>
+    <Grid container direction="column" alignItems="center">
       <img
         src={props.url}
         alt=""
         css={css`
-          width: 100%;
-          height: 100%;
           max-height: ${props.height};
           max-width: ${props.width};
           margin: 20px auto;
         `}
       />
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
+      <Typography
         css={css`
           color: dimgrey;
-          text-align: center;
         `}
       >
         {props.text}
-      </Grid>
+      </Typography>
     </Grid>
   );
 }

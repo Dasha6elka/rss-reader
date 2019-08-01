@@ -41,7 +41,7 @@ function Posts() {
       />
       {context.loadingPosts ? (
         <Prompt text="Идёт загрузка данных" url={loading} height="353px" width="331px" />
-      ) : context.activeChannel && context.activeChannel.length !== 0 ? (
+      ) : context.activeCategory && context.activeChannel && context.activeChannel.length !== 0 ? (
         context.posts.map((post, index) => (
           <Post
             key={index}
