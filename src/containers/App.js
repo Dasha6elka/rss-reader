@@ -77,9 +77,9 @@ function App() {
   }
 
   function onChannelAdd(channels) {
-    onLoadingLogoUrlChange(true);
     const lastChannel = channels[channels.length - 1];
     if (activeCategory && lastChannel.categoryId === activeCategory.id) {
+      onLoadingLogoUrlChange(true);
       setChannels([...channels]);
     }
     parser.parseURL(CORS_PROXY + lastChannel.rssUrl).then(feed => {
