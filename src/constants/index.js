@@ -3,7 +3,7 @@ export const HEADERS = {
   Accept: "application/json, text/plain, */*",
   "Content-Type": "application/json"
 };
-export const returnResponseText = (response) => {
+export const returnResponseText = response => {
   return response.text().then(function(text) {
     return text ? JSON.parse(text) : {};
   });

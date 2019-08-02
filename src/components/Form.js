@@ -1,10 +1,10 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
+import { useState } from "react";
 import { Button } from "@material-ui/core";
 import useForm from "../hooks/useForm";
 import FormControl from "./FormControl";
-import { useState } from "react";
 
 function Form(props) {
   const stateSchema = {
@@ -30,9 +30,7 @@ function Form(props) {
   };
 
   const { state, handleOnChange, handleOnSubmit, disable } = useForm(stateSchema, validationStateSchema);
-
   const [valuesForm, setValuesForm] = useState({ title: "", rssUrl: "", logoUrl: "", categoryId: 0 });
-
   const [selected, setSelected] = useState(false);
 
   function onChange(event, name) {

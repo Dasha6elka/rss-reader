@@ -2,9 +2,9 @@
 
 import { jsx, css } from "@emotion/core";
 import React, { useEffect, useCallback } from "react";
+import { RadioButtonChecked, Delete, Done } from "@material-ui/icons";
 import PropTypes from "proptypes";
 import Grid from "@material-ui/core/Grid";
-import { RadioButtonChecked, Delete, Done } from "@material-ui/icons";
 import Input from "./Input";
 
 function ListItem(props) {
@@ -117,9 +117,9 @@ function ListItem(props) {
       >
         <RadioButtonChecked className="list-icon" />
         {!props.editable ? (
-          <div className="radio-button list">
+          <Grid className="radio-button list">
             {!props.button ? `${props.title} (${props.count})` : `${props.title}`}
-          </div>
+          </Grid>
         ) : (
           <Input
             autoFocus={true}
@@ -130,7 +130,13 @@ function ListItem(props) {
           />
         )}
         {!props.button && (
-          <Grid container direction="row" css={css`width: ${props.editable ? "22%" : "0"};`}>
+          <Grid
+            container
+            direction="row"
+            css={css`
+              width: ${props.editable ? "22%" : "0"};
+            `}
+          >
             {props.editable && <Done className="hover-icons" onClick={onEditFinishCategory} />}
             <Delete className="hover-icons" onClick={props.onDelete} />
           </Grid>

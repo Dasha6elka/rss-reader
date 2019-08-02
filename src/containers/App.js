@@ -33,8 +33,12 @@ function App() {
   const [activeChannel, setActiveChannel] = useState(null);
   const [snackbar, setSnackbar] = useState({ flag: false, message: "" });
   const [loadingPosts, setLoadingPosts] = useState(false);
-  const [error] = useState({ title: false, link: false });
+  const [error, setError] = useState([]);
   const [loadingLogoUrl, setLoadingLogoUrl] = useState(true);
+
+  function onErrorChange(change) {
+    setError(change);
+  }
 
   function onLoadingLogoUrlChange(change) {
     setLoadingLogoUrl(change);
@@ -93,6 +97,19 @@ function App() {
   }
 
   function onChannelsEditFinish(channelId) {
+    let isValid = true;
+    channels.forEach(channel => {
+      if (channel.id === channelId) {
+        error.forEach(err => {
+          if ((err.id === channelId && err.title) || err.link) {
+            isValid = false;
+          }
+        });
+      }
+    });
+    if (!isValid) {
+      return;
+    }
     channels.forEach(channel => {
       if (channel.id === channelId) {
         getLogoUrl(encodeURIComponent(channel.rssUrl)).then(json => {
@@ -110,6 +127,15 @@ function App() {
                   ...transformChannelToCamelCase(channel, activeChannel && activeChannel.id)
                 }))
               );
+              if (activeChannel.id === channel.id) {
+                parser
+                  .parseURL(CORS_PROXY + channel.rssUrl)
+                  .then(feed => {
+                    setPosts(feed.items);
+                    setLoadingPosts(false);
+                  })
+                  .catch(console.error);
+              }
             })
             .catch(console.error);
         });
@@ -159,14 +185,22 @@ function App() {
     if (!activeChannel || !activeChannel.rssUrl) {
       return;
     }
-    if (error.title) {
-      setSnackbar({ flag: true, message: "Невалидное имя ленты" });
-      return;
-    } else if (error.link) {
-      setSnackbar({ flag: true, message: "Невалидная ссылка" });
-      return;
-    } else if (error.title && error.link) {
-      setSnackbar({ flag: true, message: "Невалидные значения ленты" });
+    let isError = false;
+    error.forEach(err => {
+      if (err.id === activeChannel.id) {
+        if (err.title) {
+          setSnackbar({ flag: true, message: "Невалидное имя ленты" });
+          isError = true;
+        } else if (err.link) {
+          setSnackbar({ flag: true, message: "Невалидная ссылка" });
+          isError = true;
+        } else if (err.title && err.link) {
+          setSnackbar({ flag: true, message: "Невалидные значения ленты" });
+          isError = true;
+        }
+      }
+    });
+    if (isError) {
       return;
     }
     parser
@@ -176,7 +210,7 @@ function App() {
         setLoadingPosts(false);
       })
       .catch(console.error);
-  }, [activeChannel, error]);
+  }, [activeChannel]);
 
   return (
     <AppContext.Provider
@@ -200,6 +234,7 @@ function App() {
         loadingPosts,
         onLoadingPostsChange,
         error,
+        onErrorChange,
         loadingLogoUrl,
         onLoadingLogoUrlChange
       }}

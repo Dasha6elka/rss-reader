@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import { FormControl as MaterialFormControl, Select } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Input from "./Input";
 import MenuItem from "@material-ui/core/MenuItem";
+import Input from "./Input";
 
 function FormControl(props) {
   const [categoryId, setCategoryId] = useState();
@@ -72,7 +72,9 @@ function FormControl(props) {
             )}
           </Select>
           {(props.error || !categoryId) && (
-            <FormHelperText variant="outlined" className="helper-text">Не выбрана категория</FormHelperText>
+            <FormHelperText variant="outlined" className="helper-text">
+              Не выбрана категория
+            </FormHelperText>
           )}
         </React.Fragment>
       ) : (

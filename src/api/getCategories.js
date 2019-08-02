@@ -14,7 +14,7 @@ async function getCategories() {
     categories: json.categories.map(category => {
       const countersForCategory = counters.find(counter => counter.id === category.id);
       const count = countersForCategory ? countersForCategory.channels.length : 0;
-      return {...category, count: count};
+      return { ...category, count: count };
     })
   };
 }

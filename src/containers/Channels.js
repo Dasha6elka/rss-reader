@@ -40,9 +40,25 @@ function Channels() {
   function onChannelItemEditFinish() {
     context.onChannelsChange(context.channels.map(channel => ({ ...channel, editable: false })));
     context.channels.forEach(channel => {
-      context.error.title = !channel.title.match(/^[\d\D]{1,40}$/);
-      context.error.link = !channel.rssUrl.match(/(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/);
-      if (channel.editable && !context.error.title && !context.error.link) {
+      const isTitle = !channel.title.match(/^[\d\D]{1,40}$/);
+      const isLink = !channel.rssUrl.match(/(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/);
+      if (context.error.length === 0) {
+        context.onErrorChange([{ id: channel.id, title: isTitle, link: isLink }]);
+      }
+      let newId = true;
+      context.error.map(err => {
+        if (err.id === channel.id) {
+          err.title = isTitle;
+          err.link = isLink;
+          newId = false;
+          context.onErrorChange([...context.error]);
+        }
+      });
+      if (newId) {
+        context.error.push({ id: channel.id, title: isTitle, link: isLink });
+        context.onErrorChange([...context.error, { id: channel.id, title: isTitle, link: isLink }]);
+      }
+      if (channel.editable) {
         context.onChannelsEditFinish(channel.id);
       }
     });
@@ -73,7 +89,6 @@ function Channels() {
             key={index}
             loadingLogoUrl={context.loadingLogoUrl}
             onLoadingLogoUrlChange={context.onLoadingLogoUrlChange}
-            error={context.error}
             title={channel.title}
             link={channel.rssUrl}
             editable={channel.editable}
