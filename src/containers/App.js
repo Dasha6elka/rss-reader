@@ -18,6 +18,7 @@ import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase"
 import { CORS_PROXY } from "../constants";
 import Overflowable from "../components/Overflowable";
 import withFullHeight from "../HoCs/withFullHeight";
+import getLogoUrl from "../api/getLogoUrl";
 
 const Parser = require("rss-parser");
 const parser = new Parser();
@@ -82,10 +83,10 @@ function App() {
       onLoadingLogoUrlChange(true);
       setChannels([...channels]);
     }
-    parser.parseURL(CORS_PROXY + lastChannel.rssUrl).then(feed => {
-      lastChannel.logoUrl = feed.image.url;
+    getLogoUrl(encodeURIComponent(lastChannel.rssUrl)).then(json => {
+      lastChannel.logoUrl = json;
       addChannel(lastChannel)
-        .then(() => getChannels(activeCategory.id))
+        .then(() => getChannels(activeCategory && activeCategory.id))
         .then(json => setChannels(json.channels.map(transformChannelToCamelCase)))
         .catch(console.error);
     });
@@ -93,24 +94,26 @@ function App() {
 
   function onChannelsEditFinish(channelId) {
     channels.forEach(channel => {
-      parser.parseURL(CORS_PROXY + channel.rssUrl).then(feed => {
-        if (channel.id === channelId) {
+      if (channel.id === channelId) {
+        getLogoUrl(encodeURIComponent(channel.rssUrl)).then(json => {
           let item = {
             title: channel.title,
             rssUrl: channel.rssUrl,
-            logoUrl: feed.image.url,
+            logoUrl: json,
             categoryId: channel.categoryId
           };
           updateChannel(item, channelId)
             .then(() => getChannels(channel.categoryId))
             .then(json => {
               setChannels(
-                json.channels.map(channel => ({ ...transformChannelToCamelCase(channel, activeChannel.id) }))
+                json.channels.map(channel => ({
+                  ...transformChannelToCamelCase(channel, activeChannel && activeChannel.id)
+                }))
               );
             })
             .catch(console.error);
-        }
-      });
+        });
+      }
     });
   }
 
