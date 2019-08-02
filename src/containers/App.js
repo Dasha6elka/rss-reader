@@ -2,20 +2,20 @@
 
 import { css, Global, jsx } from "@emotion/core";
 import { useEffect, useState } from "react";
+import { Grid, Snackbar } from "@material-ui/core";
+import { CORS_PROXY } from "../constants";
+import AppContext from "../context";
 import Sidebar from "./Sidebar";
 import Channels from "./Channels";
 import Posts from "./Posts";
 import getCategories from "../api/getCategories";
-import AppContext from "../context";
 import addCategory from "../api/addCategory";
 import deleteCategory from "../api/deleteCategory";
 import getChannels from "../api/getChannels";
 import addChannel from "../api/addChannel";
 import deleteChannel from "../api/deleteChannel";
-import { Grid, Snackbar } from "@material-ui/core";
 import updateChannel from "../api/updateChannel";
 import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase";
-import { CORS_PROXY } from "../constants";
 import Overflowable from "../components/Overflowable";
 import withFullHeight from "../HoCs/withFullHeight";
 import getLogoUrl from "../api/getLogoUrl";
@@ -127,7 +127,7 @@ function App() {
                   ...transformChannelToCamelCase(channel, activeChannel && activeChannel.id)
                 }))
               );
-              if (activeChannel.id === channel.id) {
+              if (activeChannel && activeChannel.id === channel.id) {
                 parser
                   .parseURL(CORS_PROXY + channel.rssUrl)
                   .then(feed => {
@@ -201,16 +201,18 @@ function App() {
       }
     });
     if (isError) {
+      onLoadingPostsChange(true);
       return;
     }
     parser
       .parseURL(CORS_PROXY + activeChannel.rssUrl)
       .then(feed => {
+        console.log(isError);
         setPosts(feed.items);
         setLoadingPosts(false);
       })
       .catch(console.error);
-  }, [activeChannel]);
+  }, [activeChannel, error]);
 
   return (
     <AppContext.Provider
