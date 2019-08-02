@@ -15,68 +15,47 @@ function Post(props) {
         padding: 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.24);
         display: ${props.onInput === true && props.found === false && "none"};
-
-        .typography {
-          color: rgba(0, 0, 0, 0.539261);
-        }
-
-        .expand {
-          position: absolute;
-          right: 0;
-          top: 0;
-          padding: 16px;
-          transform-origin: top;
-          cursor: pointer;
-        }
       `}
     >
-      <Grid
-        css={css`
-          position: relative;
-        `}
-      >
-        <Typography
-          variant="h5"
-          css={css`
-            width: 90%;
-            color: rgba(41, 98, 147, 0.87);
-          `}
-        >
-          {props.title}
-        </Typography>
-        <Grid container direction="column">
-          {props.visited && (
-            <Typography
-              variant="overline"
-              className="typography"
-              css={css`
-                padding-top: 8px;
-                line-height: 16px;
-              `}
-            >
-              Прочитано
-            </Typography>
-          )}
-          <Typography variant="caption" className="typography">
-            Дата публикации: {formatDate(date)}
+      <Grid container wrap={"nowrap"}>
+        <Grid item container direction="column">
+          <Typography
+            variant="h5"
+            css={css`
+              color: rgba(41, 98, 147, 0.87);
+            `}
+          >
+            {props.title}
           </Typography>
+          <Grid
+            container
+            direction={"column"}
+            css={css`
+              padding-top: 8px;
+            `}
+          >
+            {props.visited && (
+              <Typography variant="caption" css={css`color: rgba(0, 0, 0, 0.539261);`}>
+                ПРОЧИТАНО
+              </Typography>
+            )}
+            <Typography variant="caption" css={css`color: rgba(0, 0, 0, 0.539261);`}>
+              Дата публикации: {formatDate(date)}
+            </Typography>
+          </Grid>
         </Grid>
-        {props.expanded ? (
-          <IconButton className="expand" onClick={props.onArrowClick}>
-            <ExpandLess />
+        <Grid item>
+          <IconButton onClick={props.onArrowClick}>
+            {props.expanded ? <ExpandLess/> : <ExpandMore/>}
           </IconButton>
-        ) : (
-          <IconButton className="expand" onClick={props.onArrowClick}>
-            <ExpandMore />
-          </IconButton>
-        )}
+        </Grid>
       </Grid>
       {props.expanded && (
-        <div
+        <Grid
           dangerouslySetInnerHTML={{ __html: props.description }}
           css={css`
             margin-top: 16px;
-
+              
             img {
               width: 100%;
             }
