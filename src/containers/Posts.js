@@ -35,7 +35,7 @@ function Posts() {
   return (
     <React.Fragment>
       <Search
-        snackbar={context.onDisabledInputClick}
+        snackbar={context.onSnackbarChange}
         activeChannel={context.activeChannel}
         onSearchInputChange={value => onChangePostsList({ value })}
       />

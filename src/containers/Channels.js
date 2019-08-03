@@ -40,24 +40,6 @@ function Channels() {
   function onChannelItemEditFinish() {
     context.onChannelsChange(context.channels.map(channel => ({ ...channel, editable: false })));
     context.channels.forEach(channel => {
-      const isTitle = !channel.title.match(/^[\d\D]{1,40}$/);
-      const isLink = !channel.rssUrl.match(/(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/);
-      if (context.error.length === 0) {
-        context.onErrorChange([{ id: channel.id, title: isTitle, link: isLink }]);
-      }
-      let newId = true;
-      context.error.map(err => {
-        if (err.id === channel.id) {
-          err.title = isTitle;
-          err.link = isLink;
-          newId = false;
-          context.onErrorChange([...context.error]);
-        }
-      });
-      if (newId) {
-        context.error.push({ id: channel.id, title: isTitle, link: isLink });
-        context.onErrorChange([...context.error, { id: channel.id, title: isTitle, link: isLink }]);
-      }
       if (channel.editable) {
         context.onChannelsEditFinish(channel.id);
       }
@@ -87,8 +69,8 @@ function Channels() {
         context.channels.map((channel, index) => (
           <Channel
             key={index}
-            loadingLogoUrl={context.loadingLogoUrl}
-            onLoadingLogoUrlChange={context.onLoadingLogoUrlChange}
+            id={channel.id}
+            onSnackbarChange={context.onSnackbarChange}
             title={channel.title}
             link={channel.rssUrl}
             editable={channel.editable}

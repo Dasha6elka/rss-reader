@@ -14,7 +14,6 @@ function List(props) {
     activeCategory,
     onActiveCategoryChange,
     onActiveChannelChange,
-    onLoadingLogoUrlChange
   } = props;
 
   function onButtonClick() {
@@ -37,7 +36,6 @@ function List(props) {
     }
     onActiveCategoryChange({ id: id, count: count });
     onActiveChannelChange(null);
-    onLoadingLogoUrlChange(true);
   }
 
   function onListItemChange(event, index) {

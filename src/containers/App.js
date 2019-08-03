@@ -33,22 +33,12 @@ function App() {
   const [activeChannel, setActiveChannel] = useState(null);
   const [snackbar, setSnackbar] = useState({ flag: false, message: "" });
   const [loadingPosts, setLoadingPosts] = useState(false);
-  const [error, setError] = useState([]);
-  const [loadingLogoUrl, setLoadingLogoUrl] = useState(true);
-
-  function onErrorChange(change) {
-    setError(change);
-  }
-
-  function onLoadingLogoUrlChange(change) {
-    setLoadingLogoUrl(change);
-  }
 
   function onLoadingPostsChange(change) {
     setLoadingPosts(change);
   }
 
-  function onDisabledInputClick(change) {
+  function onSnackbarChange(change) {
     setSnackbar(change);
   }
 
@@ -84,7 +74,6 @@ function App() {
   function onChannelAdd(channels) {
     const lastChannel = channels[channels.length - 1];
     if (activeCategory && lastChannel.categoryId === activeCategory.id) {
-      onLoadingLogoUrlChange(true);
       setChannels([...channels]);
     }
     getLogoUrl(encodeURIComponent(lastChannel.rssUrl)).then(json => {
@@ -97,19 +86,6 @@ function App() {
   }
 
   function onChannelsEditFinish(channelId) {
-    let isValid = true;
-    channels.forEach(channel => {
-      if (channel.id === channelId) {
-        error.forEach(err => {
-          if ((err.id === channelId && err.title) || err.link) {
-            isValid = false;
-          }
-        });
-      }
-    });
-    if (!isValid) {
-      return;
-    }
     channels.forEach(channel => {
       if (channel.id === channelId) {
         getLogoUrl(encodeURIComponent(channel.rssUrl)).then(json => {
@@ -185,34 +161,14 @@ function App() {
     if (!activeChannel || !activeChannel.rssUrl) {
       return;
     }
-    let isError = false;
-    error.forEach(err => {
-      if (err.id === activeChannel.id) {
-        if (err.title) {
-          setSnackbar({ flag: true, message: "Невалидное имя ленты" });
-          isError = true;
-        } else if (err.link) {
-          setSnackbar({ flag: true, message: "Невалидная ссылка" });
-          isError = true;
-        } else if (err.title && err.link) {
-          setSnackbar({ flag: true, message: "Невалидные значения ленты" });
-          isError = true;
-        }
-      }
-    });
-    if (isError) {
-      onLoadingPostsChange(true);
-      return;
-    }
     parser
       .parseURL(CORS_PROXY + activeChannel.rssUrl)
       .then(feed => {
-        console.log(isError);
         setPosts(feed.items);
         setLoadingPosts(false);
       })
       .catch(console.error);
-  }, [activeChannel, error]);
+  }, [activeChannel]);
 
   return (
     <AppContext.Provider
@@ -232,13 +188,9 @@ function App() {
         activeChannel,
         onActiveCategoryChange,
         onActiveChannelChange,
-        onDisabledInputClick,
-        loadingPosts,
         onLoadingPostsChange,
-        error,
-        onErrorChange,
-        loadingLogoUrl,
-        onLoadingLogoUrlChange
+        loadingPosts,
+        onSnackbarChange,
       }}
     >
       <Global

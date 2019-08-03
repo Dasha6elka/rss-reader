@@ -16,8 +16,8 @@ function Form(props) {
     name: {
       required: true,
       validator: {
-        regEx: /^[\d\D]{1,40}$/,
-        error: "Невалидное имя ленты."
+        regEx: /^[\d\D]{1,28}$/,
+        error: "Невалидное название"
       }
     },
     link: {
@@ -83,12 +83,11 @@ function Form(props) {
         categories={props.categories}
       />
       <Button
+        fullWidth
         css={css`
           padding: 6px 16px;
           background-color: #3ba5d1;
           color: white;
-          text-align: center;
-          width: 100%;
           margin-top: 16px;
 
           :hover {

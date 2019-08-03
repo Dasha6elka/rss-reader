@@ -13,6 +13,8 @@ import Input from "./Input";
 
 function Channel(props) {
   const [isDelete, setIsDelete] = useState(false);
+  const [error, setError] = useState([]);
+  const [loadingLogoUrl, setLoadingLogoUrl] = useState(true);
 
   function onDeleteWindowChange() {
     setIsDelete(!isDelete);
@@ -33,6 +35,50 @@ function Channel(props) {
 
   function onClickAway() {
     if (props.editable) {
+      let isTitle, isLink;
+      if (props.title) {
+        isTitle = !props.title.match(/^[\d\D]{1,28}$/);
+      }
+      if (props.link) {
+        isLink = !props.link.match(/(http|https):\/\/(\S+)\.([a-z]{2,}?)(.*?)( |,|$|\.)/);
+      }
+      if (isTitle === undefined) {
+        isTitle = true;
+      }
+      if (isLink === undefined) {
+        isLink = true;
+      }
+      if (error.length === 0) {
+        setError([{ id: props.id, title: isTitle, link: isLink }]);
+      }
+      let newId = true;
+      error.map(err => {
+        if (err.id === props.id) {
+          err.title = isTitle;
+          err.link = isLink;
+          newId = false;
+          setError([...error]);
+        }
+      });
+      if (newId) {
+        error.push({ id: props.id, title: isTitle, link: isLink });
+        setError([...error, { id: props.id, title: isTitle, link: isLink }]);
+      }
+      let isError = false;
+      error.forEach(err => {
+        if (err.id === props.id) {
+          if (err.title) {
+            props.onSnackbarChange({ flag: true, message: "Невалидное название" });
+            isError = true;
+          } else if (err.link) {
+            props.onSnackbarChange({ flag: true, message: "Невалидная ссылка" });
+            isError = true;
+          }
+        }
+      });
+      if (isError) {
+        return;
+      }
       props.onEditFinish();
     }
   }
@@ -47,6 +93,8 @@ function Channel(props) {
     <ClickAwayListener onClickAway={onClickAway}>
       <Grid>
         <Grid
+          container
+          direction="row"
           onClick={onClick}
           css={css`
             padding: 16px 24px;
@@ -77,25 +125,29 @@ function Channel(props) {
             }
           `}
         >
-          <Grid container direction="row">
-            <CircularProgress
-              className="site-icon"
-              css={css`
-                display: ${props.loadingLogoUrl ? "block" : "none"};
-              `}
-            />
-            <img
-              src={props.url}
-              alt=""
-              className="site-icon"
-              css={css`
-                display: ${props.loadingLogoUrl ? "none" : "block"};
-              `}
-              onLoad={() => props.onLoadingLogoUrlChange(false)}
-            />
-            <ChannelTitle editable={props.editable} title={props.title} onChange={onTitleChange} />
+          <Grid container direction="column">
+            <Grid container direction="row">
+              <CircularProgress
+                className="site-icon"
+                css={css`
+                  display: ${loadingLogoUrl ? "block" : "none"};
+                `}
+              />
+              <img
+                src={`${props.url}?v=${new Date().getTime()}`}
+                alt=""
+                className="site-icon"
+                css={css`
+                  display: ${loadingLogoUrl ? "none" : "block"};
+                `}
+                onLoad={() => {
+                  setLoadingLogoUrl(false);
+                }}
+              />
+              <ChannelTitle editable={props.editable} title={props.title} onChange={onTitleChange} />
+            </Grid>
+            <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
           </Grid>
-          <ChannelLink editable={props.editable} link={props.link} onChange={onLinkChange} />
           <Grid className="icons" onClick={event => event.stopPropagation()}>
             {!props.editable && (
               <IconButton onClick={props.onEditChannel}>
@@ -110,6 +162,7 @@ function Channel(props) {
         {isDelete && (
           <Grid
             container
+            wrap="nowrap"
             direction="row"
             justify="space-between"
             alignItems="center"
@@ -120,23 +173,26 @@ function Channel(props) {
           >
             <Typography>Удалить ленту?</Typography>
             <Grid
+              item
               container
               direction="row"
               justify="flex-end"
               css={css`
-                width: auto;
-
                 button {
                   color: #3ba5d1;
                 }
               `}
             >
-              <Button href="" variant="text" color="primary" onClick={onDeleteWindowChange}>
-                Да
-              </Button>
-              <Button href="" variant="text" color="primary" onClick={onWindowChange}>
-                Нет
-              </Button>
+              <Grid>
+                <Button variant="text" color="primary" onClick={onDeleteWindowChange}>
+                  Да
+                </Button>
+              </Grid>
+              <Grid>
+                <Button variant="text" color="primary" onClick={onWindowChange}>
+                  Нет
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         )}
@@ -147,13 +203,16 @@ function Channel(props) {
 
 function ChannelTitle(props) {
   return (
-    <React.Fragment>
+    <Grid
+      css={css`
+        margin-left: 8px;
+      `}
+    >
       {!props.editable ? (
         <Typography
           variant="body2"
           css={css`
             min-height: 20px;
-            margin-left: 8px;
             margin-bottom: 8px;
             max-width: 160px;
             text-overflow: ellipsis;
@@ -170,13 +229,12 @@ function ChannelTitle(props) {
           name="title"
           autoComplete="off"
           css={css`
-            font-size: 14px;
-            margin-left: 8px;
             max-height: 20px;
+            font-size: 14px;
           `}
         />
       )}
-    </React.Fragment>
+    </Grid>
   );
 }
 
@@ -188,12 +246,10 @@ function ChannelLink(props) {
           variant="caption"
           css={css`
             color: rgba(0, 0, 0, 0.539261);
-            min-height: 20px;
             margin-left: 0.1px;
-            max-width: 160px;
+            max-width: 241px;
             text-overflow: ellipsis;
             overflow: hidden;
-            white-space: nowrap;
           `}
         >
           {props.link}
