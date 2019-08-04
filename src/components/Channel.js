@@ -52,7 +52,7 @@ function Channel(props) {
         setError([{ id: props.id, title: isTitle, link: isLink }]);
       }
       let newId = true;
-      error.map(err => {
+      error.forEach(err => {
         if (err.id === props.id) {
           err.title = isTitle;
           err.link = isLink;
@@ -62,9 +62,10 @@ function Channel(props) {
       });
       if (newId) {
         error.push({ id: props.id, title: isTitle, link: isLink });
-        setError([...error, { id: props.id, title: isTitle, link: isLink }]);
+        setError([...error]);
       }
       let isError = false;
+      console.log(error);
       error.forEach(err => {
         if (err.id === props.id) {
           if (err.title) {
@@ -108,7 +109,6 @@ function Channel(props) {
 
             .site-icon {
               height: 16px !important;
-              width: 16px !important;
             }
 
             &:hover {
@@ -169,9 +169,13 @@ function Channel(props) {
             css={css`
               padding: 16px 24px;
               border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+              .question {
+                width: 100%;
+              }
             `}
           >
-            <Typography>Удалить ленту?</Typography>
+            <Typography className="question">Удалить ленту?</Typography>
             <Grid
               item
               container
@@ -262,7 +266,6 @@ function ChannelLink(props) {
           name="link"
           autoComplete="off"
           css={css`
-            display: block;
             font-size: 12px;
             color: rgba(0, 0, 0, 0.539261);
             max-width: 188px;

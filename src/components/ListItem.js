@@ -43,6 +43,7 @@ function ListItem(props) {
     <React.Fragment>
       <Grid
         item
+        wrap="nowrap"
         container
         direction="row"
         justify="flex-start"
@@ -52,7 +53,6 @@ function ListItem(props) {
         css={css`
           color: ${props.active ? "#83c6e2" : props.button ? "grey" : "inherit"};
           background: ${props.active && "rgba(59, 165, 209, 0.15)"};
-          padding: 8px;
           cursor: ${props.button ? "text" : "pointer"};
           font-size: 14px;
           margin: 0 8px 4px 8px;
@@ -61,20 +61,17 @@ function ListItem(props) {
           .list {
             flex-grow: 1;
             height: 18px;
+            margin-left: 16px;
           }
 
           .radio-button {
-            margin-left: 16px;
             text-overflow: ellipsis;
             overflow: hidden;
             max-width: 73%;
           }
 
           .input {
-            border: none;
             color: white;
-            margin: 0 0 0 16px;
-            max-height: 24px;
             font-size: 14px;
             max-width: 66%;
 
@@ -132,6 +129,7 @@ function ListItem(props) {
         {!props.button && (
           <Grid
             container
+            wrap="nowrap"
             direction="row"
             css={css`
               width: ${props.editable ? "22%" : "0"};
