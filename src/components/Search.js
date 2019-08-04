@@ -12,6 +12,8 @@ function Search(props) {
   function onDisabledInputClick() {
     if (!props.activeChannel) {
       props.snackbar({ flag: true, message: "Выберите ленту" });
+    } else if (props.loadingPosts) {
+      props.snackbar({ flag: true, message: "Идёт загрузка даных" });
     }
   }
 
@@ -31,7 +33,7 @@ function Search(props) {
         `}
         fullWidth
         onClick={onDisabledInputClick}
-        disabled={!props.activeChannel}
+        disabled={!props.activeChannel || (props.activeChannel && props.loadingPosts)}
         placeholder="Поиск по названиям постов"
         onChange={event => onInputChange(event.target.value.toLowerCase())}
         InputProps={{

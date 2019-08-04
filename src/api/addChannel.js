@@ -1,4 +1,4 @@
-import { API_URL, HEADERS, returnResponseText } from "../constants";
+import { API_URL, HEADERS, returnResponseText } from "./constants";
 
 async function addChannel(channel) {
   const response = await fetch(`${API_URL}/channel`, {

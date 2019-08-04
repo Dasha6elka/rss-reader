@@ -65,7 +65,6 @@ function Channel(props) {
         setError([...error]);
       }
       let isError = false;
-      console.log(error);
       error.forEach(err => {
         if (err.id === props.id) {
           if (err.title) {
@@ -109,6 +108,7 @@ function Channel(props) {
 
             .site-icon {
               height: 16px !important;
+              width: 16px !important;
             }
 
             &:hover {

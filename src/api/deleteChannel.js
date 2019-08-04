@@ -1,4 +1,4 @@
-import { API_URL, returnResponseText } from "../constants";
+import { API_URL, returnResponseText } from "./constants";
 
 async function deleteChannel(channelId) {
   const response = await fetch(`${API_URL}/channel/${channelId}`, {

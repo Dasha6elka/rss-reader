@@ -3,7 +3,6 @@
 import { css, Global, jsx } from "@emotion/core";
 import { useEffect, useState } from "react";
 import { Grid, Snackbar } from "@material-ui/core";
-import { CORS_PROXY } from "../constants";
 import AppContext from "../context";
 import Sidebar from "./Sidebar";
 import Channels from "./Channels";
@@ -19,9 +18,9 @@ import transformChannelToCamelCase from "../helpers/transformChannelToCamelCase"
 import Overflowable from "../components/Overflowable";
 import withFullHeight from "../HoCs/withFullHeight";
 import getLogoUrl from "../api/getLogoUrl";
+import getPosts from "../api/getPosts";
 
-const Parser = require("rss-parser");
-const parser = new Parser();
+const convert = require("xml-js");
 
 const GridWithFullHeight = withFullHeight(Grid);
 
@@ -104,13 +103,16 @@ function App() {
                 }))
               );
               if (activeChannel && activeChannel.id === channel.id) {
-                parser
-                  .parseURL(CORS_PROXY + channel.rssUrl)
-                  .then(feed => {
-                    setPosts(feed.items);
+                getPosts(encodeURIComponent(channel.rssUrl))
+                  .then(xml => {
+                    const result = convert.xml2js(xml, { compact: true, spaces: 4 });
+                    check(result);
                     setLoadingPosts(false);
                   })
-                  .catch(console.error);
+                  .catch(() => {
+                    setSnackbar({ flag: true, message: "Невалидная ссылка" });
+                    console.log("Error");
+                  });
               }
             })
             .catch(console.error);
@@ -158,17 +160,31 @@ function App() {
   }, [activeCategory]);
 
   useEffect(() => {
+    setPosts([]);
     if (!activeChannel || !activeChannel.rssUrl) {
       return;
     }
-    parser
-      .parseURL(CORS_PROXY + activeChannel.rssUrl)
-      .then(feed => {
-        setPosts(feed.items);
+    getPosts(encodeURIComponent(activeChannel.rssUrl))
+      .then(xml => {
+        const result = convert.xml2js(xml, { compact: true, spaces: 4 });
+        check(result);
         setLoadingPosts(false);
       })
-      .catch(console.error);
+      .catch(() => {
+        setSnackbar({ flag: true, message: "Невалидная ссылка" });
+        console.log("Error");
+      });
   }, [activeChannel]);
+
+  function check(result) {
+    const rss = result.rss && result.rss.channel && result.rss.channel.item && Array.isArray(result.rss.channel.item);
+    const rdf = result["rdf:RDF"] && result["rdf:RDF"].item && Array.isArray(result["rdf:RDF"].item);
+    if (rss) {
+      setPosts(result.rss.channel.item);
+    } else if (rdf) {
+      setPosts(result["rdf:RDF"].item);
+    }
+  }
 
   return (
     <AppContext.Provider
@@ -190,7 +206,7 @@ function App() {
         onActiveChannelChange,
         onLoadingPostsChange,
         loadingPosts,
-        onSnackbarChange,
+        onSnackbarChange
       }}
     >
       <Global

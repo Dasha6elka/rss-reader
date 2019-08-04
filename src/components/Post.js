@@ -35,27 +35,37 @@ function Post(props) {
             `}
           >
             {props.visited && (
-              <Typography variant="caption" css={css`color: rgba(0, 0, 0, 0.539261);`}>
+              <Typography
+                variant="caption"
+                css={css`
+                  color: rgba(0, 0, 0, 0.539261);
+                `}
+              >
                 ПРОЧИТАНО
               </Typography>
             )}
-            <Typography variant="caption" css={css`color: rgba(0, 0, 0, 0.539261);`}>
-              Дата публикации: {formatDate(date)}
-            </Typography>
+            {props.date && (
+              <Typography
+                variant="caption"
+                css={css`
+                  color: rgba(0, 0, 0, 0.539261);
+                `}
+              >
+                Дата публикации: {formatDate(date)}
+              </Typography>
+            )}
           </Grid>
         </Grid>
         <Grid item>
-          <IconButton onClick={props.onArrowClick}>
-            {props.expanded ? <ExpandLess/> : <ExpandMore/>}
-          </IconButton>
+          <IconButton onClick={props.onArrowClick}>{props.expanded ? <ExpandLess /> : <ExpandMore />}</IconButton>
         </Grid>
       </Grid>
       {props.expanded && (
         <Grid
-          dangerouslySetInnerHTML={{ __html: props.description }}
+          dangerouslySetInnerHTML={{ __html: htmlDecode(props.description) }}
           css={css`
             margin-top: 16px;
-              
+
             img {
               width: 100%;
             }
@@ -84,4 +94,9 @@ function formatDate(date) {
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${day}.${month}.${year} в ${hours}:${minutes}`;
+}
+
+function htmlDecode(input) {
+  const doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
 }

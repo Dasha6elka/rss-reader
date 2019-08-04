@@ -9,6 +9,7 @@ import AppContext from "../context";
 import Prompt from "../components/Prompt";
 import loading from "../img/loading.png";
 import noPosts from "../img/noPosts.png";
+import LinearDeterminate from "../components/LinearDeterminate";
 
 function Posts() {
   const context = useContext(AppContext);
@@ -28,29 +29,38 @@ function Posts() {
   }
 
   function change(post, index, value) {
-    const title = post.title.toLowerCase();
-    post.found = title.includes(value.value);
+    const title = (post.title && (post.title._text || post.title._cdata));
+    const titleInLowerCase = title.toLowerCase();
+    post.found = titleInLowerCase.includes(value.value);
   }
 
   return (
     <React.Fragment>
       <Search
         snackbar={context.onSnackbarChange}
+        loadingPosts={context.loadingPosts}
         activeChannel={context.activeChannel}
         onSearchInputChange={value => onChangePostsList({ value })}
       />
       {context.loadingPosts ? (
-        <Prompt text="Идёт загрузка данных" url={loading} height="353px" width="331px" />
+        <React.Fragment>
+          <LinearDeterminate /> <Prompt text="Идёт загрузка данных" url={loading} height="353px" width="331px" />
+        </React.Fragment>
       ) : context.activeCategory && context.activeChannel && context.activeChannel.length !== 0 ? (
+        context.posts &&
         context.posts.map((post, index) => (
           <Post
             key={index}
-            title={post.title}
+            title={post.title && (post.title._text || post.title._cdata)}
             expanded={post.expanded}
             visited={post.visited}
-            date={post.pubDate}
+            date={post.pubDate && (post.pubDate._text || post.pubDate._cdata)}
             found={post.found}
-            description={post.content || post["content:encoded"] || post.description}
+            description={
+              (post.content && (post.content._text || post.content._cdata)) ||
+              (post["content:encoded"] && (post["content:encoded"]._cdata || post["content:encoded"]._text)) ||
+              (post.description && (post.description._text || post.description._cdata))
+            }
             onArrowClick={() => onArrowClick(index)}
             onInput={enter}
           />
