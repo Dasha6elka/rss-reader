@@ -109,9 +109,10 @@ function App() {
                     check(result);
                     setLoadingPosts(false);
                   })
-                  .catch(() => {
+                  .catch(error => {
                     setSnackbar({ flag: true, message: "Невалидная ссылка" });
-                    console.log("Error");
+                    setLoadingPosts(false);
+                    console.error(error);
                   });
               }
             })
@@ -170,9 +171,10 @@ function App() {
         check(result);
         setLoadingPosts(false);
       })
-      .catch(() => {
+      .catch(error => {
         setSnackbar({ flag: true, message: "Невалидная ссылка" });
-        console.log("Error");
+        setLoadingPosts(false);
+        console.error(error);
       });
   }, [activeChannel]);
 
@@ -261,6 +263,10 @@ function App() {
         </GridWithFullHeight>
       </Grid>
       <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
         message={snackbar && snackbar.message}
         open={snackbar && snackbar.flag}
         onClose={() => setSnackbar({ flag: false, message: "" })}
