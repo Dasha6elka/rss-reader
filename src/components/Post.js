@@ -62,15 +62,23 @@ function Post(props) {
       </Grid>
       {props.expanded && (
         <Grid
-          dangerouslySetInnerHTML={{ __html: htmlDecode(props.description) }}
           css={css`
             margin-top: 16px;
-
-            img {
-              width: 100%;
-            }
           `}
-        />
+        >
+          {props.description ? (
+            <Grid
+              dangerouslySetInnerHTML={{ __html: props.description }}
+              css={css`
+                img {
+                  width: 100%;
+                }
+              `}
+            />
+          ) : (
+            <a href={props.link && (props.link._text || props.link._cdata)}>Читать дальше -></a>
+          )}
+        </Grid>
       )}
     </Grid>
   );
@@ -94,9 +102,4 @@ function formatDate(date) {
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${day}.${month}.${year} в ${hours}:${minutes}`;
-}
-
-function htmlDecode(input) {
-  const doc = new DOMParser().parseFromString(input, "text/html");
-  return doc.documentElement.textContent;
 }

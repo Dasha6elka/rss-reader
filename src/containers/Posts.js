@@ -51,6 +51,7 @@ function Posts() {
         context.posts.map((post, index) => (
           <Post
             key={index}
+            link={post.link}
             title={post.title && (post.title._text || post.title._cdata)}
             expanded={post.expanded}
             visited={post.visited}
