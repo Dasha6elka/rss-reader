@@ -16,6 +16,9 @@ function Channels() {
     context.categories.forEach(category => {
       if (category.id === channelToDelete.categoryId) {
         category.count--;
+        if (category.id === context.activeCategory.id) {
+          context.activeCategory.count--;
+        }
       }
     });
     if (context.activeChannel && channelToDelete.id === context.activeChannel.id) {
