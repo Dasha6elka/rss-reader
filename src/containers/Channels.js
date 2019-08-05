@@ -63,6 +63,7 @@ function Channels() {
     context.onActiveChannelChange({ id: id, rssUrl: rssUrl });
     context.onLoadingPostsChange(true);
   }
+
   return (
     <React.Fragment>
       {context.activeCategory && context.activeCategory.count > 0 ? (
@@ -75,7 +76,7 @@ function Channels() {
             link={channel.rssUrl}
             editable={channel.editable}
             url={channel.logoUrl}
-            active={channel.active}
+            active={context.activeChannel && channel.id === context.activeChannel.id}
             onDelete={() => onChannelDelete(index)}
             onTitleChange={event => onTitleChange(index, event)}
             onLinkChange={event => onLinkChange(index, event)}
