@@ -18,6 +18,7 @@ function DeleteControl(props) {
 
         .question {
           width: 100%;
+          font-size: 14px;
         }
       `}
     >
