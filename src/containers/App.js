@@ -84,6 +84,27 @@ function App() {
     });
   }
 
+  function updateChannels(json, channel) {
+    setChannels(
+      json.channels.map(channel => ({
+        ...transformChannelToCamelCase(channel, activeChannel && activeChannel.id)
+      }))
+    );
+    if (activeChannel && activeChannel.id === channel.id) {
+      getPosts(encodeURIComponent(channel.rssUrl))
+        .then(xml => {
+          const result = convert.xml2js(xml, { compact: true, spaces: 4 });
+          check(result);
+          setLoadingPosts(false);
+        })
+        .catch(error => {
+          setSnackbar({ flag: true, message: "Невалидная ссылка" });
+          setLoadingPosts(false);
+          console.error(error);
+        });
+    }
+  }
+
   function onChannelsEditFinish(channelId) {
     channels.forEach(channel => {
       if (channel.id === channelId) {
@@ -97,24 +118,7 @@ function App() {
           updateChannel(item, channelId)
             .then(() => getChannels(channel.categoryId))
             .then(json => {
-              setChannels(
-                json.channels.map(channel => ({
-                  ...transformChannelToCamelCase(channel, activeChannel && activeChannel.id)
-                }))
-              );
-              if (activeChannel && activeChannel.id === channel.id) {
-                getPosts(encodeURIComponent(channel.rssUrl))
-                  .then(xml => {
-                    const result = convert.xml2js(xml, { compact: true, spaces: 4 });
-                    check(result);
-                    setLoadingPosts(false);
-                  })
-                  .catch(error => {
-                    setSnackbar({ flag: true, message: "Невалидная ссылка" });
-                    setLoadingPosts(false);
-                    console.error(error);
-                  });
-              }
+              updateChannels(json, channel);
             })
             .catch(console.error);
         });
