@@ -73,7 +73,6 @@ function App() {
   function onChannelAdd(channels) {
     const lastChannel = channels[channels.length - 1];
     if (activeCategory && lastChannel.categoryId === activeCategory.id) {
-      activeCategory.count++;
       setChannels([...channels]);
     }
     getLogoUrl(encodeURIComponent(lastChannel.rssUrl)).then(json => {

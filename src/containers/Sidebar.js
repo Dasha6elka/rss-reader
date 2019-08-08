@@ -24,7 +24,11 @@ function Sidebar() {
     context.categories.forEach(category => {
       if (category.id === channel.categoryId) {
         category.count++;
-      }
+
+        if (category.id === context.activeCategory.id) {
+          context.activeCategory.count = category.count;
+        }
+      } 
     });
     context.onChannelAdd(context.channels);
   }
