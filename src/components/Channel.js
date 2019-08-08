@@ -210,6 +210,7 @@ function ChannelTitle(props) {
     <Grid
       css={css`
         margin-left: 8px;
+        width: 63%;
       `}
     >
       {!props.editable ? (
@@ -218,7 +219,6 @@ function ChannelTitle(props) {
           css={css`
             min-height: 20px;
             margin-bottom: 8px;
-            max-width: 160px;
             text-overflow: ellipsis;
             overflow: hidden;
           `}
@@ -251,7 +251,7 @@ function ChannelLink(props) {
           css={css`
             color: rgba(0, 0, 0, 0.539261);
             margin-left: 0.1px;
-            max-width: 241px;
+            max-width: 70%;
             text-overflow: ellipsis;
             overflow: hidden;
           `}
@@ -268,7 +268,7 @@ function ChannelLink(props) {
           css={css`
             font-size: 12px;
             color: rgba(0, 0, 0, 0.539261);
-            max-width: 188px;
+            max-width: 70%;
           `}
         />
       )}
