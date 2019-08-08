@@ -22,9 +22,10 @@ function DeleteControl(props) {
         }
       `}
     >
-      <Typography className="question">Удалить ленту?</Typography>
+      <Typography className="question">{props.title}</Typography>
       <Grid
         item
+        wrap="nowrap"
         container
         direction="row"
         justify="flex-end"

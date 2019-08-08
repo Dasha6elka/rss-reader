@@ -160,7 +160,7 @@ function Channel(props) {
             </IconButton>
           </Grid>
         </Grid>
-        {isDelete && <DeleteControl channel onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>}
+        {isDelete && <DeleteControl channel title="Удалить ленту?" onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>}
       </Grid>
     </ClickAwayListener>
   );

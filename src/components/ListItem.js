@@ -154,7 +154,7 @@ function ListItem(props) {
         )}
       </Grid>
       {isDelete && (
-        <DeleteControl onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>
+        <DeleteControl title="Удалить категорию?" onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>
       )}
     </React.Fragment>
   );
