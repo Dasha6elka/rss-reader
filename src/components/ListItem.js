@@ -1,13 +1,25 @@
 /** @jsx jsx */
 
 import { jsx, css } from "@emotion/core";
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { RadioButtonChecked, Delete, Done } from "@material-ui/icons";
 import PropTypes from "proptypes";
 import Grid from "@material-ui/core/Grid";
 import Input from "./Input";
+import DeleteControl from "./DeleteControl";
 
 function ListItem(props) {
+  const [isDelete, setIsDelete] = useState(false);
+
+  function onDeleteWindowChange(event) {
+    setIsDelete(!isDelete);
+    props.onDelete(event);
+  }
+
+  function onWindowChange() {
+    setIsDelete(!isDelete);
+  }
+
   function onChange(event) {
     props.onChange(event);
   }
@@ -73,7 +85,7 @@ function ListItem(props) {
           .input {
             color: white;
             font-size: 14px;
-            max-width: 66%;
+            max-width: 90%;
 
             input {
               height: 0;
@@ -134,12 +146,16 @@ function ListItem(props) {
             css={css`
               width: ${props.editable ? "22%" : "0"};
             `}
+            onClick={event => event.stopPropagation()}
           >
             {props.editable && <Done className="hover-icons" onClick={onEditFinishCategory} />}
-            <Delete className="hover-icons" onClick={props.onDelete} />
+            <Delete className="hover-icons" onClick={onWindowChange} />
           </Grid>
         )}
       </Grid>
+      {isDelete && (
+        <DeleteControl onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>
+      )}
     </React.Fragment>
   );
 }

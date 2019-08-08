@@ -4,12 +4,13 @@ import React from "react";
 import { jsx, css } from "@emotion/core";
 import { useState } from "react";
 import { Edit, Delete } from "@material-ui/icons";
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Input from "./Input";
+import DeleteControl from "./DeleteControl";
 
 function Channel(props) {
   const [isDelete, setIsDelete] = useState(false);
@@ -159,47 +160,7 @@ function Channel(props) {
             </IconButton>
           </Grid>
         </Grid>
-        {isDelete && (
-          <Grid
-            container
-            wrap="nowrap"
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-            css={css`
-              padding: 16px 24px;
-              border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-              .question {
-                width: 100%;
-              }
-            `}
-          >
-            <Typography className="question">Удалить ленту?</Typography>
-            <Grid
-              item
-              container
-              direction="row"
-              justify="flex-end"
-              css={css`
-                button {
-                  color: #3ba5d1;
-                }
-              `}
-            >
-              <Grid>
-                <Button variant="text" color="primary" onClick={onDeleteWindowChange}>
-                  Да
-                </Button>
-              </Grid>
-              <Grid>
-                <Button variant="text" color="primary" onClick={onWindowChange}>
-                  Нет
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        )}
+        {isDelete && <DeleteControl channel onDeleteWindowChange={onDeleteWindowChange} onWindowChange={onWindowChange}/>}
       </Grid>
     </ClickAwayListener>
   );
@@ -277,3 +238,44 @@ function ChannelLink(props) {
 }
 
 export default Channel;
+
+/*
+<Grid
+  container
+  wrap="nowrap"
+  direction="row"
+  justify="space-between"
+  alignItems="center"
+  css={css`
+              padding: 16px 24px;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+              .question {
+                width: 100%;
+              }
+            `}
+>
+  <Typography className="question">Удалить ленту?</Typography>
+  <Grid
+    item
+    container
+    direction="row"
+    justify="flex-end"
+    css={css`
+                button {
+                  color: #3ba5d1;
+                }
+              `}
+  >
+    <Grid>
+      <Button variant="text" color="primary" onClick={onDeleteWindowChange}>
+        Да
+      </Button>
+    </Grid>
+    <Grid>
+      <Button variant="text" color="primary" onClick={onWindowChange}>
+        Нет
+      </Button>
+    </Grid>
+  </Grid>
+</Grid>*/
